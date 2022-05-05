@@ -1,4 +1,5 @@
 import 'package:aquatracking/model/authentication_model.dart';
+import 'package:aquatracking/screen/home_screen.dart';
 import 'package:aquatracking/screen/register_screen.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:flutter/material.dart';
@@ -97,13 +98,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 onPressed: () {
-                  if(authModel.email.isEmpty) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                  /*if(authModel.email.isEmpty) {
                     PopupUtils.showError(context, 'Email maquant', 'Veuillez saisir votre email');
                   } else if(authModel.password.isEmpty) {
                     PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez saisir votre mot de passe');
                   } else {
                     PopupUtils.showError(context, "Impossible de communiquer avec le serveur", "Veuillez réessayer plus tard");
-                  }
+                  }*/
                 },
                 child: SizedBox(
                   height: 50,

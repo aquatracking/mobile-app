@@ -1,18 +1,19 @@
-import 'package:aquatracking/model/authentication_model.dart';
-import 'package:aquatracking/screen/register_screen.dart';
+import 'package:aquatracking/model/register_model.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:flutter/material.dart';
 
-AuthenticationModel authModel = AuthenticationModel();
+import 'login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+RegisterModel registerModel = RegisterModel();
+
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Text('Connexion',
+              Text('Inscription',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
@@ -36,7 +37,32 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 textInputAction: TextInputAction.next,
                 onChanged: (value) {
-                  authModel.email = value;
+                  registerModel.username = value;
+                },
+                cursorColor: Theme.of(context).primaryColor,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+                decoration: InputDecoration(
+                  labelText: 'Nom d\'utilisateur',
+                  labelStyle: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  icon: Icon(
+                    Icons.person,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                textInputAction: TextInputAction.next,
+                onChanged: (value) {
+                  registerModel.email = value;
                 },
                 cursorColor: Theme.of(context).primaryColor,
                 style: TextStyle(
@@ -60,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextFormField(
                 onChanged: (value) {
-                  authModel.password = value;
+                  registerModel.password = value;
                 },
                 cursorColor: Theme.of(context).primaryColor,
                 style: TextStyle(
@@ -83,11 +109,36 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              TextFormField(
+                onChanged: (value) {
+                  registerModel.passwordConfirmation = value;
+                },
+                cursorColor: Theme.of(context).primaryColor,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirmation du mot de passe',
+                  labelStyle: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  icon: Icon(
+                    Icons.lock,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ),
               const Padding(padding: EdgeInsets.only(top: 50)),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
+                        (Set<MaterialState> states) {
                       if (states.contains(MaterialState.pressed)) {
                         return const Color(0xFF0781d7);
                       }
@@ -97,10 +148,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 onPressed: () {
-                  if(authModel.email.isEmpty) {
-                    PopupUtils.showError(context, 'Email maquant', 'Veuillez saisir votre email');
-                  } else if(authModel.password.isEmpty) {
-                    PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez saisir votre mot de passe');
+                  if(registerModel.username.isEmpty) {
+                    PopupUtils.showError(context, 'Nom d\'utilisateur manquant', 'Veuillez entrer un nom d\'utilisateur');
+                  } else if(registerModel.email.isEmpty) {
+                    PopupUtils.showError(context, 'Email manquant', 'Veuillez entrer un email');
+                  } else if(registerModel.password.isEmpty) {
+                    PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez entrer un mot de passe');
+                  } else if(registerModel.passwordConfirmation != registerModel.password) {
+                    PopupUtils.showError(context, 'Confirmation du mot de passe incorrecte', 'Le mot de passe et la confirmation du mot de passe ne sont pas identiques');
                   } else {
                     PopupUtils.showError(context, "Impossible de communiquer avec le serveur", "Veuillez réessayer plus tard");
                   }
@@ -112,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Connexion',
+                        'S\'inscrire',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 20,
@@ -132,14 +187,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Pas encore inscrit ?',
+                    'Déja inscrit ?',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
                   TextButton(onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
-                  }, child: Text('Inscrivez-vous', style: TextStyle(color: Theme.of(context).highlightColor),)),
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                  }, child: Text('Connectez-vous', style: TextStyle(color: Theme.of(context).highlightColor),)),
                 ],
               )
             ],

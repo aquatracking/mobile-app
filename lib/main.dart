@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-bool loggedIn = false;
-
 initSharedPreferences() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
@@ -18,7 +16,7 @@ initSharedPreferences() async {
 
   if(refreshToken != null) {
     AuthenticationService authenticationService = AuthenticationService();
-    loggedIn = await authenticationService.checkLogin(refreshToken);
+    AuthenticationService.loggedIn = await authenticationService.checkLogin(refreshToken);
   }
 }
 
@@ -48,7 +46,7 @@ class MyApp extends StatelessWidget {
 
         fontFamily: 'Roboto'
       ),
-      home: (loggedIn) ? const HomeScreen() : const LoginScreen(),
+      home: (AuthenticationService.loggedIn) ? const HomeScreen() : const LoginScreen(),
     );
   }
 }

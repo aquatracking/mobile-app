@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:aquatracking/errors/bad_login_error.dart';
 import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/service/service.dart';
-import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import '../model/user_model.dart';
 
 class AuthenticationService extends Service {
+  static bool loggedIn = false;
+
   Future<UserModel> login(String email, String password) async {
     var value =  await post('$apiBaseUrl/users/login', {
       'email': email,
@@ -21,6 +19,7 @@ class AuthenticationService extends Service {
       }
     });
 
+    loggedIn = true;
     return UserModel.fromJson(value);
   }
 }

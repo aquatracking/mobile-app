@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:aquatracking/globals.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
@@ -19,22 +18,12 @@ abstract class Service {
     );
   }
 
-  Future<dynamic> get(String urlString) async {
+  Future<dynamic> get(String path) async {
     final result = await dio.get(
-        urlString,
+        apiBaseUrl + path,
         options: options
     );
-    final body = json.decode(json.encode(result.data));
-    return body;
-  }
-
-  Future<dynamic> getList(String urlString) async {
-    //print(urlString);
-    final result = await dio.get(
-        urlString,
-        options: options
-    );
-    final body = json.decode(result.data);
+    final body = result.data;
     return body;
   }
 

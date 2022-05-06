@@ -1,7 +1,9 @@
+import 'package:aquatracking/blocs/aquariums_bloc.dart';
 import 'package:aquatracking/component/alert_card.dart';
 import 'package:aquatracking/component/aquarium_card.dart';
 import 'package:aquatracking/component/layout.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
+import 'package:aquatracking/service/aquariums_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    AquariumsService aquariumsService = AquariumsService();
+
+    AquariumsBloc aquariumsBloc = AquariumsBloc(aquariumsService);
+
+
+
     return Layout(
       child: Padding(
         padding: const EdgeInsets.only(top: 50),
@@ -61,13 +69,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            CarouselSlider(
-                items:  <Widget>[
-                  AquariumCard(aquarium: AquariumModel(id: "eae", name: "La bulle",imageUrl: "https://blog.manomano.fr/wp-content/uploads/2021/09/Aquarium-deau-de-mer-scaled.jpg", salt: true)),
-                  AquariumCard(aquarium: AquariumModel(id: "ede", name: "Blop",imageUrl: "https://download.vikidia.org/vikidia/fr/images/a/a8/Amaterske_akvarium.jpg"))
-                ],
-                options: CarouselOptions(height: ((MediaQuery.of(context).size.width*0.8-32)/16)*9+62),
-            ),
+            StreamBuilder<List<AquariumModel>>(
+                stream: aquariumsBloc.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return (snapshot.data!.isEmpty) ?
+                      const Text('Vous n\'avez aucun aquarium') :
+                     CarouselSlider(
+                      items:  <AquariumCard>[
+                        for(AquariumModel aquarium in snapshot.data!) AquariumCard(aquarium: aquarium),
+                      ],
+                      options: CarouselOptions(height: ((MediaQuery.of(context).size.width*0.8-32)/16)*9+62),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }
+            )
           ],
         ),
       ),

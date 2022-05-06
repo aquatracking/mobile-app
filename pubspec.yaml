@@ -39,6 +39,8 @@ dependencies:
   cookie_jar: 3.0.1
   dio_cookie_manager: ^2.0.0
   shared_preferences: 2.0.13
+  rxdart: ^0.27.3
+  image_picker: ^0.8.5
 
 dev_dependencies:
   flutter_test:

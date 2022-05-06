@@ -1,0 +1,3 @@
+class BadLoginError extends Error {
+
+}

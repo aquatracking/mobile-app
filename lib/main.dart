@@ -1,8 +1,29 @@
+import 'dart:developer';
+
+import 'package:aquatracking/globals.dart';
+import 'package:aquatracking/screen/home_screen.dart';
 import 'package:aquatracking/screen/login_screen.dart';
+import 'package:aquatracking/service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+bool loggedIn = false;
+
+initSharedPreferences() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
+
+  String? refreshToken = prefs.getString('refresh_token');
+
+  if(refreshToken != null) {
+    AuthenticationService authenticationService = AuthenticationService();
+    loggedIn = await authenticationService.checkLogin(refreshToken);
+  }
+}
+
+void main() async {
+  await initSharedPreferences();
   runApp(const MyApp());
 }
 
@@ -27,7 +48,7 @@ class MyApp extends StatelessWidget {
 
         fontFamily: 'Roboto'
       ),
-      home: const LoginScreen(),
+      home: (loggedIn) ? const HomeScreen() : const LoginScreen(),
     );
   }
 }

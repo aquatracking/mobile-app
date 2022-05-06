@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:aquatracking/errors/bad_login_error.dart';
 import 'package:aquatracking/model/authentication_model.dart';
 import 'package:aquatracking/screen/home_screen.dart';
 import 'package:aquatracking/screen/register_screen.dart';
+import 'package:aquatracking/service/authentication_service.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    AuthenticationService authenticationService = AuthenticationService();
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Padding(
@@ -98,14 +103,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-                  /*if(authModel.email.isEmpty) {
+                  if(authModel.email.isEmpty) {
                     PopupUtils.showError(context, 'Email maquant', 'Veuillez saisir votre email');
                   } else if(authModel.password.isEmpty) {
                     PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez saisir votre mot de passe');
                   } else {
-                    PopupUtils.showError(context, "Impossible de communiquer avec le serveur", "Veuillez réessayer plus tard");
-                  }*/
+                    authenticationService.login(authModel.email, authModel.password).then((value) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                    }).catchError((e) {
+                      if(e is BadLoginError) {
+                        PopupUtils.showError(context, 'Connexion impossible', "email ou mot de passe incorrect");
+                      } else {
+                        PopupUtils.showError(context, 'Erreur de connexion', "Une erreur est survenue");
+                      }
+                    });
+                  }
                 },
                 child: SizedBox(
                   height: 50,

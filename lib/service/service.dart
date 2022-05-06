@@ -1,19 +1,21 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:aquatracking/globals.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
-abstract class Service{
+abstract class Service {
   late Dio dio;
   late Options options;
-  static late CookieJar cookieJar = CookieJar();
+  static late CookieJar cookieJar= CookieJar();
 
   Service() {
     dio = Dio();
     dio.interceptors.add(CookieManager(cookieJar));
     options = Options(
         headers: { "Accept": "application/json" },
-        responseType: ResponseType.plain
+        responseType: ResponseType.json,
     );
   }
 
@@ -42,7 +44,16 @@ abstract class Service{
         data: data,
         options: options
     );
-    final body = json.decode(json.encode(result.data));
+
+    List<String>? cookies = result.headers['set-cookie'];
+    if(cookies != null){
+      String refreshToken = cookies.firstWhere((element) => element.contains('refresh_token'));
+      if(refreshToken.isNotEmpty){
+        prefs.setString('refresh_token', refreshToken);
+      }
+    }
+
+    final body = result.data;
     return body;
   }
 
@@ -62,5 +73,30 @@ abstract class Service{
         options: options
     );
     return result.statusCode == 200;
+  }
+
+  Future<dynamic> checkLogin(String refreshToken) async {
+    var options = Options(
+      headers: {
+        "Accept": "application/json",
+        "cookie": refreshToken
+      },
+      responseType: ResponseType.json,
+    );
+
+    bool logged = false;
+
+    try {
+      var value = await dio.get(
+          '$apiBaseUrl/',
+          options: options
+      );
+
+      logged = (value.statusCode == 200);
+    } catch (e) {
+      logged = false;
+    }
+
+    return logged;
   }
 }

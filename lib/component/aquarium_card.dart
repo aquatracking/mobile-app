@@ -1,3 +1,4 @@
+import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class AquariumCard extends StatelessWidget {
             AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Image(
-                    image: Image.network(aquarium.imageUrl).image,
+                    image: (aquarium.image != null) ? Image.memory(aquarium.image!).image : imagePlaceholder,
                     fit: BoxFit.fill)),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),

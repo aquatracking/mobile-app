@@ -27,9 +27,9 @@ abstract class Service {
     return body;
   }
 
-  Future<dynamic> post(String urlString, dynamic data) async {
+  Future<dynamic> post(String path, dynamic data) async {
     final result = await dio.post(
-        urlString,
+        apiBaseUrl + path,
         data: data,
         options: options
     );

@@ -1,4 +1,5 @@
 import 'package:aquatracking/component/custom_navigation_bar.dart';
+import 'package:aquatracking/screen/add_aquarium_screen.dart';
 import 'package:flutter/material.dart';
 
 class Layout extends StatelessWidget {
@@ -12,7 +13,9 @@ class Layout extends StatelessWidget {
       body: child,
       backgroundColor: Theme.of(context).backgroundColor,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddAquariumScreen()));
+        },
         child: const Icon(Icons.add),
         elevation: 2,
         backgroundColor: Theme.of(context).highlightColor,

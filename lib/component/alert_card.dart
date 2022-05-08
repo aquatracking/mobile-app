@@ -33,7 +33,7 @@ class AlertCard extends StatelessWidget {
               width: 20,
             ),
             SizedBox(
-              width: width*0.65,
+              width: width-50-20-44,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,

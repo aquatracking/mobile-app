@@ -7,6 +7,9 @@ import 'package:aquatracking/service/aquariums_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+late final AquariumsBloc aquariumsBloc;
+AquariumsService aquariumsService = AquariumsService();
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -16,13 +19,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    aquariumsBloc = AquariumsBloc(aquariumsService);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    AquariumsService aquariumsService = AquariumsService();
-
-    AquariumsBloc aquariumsBloc = AquariumsBloc(aquariumsService);
-
-
-
     return Layout(
       child: Padding(
         padding: const EdgeInsets.only(top: 50),

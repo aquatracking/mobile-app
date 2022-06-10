@@ -7,7 +7,7 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double iconSize = 35;
-    int position = 0;
+    int position = -1;
 
     if(context.findAncestorWidgetOfExactType<HomeScreen>() != null) {
       position = 0;
@@ -28,7 +28,11 @@ class CustomNavigationBar extends StatelessWidget {
                   Icons.home_rounded,
                   color: position == 0 ? Colors.white : Colors.grey
               ),
-              onPressed: () {},
+              onPressed: () {
+                if(position != 0) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                }
+              },
             ),
             const Spacer(),
             const Spacer(),

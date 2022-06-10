@@ -3,29 +3,16 @@ import 'package:aquatracking/component/alert_card.dart';
 import 'package:aquatracking/component/aquarium_card.dart';
 import 'package:aquatracking/component/layout.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
-import 'package:aquatracking/service/aquariums_service.dart';
+import 'package:aquatracking/utils/globals.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-late final AquariumsBloc aquariumsBloc;
-AquariumsService aquariumsService = AquariumsService();
-
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    aquariumsBloc = AquariumsBloc(aquariumsService);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    aquariumsBloc.fetchAquariums();
     return Layout(
       child: Padding(
         padding: const EdgeInsets.only(top: 50),
@@ -35,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                  'Bonjour',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+                'Bonjour',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const Padding(
@@ -77,8 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     return (snapshot.data!.isEmpty) ?
-                      const Text('Vous n\'avez aucun aquarium') :
-                     CarouselSlider(
+                    const Text('Vous n\'avez aucun aquarium') :
+                    CarouselSlider(
                       items:  <AquariumCard>[
                         for(AquariumModel aquarium in snapshot.data!) AquariumCard(aquarium: aquarium),
                       ],

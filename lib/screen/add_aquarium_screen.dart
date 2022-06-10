@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:aquatracking/model/create_aquarium_model.dart';
 import 'package:aquatracking/service/aquariums_service.dart';
+import 'package:aquatracking/utils/globals.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -279,8 +280,8 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                     } else {
                       aquariumsService.addAquarium(_createAquariumModel).then((value) {
                         Navigator.pop(context);
+                        aquariumsBloc.fetchAquariums();
                       }).catchError((error) {
-                        print(error);
                         PopupUtils.showError(context, 'Une erreur est survenue', "Impossible d'ajouter l'aquarium");
                       });
                     }

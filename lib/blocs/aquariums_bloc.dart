@@ -6,11 +6,11 @@ import '../model/aquarium_model.dart';
 
 class AquariumsBloc extends Bloc {
   final _aquariumsController = BehaviorSubject<List<AquariumModel>>();
+  final AquariumsService _aquariumsService = AquariumsService();
 
-  AquariumsBloc(AquariumsService aquariumsService) {
-    aquariumsService.getAquariums().then((aquariums) {
-      _aquariumsController.add(aquariums);
-    });
+  fetchAquariums() async {
+    final aquariums = await _aquariumsService.getAquariums();
+    _aquariumsController.add(aquariums);
   }
 
   Stream<List<AquariumModel>> get stream => _aquariumsController.stream;

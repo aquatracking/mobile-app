@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: 2.0.13
   rxdart: ^0.27.3
   image_picker: ^0.8.5
+  image_cropper: ^2.0.3
   date_time_picker: ^2.1.0
   flutter_localizations:
     sdk: flutter

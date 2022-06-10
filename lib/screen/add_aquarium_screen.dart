@@ -6,6 +6,7 @@ import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddAquariumScreen extends StatefulWidget {
@@ -77,56 +78,36 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                         splashRadius: 20,
                         icon: const Icon(Icons.photo_camera_rounded),
                         onPressed: () {
-                          picker
-                              .pickImage(source: ImageSource.camera)
-                              .then((file) {
-                            if (file == null) {
-                              return;
-                            } else {
-                              file.readAsBytes().then((bytes) {
-                                FlutterImageCompress.compressWithList(
-                                  bytes,
-                                  quality: 80,
-                                  keepExif: true,
-                                  minWidth: 1920,
-                                  minHeight: 1080,
-                                ).then((result) {
-                                  setState(() {
-                                    _createAquariumModel.image = result;
-                                  });
-                                });
-                              });
+                          picker.pickImage(source: ImageSource.camera)
+                            .then((file) {
+                              cropsImage(file);
                             }
-                          });
+                          );
                         },
                       ),
                       IconButton(
                         splashRadius: 20,
                         icon: const Icon(Icons.image_rounded),
                         onPressed: () {
-                          picker
-                              .pickImage(source: ImageSource.gallery)
-                              .then((file) {
-                            if (file == null) {
-                              return;
-                            } else {
-                              file.readAsBytes().then((bytes) {
-                                FlutterImageCompress.compressWithList(
-                                  bytes,
-                                  quality: 80,
-                                  keepExif: true,
-                                  minWidth: 1920,
-                                  minHeight: 1080,
-                                ).then((result) {
-                                  setState(() {
-                                    _createAquariumModel.image = result;
-                                  });
-                                });
-                              });
+                          picker.pickImage(source: ImageSource.gallery)
+                            .then((file) {
+                              cropsImage(file);
                             }
-                          });
+                          );
                         },
                       ),
+                      Visibility(
+                        visible: _createAquariumModel.image != null,
+                        child: IconButton(
+                          splashRadius: 20,
+                          icon: const Icon(Icons.delete_rounded),
+                          onPressed: () {
+                            setState(() {
+                              _createAquariumModel.image = null;
+                            });
+                          },
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -327,5 +308,33 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
         ],
       ),
     );
+  }
+
+  cropsImage(XFile? file) {
+    if(file != null) {
+      ImageCropper imageCropper = ImageCropper();
+
+      imageCropper.cropImage(
+        sourcePath: file.path,
+        aspectRatio: const CropAspectRatio(
+          ratioX: 16,
+          ratioY: 9,
+        ),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Redimensionner',
+            toolbarColor: Theme.of(context).bottomAppBarColor,
+            toolbarWidgetColor: Theme.of(context).primaryColor,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true
+          )
+        ]
+      ).then((cropFile) async => {
+        if(cropFile != null) {
+          _createAquariumModel.image = await cropFile.readAsBytes(),
+          setState(() {})
+        }
+      });
+    }
   }
 }

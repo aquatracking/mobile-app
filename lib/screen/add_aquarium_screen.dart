@@ -128,6 +128,7 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                   ),
+                  maxLength: 50,
                   decoration: InputDecoration(
                     labelText: 'Nom de l\'aquarium',
                     labelStyle: TextStyle(
@@ -147,6 +148,7 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                 TextFormField(
                   minLines: 1,
                   maxLines: 5,
+                  maxLength: 255,
                   textInputAction: TextInputAction.next,
                   onChanged: (value) {
                     _createAquariumModel.description = value;
@@ -196,6 +198,7 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                     ),
                   ),
                 ),
+                const Padding(padding: EdgeInsets.all(9.0)),
                 DateTimePicker(
                   dateMask: "d MMMM yyyy",
                   cursorColor: Theme.of(context).primaryColor,
@@ -222,6 +225,7 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                     _createAquariumModel.startedDate = DateTime.tryParse(value);
                   },
                 ),
+                const Padding(padding: EdgeInsets.all(9.0)),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -253,7 +257,9 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                               },
                             )),
                       )
-                    ]),
+                    ]
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(

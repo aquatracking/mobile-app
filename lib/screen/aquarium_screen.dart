@@ -1,6 +1,7 @@
 import 'package:aquatracking/component/layout.dart';
 import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
+import 'package:aquatracking/tabs/aquarium_screen/aquarium_analyse_tab.dart';
 import 'package:aquatracking/tabs/aquarium_screen/aquarium_information_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -86,10 +87,7 @@ class AquariumScreen extends StatelessWidget {
               child: TabBarView(
                 children: [
                   AquariumInformationTab(aquarium: aquarium),
-                  Container(
-                    child: const Center(child: Text('Analyse')),
-                    color: Colors.redAccent,
-                  ),
+                  AquariumAnalyseTab(aquarium: aquarium),
                   Container(
                     child: const Center(child: Text('Poisson')),
                     color: Colors.lightBlueAccent,

@@ -46,6 +46,22 @@ class LineMetricChart extends StatelessWidget {
 
           double nbMinutes = double.parse(endDate.difference(startDate).inMinutes.toString());
 
+
+          double valueDifference = maxValue - minValue;
+          double valueInterval;
+          double valueMaxInterval;
+          double valueMinInterval;
+
+          if(valueDifference <= 0.5) {
+            valueInterval = 0.1;
+            valueMinInterval = double.parse((minValue-valueInterval).toStringAsFixed(1));
+            valueMaxInterval = double.parse((maxValue+valueInterval).toStringAsFixed(1));
+          } else {
+            valueInterval = 0.5;
+            valueMinInterval = double.parse((minValue-valueInterval).toStringAsFixed(0));
+            valueMaxInterval = double.parse((maxValue+valueInterval).toStringAsFixed(0));
+          }
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -169,8 +185,8 @@ class LineMetricChart extends StatelessWidget {
                   LineChartData(
                       maxX: nbMinutes,
                       minX: 0,
-                      minY: double.parse((minValue - 0.05).toStringAsFixed(1)),
-                      maxY: double.parse((maxValue + 0.05).toStringAsFixed(1)),
+                      minY: valueMinInterval,
+                      maxY: valueMaxInterval,
                       lineTouchData: LineTouchData(
                         handleBuiltInTouches: true,
                         touchTooltipData: LineTouchTooltipData(
@@ -206,6 +222,7 @@ class LineMetricChart extends StatelessWidget {
                           sideTitles: SideTitles(
                             showTitles: true,
                             reservedSize: 45,
+                            interval: valueInterval,
                             getTitlesWidget: (value, meta) {
                               return Text(
                                 value.toStringAsFixed(1),
@@ -236,7 +253,7 @@ class LineMetricChart extends StatelessWidget {
                       gridData: FlGridData(
                         show: true,
                         verticalInterval: (nbMinutes~/4).toDouble(),
-                        horizontalInterval: 1,
+                        horizontalInterval: valueInterval,
                       ),
                       borderData: FlBorderData(
                         show: true,

@@ -13,7 +13,7 @@ class AquariumScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 2,
       child: Layout(
         canGoBack: true,
         child: Column(
@@ -78,9 +78,9 @@ class AquariumScreen extends StatelessWidget {
               tabs: const [
                 Tab(icon: Icon(Icons.info_rounded)),
                 Tab(icon: Icon(Icons.assessment_rounded)),
-                Tab(icon: Icon(Icons.sailing_rounded)),
-                Tab(icon: Icon(Icons.grass_rounded)),
-                Tab(icon: Icon(Icons.clean_hands_rounded)),
+                // Tab(icon: Icon(Icons.sailing_rounded)),
+                // Tab(icon: Icon(Icons.grass_rounded)),
+                // Tab(icon: Icon(Icons.clean_hands_rounded)),
               ],
             ),
             Expanded(
@@ -88,18 +88,6 @@ class AquariumScreen extends StatelessWidget {
                 children: [
                   AquariumInformationTab(aquarium: aquarium),
                   AquariumAnalyseTab(aquarium: aquarium),
-                  Container(
-                    child: const Center(child: Text('Poisson')),
-                    color: Colors.lightBlueAccent,
-                  ),
-                  Container(
-                    child: const Center(child: Text('Végatation')),
-                    color: Colors.greenAccent,
-                  ),
-                  Container(
-                    child: const Center(child: Text('Maintenance')),
-                    color: Colors.orange,
-                  ),
                 ],
               ),
             )

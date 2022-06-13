@@ -35,16 +35,227 @@ class LineMetricChart extends StatelessWidget {
             measurements = snapshot.data!;
           }
 
+          DateTime endDate = DateTime.now();
+          DateTime startDate = endDate.subtract((fetchMode == 0) ? const Duration(hours: 6) : (fetchMode == 1) ? const Duration(days: 1) : (fetchMode == 2) ? const Duration(days: 7) : (fetchMode == 3) ? const Duration(days: 30) : const Duration(days: 365));
+          double nbMinutes = double.parse(endDate.difference(startDate).inMinutes.toString());
+
+          if(measurements.isEmpty) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '$metric ($unit)',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).highlightColor
+                      ),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      },
+                      icon: const Icon(Icons.refresh_rounded),
+                      splashRadius: 16,
+                      iconSize: 16,
+                    )
+                  ],
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 180,
+                  padding: const EdgeInsets.only(right: 20, top: 10),
+                  child: LineChart(
+                    LineChartData(
+                        maxX: nbMinutes,
+                        minX: 0,
+                        minY: 0,
+                        maxY: 1,
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: false,
+                            ),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: false,
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 45,
+                              interval: 0.2,
+                              getTitlesWidget: (value, meta) {
+                                return Text(
+                                  value.toStringAsFixed(1),
+                                );
+                              },
+                            ),
+                          ),
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 30,
+                              interval: (nbMinutes~/4).toDouble(),
+                              getTitlesWidget: (value, meta) {
+                                DateTime date = endDate.subtract(Duration(minutes: (nbMinutes - value).toInt()));
+
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: (fetchMode == 0 || fetchMode == 1) ? Text(
+                                    DateTools.convertDateToShortTimeString(date),
+                                  ) : Text(
+                                    DateTools.convertDateToShortDateString(date),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        gridData: FlGridData(
+                          show: true,
+                          verticalInterval: (nbMinutes~/4).toDouble(),
+                          horizontalInterval: 0.2,
+                        ),
+                        borderData: FlBorderData(
+                          show: true,
+                          border: Border.all(
+                            color: Colors.blueGrey,
+                            width: 0.2,
+                          ),
+                        ),
+                        lineBarsData: [
+                          LineChartBarData(
+                              isCurved: true,
+                              dotData: FlDotData(
+                                show: measurements.length < 25,
+                              ),
+                              spots: [
+                                for(AbstractMeasurementModel measurement in measurements)
+                                  FlSpot(
+                                    nbMinutes - endDate.difference(measurement.measuredAt).inMinutes.toDouble(),
+                                    measurement.value,
+                                  ),
+                              ]
+                          )
+                        ]
+                    ),
+                  ),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 15)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Dernière',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  '-- $unit',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).highlightColor
+                                  ),
+                                ),
+                              ]
+                          ),
+                          const Padding(padding: EdgeInsets.only(top: 5)),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Minimum',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  '-- $unit',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).highlightColor
+                                  ),
+                                ),
+                              ]
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(right: 10)),
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Moyenne',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  '-- $unit',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).highlightColor
+                                  ),
+                                ),
+                              ]
+                          ),
+                          const Padding(padding: EdgeInsets.only(top: 5)),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Maximum',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  '-- $unit',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).highlightColor
+                                  ),
+                                ),
+                              ]
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            );
+          }
+
 
           measurements.sort((a, b) => a.value.compareTo(b.value));
           double minValue = measurements.first.value;
           double maxValue = measurements.last.value;
           measurements.sort((a, b) => a.measuredAt.compareTo(b.measuredAt));
-
-          DateTime endDate = DateTime.now();
-          DateTime startDate = endDate.subtract((fetchMode == 0) ? const Duration(hours: 6) : (fetchMode == 1) ? const Duration(days: 1) : (fetchMode == 2) ? const Duration(days: 7) : (fetchMode == 3) ? const Duration(days: 30) : const Duration(days: 365));
-
-          double nbMinutes = double.parse(endDate.difference(startDate).inMinutes.toString());
 
 
           double valueDifference = maxValue - minValue;

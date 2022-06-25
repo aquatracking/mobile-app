@@ -1,5 +1,5 @@
 import 'package:aquatracking/blocs/abstract_measurements_bloc.dart';
-import 'package:aquatracking/model/abstract_measurement_model.dart';
+import 'package:aquatracking/model/measurement_model.dart';
 import 'package:aquatracking/utils/date_tools.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +8,20 @@ class LineMetricChart extends StatelessWidget {
   final String aquariumId;
   final AbstractMeasurementsBloc measurementsBloc;
   final String metric;
-  final String unit;
+  final String? unit;
   final int defaultFetchMode;
-  const LineMetricChart({Key? key, required this.measurementsBloc, required this.aquariumId, required this.metric, required this.unit, this.defaultFetchMode = 0}) : super(key: key);
+  const LineMetricChart({Key? key, required this.measurementsBloc, required this.aquariumId, required this.metric, this.unit, this.defaultFetchMode = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     int fetchMode = defaultFetchMode;
     measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
 
-    return StreamBuilder<List<AbstractMeasurementModel>>(
+    return StreamBuilder<List<MeasurementModel>>(
       stream: measurementsBloc.stream,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          List<AbstractMeasurementModel> measurements = [];
+          List<MeasurementModel> measurements = [];
 
           int measurementNeeded = 70;
           if(snapshot.data!.length > measurementNeeded) {
@@ -47,7 +47,7 @@ class LineMetricChart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '$metric ($unit)',
+                      '$metric${unit != null ? ' ($unit)' : ''}',
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class LineMetricChart extends StatelessWidget {
                                 show: measurements.length < 25,
                               ),
                               spots: [
-                                for(AbstractMeasurementModel measurement in measurements)
+                                for(MeasurementModel measurement in measurements)
                                   FlSpot(
                                     nbMinutes - endDate.difference(measurement.measuredAt).inMinutes.toDouble(),
                                     measurement.value,
@@ -166,7 +166,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- $unit',
+                                  '--${unit != null ? ' $unit' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -186,7 +186,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- $unit',
+                                  '-- ${unit != null ? ' $unit' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -213,7 +213,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- $unit',
+                                  '-- ${unit != null ? ' $unit' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -233,7 +233,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- $unit',
+                                  '-- ${unit != null ? ' $unit' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -480,7 +480,7 @@ class LineMetricChart extends StatelessWidget {
                               show: measurements.length < 25,
                             ),
                             spots: [
-                              for(AbstractMeasurementModel measurement in measurements)
+                              for(MeasurementModel measurement in measurements)
                                 FlSpot(
                                   nbMinutes - endDate.difference(measurement.measuredAt).inMinutes.toDouble(),
                                   measurement.value,

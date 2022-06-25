@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/create_aquarium_model.dart';
+import 'package:aquatracking/model/measurement_model.dart';
 import 'package:aquatracking/model/temperature_measurement_model.dart';
 import 'package:aquatracking/service/service.dart';
 
@@ -39,6 +40,21 @@ class AquariumsService extends Service {
 
     rawMeasurements.forEach((rawMeasurement) {
       measurements.add(TemperatureMeasurementModel.fromJson(rawMeasurement));
+    });
+
+    return measurements;
+  }
+
+  Future<List<MeasurementModel>> getPHMeasurements(String aquariumId, DateTime from) async {
+    var rawMeasurements = await get('/aquariums/$aquariumId/ph?from=${from.toIso8601String()}').catchError((e) {
+      log('Error getting ph measurements: $e');
+      return List.empty();
+    });
+
+    List<MeasurementModel> measurements = [];
+
+    rawMeasurements.forEach((rawMeasurement) {
+      measurements.add(MeasurementModel.fromJson(rawMeasurement));
     });
 
     return measurements;

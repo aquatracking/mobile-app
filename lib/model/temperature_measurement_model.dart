@@ -1,6 +1,6 @@
-import 'package:aquatracking/model/abstract_measurement_model.dart';
+import 'package:aquatracking/model/measurement_model.dart';
 
-class TemperatureMeasurementModel implements AbstractMeasurementModel {
+class TemperatureMeasurementModel implements MeasurementModel {
   @override
   String id;
   @override

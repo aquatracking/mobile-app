@@ -16,6 +16,7 @@ class AquariumScreen extends StatelessWidget {
       length: 2,
       child: Layout(
         canGoBack: true,
+        aquarium: aquarium,
         child: Column(
           children: [
             Stack(

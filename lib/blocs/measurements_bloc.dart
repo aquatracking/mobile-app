@@ -1,15 +1,37 @@
-import 'package:aquatracking/blocs/abstract_measurements_bloc.dart';
+import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
+import 'package:aquatracking/model/measurement_type_model.dart';
 import 'package:aquatracking/service/aquariums_service.dart';
+import 'package:eventify/eventify.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PHMeasurementsBloc implements AbstractMeasurementsBloc {
+import 'bloc.dart';
+
+class MeasurementsBloc extends Bloc {
   final _measurementsController = BehaviorSubject<List<MeasurementModel>>();
   final AquariumsService _aquariumsService = AquariumsService();
 
-  @override
-  fetchMeasurements(String aquariumId, int fetchMode) async {
+  final AquariumModel aquarium;
+  final MeasurementTypeModel measurementType;
+
+  int lastFetchMode = 0;
+
+  static final EventEmitter _updateEmitter = EventEmitter();
+
+  MeasurementsBloc({
+    required this.aquarium,
+    required this.measurementType,
+  }) {
+    _updateEmitter.on(measurementType.code, MeasurementsBloc, (ev, context) => fetchMeasurements(lastFetchMode));
+  }
+
+  static void update(MeasurementTypeModel measurementType) {
+    _updateEmitter.emit(measurementType.code);
+  }
+
+  fetchMeasurements(int fetchMode) async {
     DateTime from = DateTime.now();
+    lastFetchMode = fetchMode;
 
     switch (fetchMode) {
       case 0:
@@ -29,14 +51,14 @@ class PHMeasurementsBloc implements AbstractMeasurementsBloc {
         break;
     }
 
-    final measurements = await _aquariumsService.getPHMeasurements(aquariumId, from);
+    final measurements = await _aquariumsService.getMeasurements(aquarium, measurementType, from);
     _measurementsController.add(measurements);
   }
 
-  @override
   Stream<List<MeasurementModel>> get stream => _measurementsController.stream;
 
   @override
   void dispose() {
+    _measurementsController.close();
   }
 }

@@ -1,7 +1,7 @@
-import 'package:aquatracking/blocs/ph_measurements_bloc.dart';
-import 'package:aquatracking/blocs/temperature_measurements_bloc.dart';
 import 'package:aquatracking/component/line_metric_chart.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
+import 'package:aquatracking/model/measurement_type_model.dart';
+import 'package:aquatracking/utils/globals.dart';
 import 'package:flutter/material.dart';
 
 class AquariumAnalyseTab extends StatelessWidget {
@@ -11,20 +11,32 @@ class AquariumAnalyseTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TemperatureMeasurementsBloc temperatureMeasurementsBloc = TemperatureMeasurementsBloc();
-    PHMeasurementsBloc phMeasurementsBloc = PHMeasurementsBloc();
-    return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              LineMetricChart(aquariumId: aquarium.id ,measurementsBloc: temperatureMeasurementsBloc, metric: 'Température', unit: '°C', defaultFetchMode: 1),
-              const SizedBox(height: 20),
-              LineMetricChart(aquariumId: aquarium.id ,measurementsBloc: phMeasurementsBloc, metric: 'PH', defaultFetchMode: 2),
-              const SizedBox(height: 20),
-            ],
-          ),
-        )
+    return StreamBuilder<List<MeasurementTypeModel>>(
+      stream: measurementTypesBloc.stream,
+      builder: (context, snapshot) {
+        if(snapshot.hasData && snapshot.data != null) {
+          if(snapshot.data!.isEmpty) {
+            return const Center(child: Text('Aucune mesures disponibles'));
+          } else {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    for(final measurementType in snapshot.data!)
+                      LineMetricChart(aquarium: aquarium, measurementType: measurementType, defaultFetchMode: 1),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            );
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }

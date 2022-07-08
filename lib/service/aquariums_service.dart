@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/create_aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
-import 'package:aquatracking/model/temperature_measurement_model.dart';
+import 'package:aquatracking/model/measurement_type_model.dart';
 import 'package:aquatracking/service/service.dart';
 
 class AquariumsService extends Service {
@@ -30,24 +30,9 @@ class AquariumsService extends Service {
     });
   }
 
-  Future<List<TemperatureMeasurementModel>> getTemperatureMeasurements(String aquariumId, DateTime from) async {
-    var rawMeasurements = await get('/aquariums/$aquariumId/temperature?from=${from.toIso8601String()}').catchError((e) {
-      log('Error getting temperature measurements: $e');
-      return List.empty();
-    });
-
-    List<TemperatureMeasurementModel> measurements = [];
-
-    rawMeasurements.forEach((rawMeasurement) {
-      measurements.add(TemperatureMeasurementModel.fromJson(rawMeasurement));
-    });
-
-    return measurements;
-  }
-
-  Future<List<MeasurementModel>> getPHMeasurements(String aquariumId, DateTime from) async {
-    var rawMeasurements = await get('/aquariums/$aquariumId/ph?from=${from.toIso8601String()}').catchError((e) {
-      log('Error getting ph measurements: $e');
+  Future<List<MeasurementModel>> getMeasurements(AquariumModel aquarium, MeasurementTypeModel measurementType, DateTime from) async {
+    var rawMeasurements = await get('/aquariums/${aquarium.id}/measurements/${measurementType.code}?from=${from.toIso8601String()}').catchError((e) {
+      log('Error getting measurements: $e');
       return List.empty();
     });
 
@@ -58,5 +43,12 @@ class AquariumsService extends Service {
     });
 
     return measurements;
+  }
+
+  Future<void> addMeasurement(AquariumModel aquarium, MeasurementTypeModel measurementType, String value, DateTime measuredAt) async {
+    await post('/aquariums/${aquarium.id}/measurements/${measurementType.code}', {"value" : value, "measuredAt": measuredAt.toIso8601String()}).catchError((e) {
+      log('Error adding measurement: $e');
+      return null;
+    });
   }
 }

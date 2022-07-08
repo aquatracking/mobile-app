@@ -1,21 +1,22 @@
-import 'package:aquatracking/blocs/abstract_measurements_bloc.dart';
+import 'package:aquatracking/blocs/measurements_bloc.dart';
+import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
+import 'package:aquatracking/model/measurement_type_model.dart';
 import 'package:aquatracking/utils/date_tools.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineMetricChart extends StatelessWidget {
-  final String aquariumId;
-  final AbstractMeasurementsBloc measurementsBloc;
-  final String metric;
-  final String? unit;
+  final AquariumModel aquarium;
+  final MeasurementTypeModel measurementType;
   final int defaultFetchMode;
-  const LineMetricChart({Key? key, required this.measurementsBloc, required this.aquariumId, required this.metric, this.unit, this.defaultFetchMode = 0}) : super(key: key);
+  const LineMetricChart({Key? key, required this.aquarium, required this.measurementType, this.defaultFetchMode = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     int fetchMode = defaultFetchMode;
-    measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+    final measurementsBloc = MeasurementsBloc(aquarium: aquarium, measurementType: measurementType);
+    measurementsBloc.fetchMeasurements(fetchMode);
 
     return StreamBuilder<List<MeasurementModel>>(
       stream: measurementsBloc.stream,
@@ -47,7 +48,7 @@ class LineMetricChart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '$metric${unit != null ? ' ($unit)' : ''}',
+                      measurementType.name,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -57,7 +58,7 @@ class LineMetricChart extends StatelessWidget {
                     const Spacer(),
                     IconButton(
                       onPressed: () {
-                        measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                        measurementsBloc.fetchMeasurements(fetchMode);
                       },
                       icon: const Icon(Icons.refresh_rounded),
                       splashRadius: 16,
@@ -166,7 +167,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '--${unit != null ? ' $unit' : ''}',
+                                  '--${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -186,7 +187,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- ${unit != null ? ' $unit' : ''}',
+                                  '--${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -213,7 +214,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- ${unit != null ? ' $unit' : ''}',
+                                  '--${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -233,7 +234,7 @@ class LineMetricChart extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '-- ${unit != null ? ' $unit' : ''}',
+                                  '--${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -265,13 +266,20 @@ class LineMetricChart extends StatelessWidget {
 
           if(valueDifference <= 0.5) {
             valueInterval = 0.1;
-            valueMinInterval = double.parse((minValue-valueInterval).toStringAsFixed(1));
-            valueMaxInterval = double.parse((maxValue+valueInterval).toStringAsFixed(1));
-          } else {
+          } else if(valueDifference <= 1) {
+            valueInterval = 0.2;
+          } else if(valueDifference <= 5) {
             valueInterval = 0.5;
-            valueMinInterval = double.parse((minValue-valueInterval).toStringAsFixed(0));
-            valueMaxInterval = double.parse((maxValue+valueInterval).toStringAsFixed(0));
+          } else if(valueDifference <= 100) {
+            valueInterval = double.parse((valueDifference / 10).toStringAsFixed(0));
+          } else {
+            valueInterval =  50;
           }
+
+          valueMinInterval = (minValue / valueInterval).floor() * valueInterval;
+          valueMaxInterval = (maxValue / valueInterval).ceil() * valueInterval;
+
+          if(valueDifference == 0.0) valueMaxInterval = valueMaxInterval + valueInterval;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,7 +288,7 @@ class LineMetricChart extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '$metric ($unit)',
+                    measurementType.name,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -291,7 +299,7 @@ class LineMetricChart extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       fetchMode = 4;
-                      measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      measurementsBloc.fetchMeasurements(fetchMode);
                     },
                     style: TextButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -309,7 +317,7 @@ class LineMetricChart extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       fetchMode = 3;
-                      measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      measurementsBloc.fetchMeasurements(fetchMode);
                     },
                     style: TextButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -327,7 +335,7 @@ class LineMetricChart extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       fetchMode = 2;
-                      measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      measurementsBloc.fetchMeasurements(fetchMode);
                     },
                     style: TextButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -345,7 +353,7 @@ class LineMetricChart extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       fetchMode = 1;
-                      measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      measurementsBloc.fetchMeasurements(fetchMode);
                     },
                     style: TextButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -363,7 +371,7 @@ class LineMetricChart extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       fetchMode = 0;
-                      measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      measurementsBloc.fetchMeasurements(fetchMode);
                     },
                     style: TextButton.styleFrom(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -380,7 +388,7 @@ class LineMetricChart extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      measurementsBloc.fetchMeasurements(aquariumId, fetchMode);
+                      measurementsBloc.fetchMeasurements(fetchMode);
                     },
                     icon: const Icon(Icons.refresh_rounded),
                     splashRadius: 16,
@@ -408,7 +416,7 @@ class LineMetricChart extends StatelessWidget {
                                 DateTime date = endDate.subtract(Duration(minutes: (nbMinutes - barSpot.x).toInt()));
 
                                 return LineTooltipItem(
-                                  '${barSpot.y.toStringAsFixed(2)} $unit - ${DateTools.convertDateToLongDateAndTimeString(date)}',
+                                  '${barSpot.y.toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''} - ${DateTools.convertDateToLongDateAndTimeString(date)}',
                                   const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -509,7 +517,7 @@ class LineMetricChart extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${measurements.last.value.toStringAsFixed(2)} $unit',
+                                '${measurements.last.value.toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -529,7 +537,7 @@ class LineMetricChart extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${(minValue).toStringAsFixed(2)} $unit',
+                                '${(minValue).toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -556,7 +564,7 @@ class LineMetricChart extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${(measurements.map((m) => m.value).reduce((a, b) => a + b) / measurements.length).toStringAsFixed(2)} $unit',
+                                '${(measurements.map((m) => m.value).reduce((a, b) => a + b) / measurements.length).toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -576,7 +584,7 @@ class LineMetricChart extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${(maxValue).toStringAsFixed(2)} $unit',
+                                '${(maxValue).toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,

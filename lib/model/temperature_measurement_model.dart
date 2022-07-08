@@ -16,7 +16,7 @@ class TemperatureMeasurementModel implements MeasurementModel {
 
   factory TemperatureMeasurementModel.fromJson(Map<String, dynamic> json) => TemperatureMeasurementModel(
     id: json["id"],
-    value: json["temperature"].toDouble(),
+    value: json["value"].toDouble(),
     measuredAt: DateTime.parse(json["measuredAt"]),
   );
 }

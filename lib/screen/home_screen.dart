@@ -1,4 +1,3 @@
-import 'package:aquatracking/blocs/aquariums_bloc.dart';
 import 'package:aquatracking/component/alert_card.dart';
 import 'package:aquatracking/component/aquarium_card.dart';
 import 'package:aquatracking/component/layout.dart';
@@ -13,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     aquariumsBloc.fetchAquariums();
+    measurementTypesBloc.fetchMeasurementTypes();
     return Layout(
       child: Padding(
         padding: const EdgeInsets.only(top: 50),

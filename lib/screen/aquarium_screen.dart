@@ -5,6 +5,8 @@ import 'package:aquatracking/tabs/aquarium_screen/aquarium_analyse_tab.dart';
 import 'package:aquatracking/tabs/aquarium_screen/aquarium_information_tab.dart';
 import 'package:flutter/material.dart';
 
+import 'update_aquarium_screen.dart';
+
 class AquariumScreen extends StatelessWidget {
   final AquariumModel aquarium;
 
@@ -17,6 +19,21 @@ class AquariumScreen extends StatelessWidget {
       child: Layout(
         canGoBack: true,
         aquarium: aquarium,
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: const Color(0x90000000),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.edit_rounded),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateAquariumScreen(aquarium: aquarium))),
+            ),
+          ),
+        ],
         child: Column(
           children: [
             Stack(

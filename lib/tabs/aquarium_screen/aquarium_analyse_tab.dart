@@ -24,7 +24,7 @@ class AquariumAnalyseTab extends StatelessWidget {
                 child: Column(
                   children: [
                     for(final measurementType in snapshot.data!)
-                      LineMetricChart(aquarium: aquarium, measurementType: measurementType, defaultFetchMode: 1),
+                      LineMetricChart(aquarium: aquarium, measurementType: measurementType, defaultFetchMode: (measurementType.code == "TEMPERATURE") ? 0 : 3),
                     const SizedBox(height: 20),
                   ],
                 ),

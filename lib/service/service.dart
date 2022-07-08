@@ -46,13 +46,14 @@ abstract class Service {
     return body;
   }
 
-  Future<dynamic> put(String urlString, dynamic data) async {
-    final result = await dio.put(
-        urlString,
+  Future<dynamic> patch(String path, dynamic data) async {
+    final result = await dio.patch(
+        apiBaseUrl + path,
         data: data,
         options: options
     );
-    final body = json.decode(json.encode(result.data));
+
+    final body = result.data;
     return body;
   }
 

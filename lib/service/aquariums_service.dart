@@ -4,6 +4,7 @@ import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/create_aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
 import 'package:aquatracking/model/measurement_type_model.dart';
+import 'package:aquatracking/model/update_aquarium_model.dart';
 import 'package:aquatracking/service/service.dart';
 
 class AquariumsService extends Service {
@@ -26,6 +27,13 @@ class AquariumsService extends Service {
   Future<void> addAquarium(CreateAquariumModel createAquariumModel) async {
     await post('/aquariums', createAquariumModel.toJson()).catchError((e) {
       log('Error adding aquarium: $e');
+      return null;
+    });
+  }
+
+  Future<void> updateAquarium(AquariumModel aquariumModel, UpdateAquariumModel updateAquariumModel) async {
+    await patch('/aquariums/${aquariumModel.id}', updateAquariumModel.toJson()).catchError((e) {
+      log('Error updating aquarium: $e');
       return null;
     });
   }

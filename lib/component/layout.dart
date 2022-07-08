@@ -10,8 +10,9 @@ class Layout extends StatelessWidget {
   final Widget child;
   final bool canGoBack;
   final AquariumModel? aquarium;
+  final List<Widget>? actions;
 
-  const Layout({Key? key, required this.child, this.canGoBack = false, this.aquarium}) : super(key: key);
+  const Layout({Key? key, required this.child, this.canGoBack = false, this.aquarium, this.actions}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class Layout extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
+        actions: actions,
       ) : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () {

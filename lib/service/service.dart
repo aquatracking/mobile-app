@@ -64,29 +64,4 @@ abstract class Service {
     );
     return result.statusCode == 200;
   }
-
-  Future<dynamic> checkLogin(String refreshToken) async {
-    var options = Options(
-      headers: {
-        "Accept": "application/json",
-        "cookie": refreshToken
-      },
-      responseType: ResponseType.json,
-    );
-
-    bool logged = false;
-
-    try {
-      var value = await dio.get(
-          '$apiBaseUrl/',
-          options: options
-      );
-
-      logged = (value.statusCode == 200);
-    } catch (e) {
-      logged = false;
-    }
-
-    return logged;
-  }
 }

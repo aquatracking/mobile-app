@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/screen/home_screen.dart';
 import 'package:aquatracking/screen/login_screen.dart';
+import 'package:aquatracking/screen/service_unavailable_screen.dart';
 import 'package:aquatracking/service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,7 @@ initSharedPreferences() async {
 
   if(refreshToken != null) {
     AuthenticationService authenticationService = AuthenticationService();
-    AuthenticationService.loggedIn = await authenticationService.checkLogin(refreshToken);
+    await authenticationService.checkLogin(refreshToken);
   }
 }
 
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
 
         fontFamily: 'Roboto'
       ),
-      home: (AuthenticationService.loggedIn) ? const HomeScreen() : const LoginScreen(),
+      home: (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const HomeScreen() : const LoginScreen(),
     );
   }
 }

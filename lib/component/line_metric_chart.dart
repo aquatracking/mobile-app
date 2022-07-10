@@ -1,20 +1,20 @@
 import 'package:aquatracking/blocs/measurements_bloc.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
-import 'package:aquatracking/model/measurement_type_model.dart';
+import 'package:aquatracking/model/measurement_settings_model.dart';
 import 'package:aquatracking/utils/date_tools.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineMetricChart extends StatelessWidget {
   final AquariumModel aquarium;
-  final MeasurementTypeModel measurementType;
-  final int defaultFetchMode;
-  const LineMetricChart({Key? key, required this.aquarium, required this.measurementType, this.defaultFetchMode = 0}) : super(key: key);
+  final MeasurementSettingsModel measurementSettings;
+  const LineMetricChart({Key? key, required this.aquarium, required this.measurementSettings}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int fetchMode = defaultFetchMode;
+    int fetchMode = measurementSettings.defaultMode;
+    var measurementType = measurementSettings.type;
     final measurementsBloc = MeasurementsBloc(aquarium: aquarium, measurementType: measurementType);
     measurementsBloc.fetchMeasurements(fetchMode);
 
@@ -281,6 +281,8 @@ class LineMetricChart extends StatelessWidget {
 
           if(valueDifference == 0.0) valueMaxInterval = valueMaxInterval + valueInterval;
 
+          double avg = measurements.map((m) => m.value).reduce((a, b) => a + b) / measurements.length;
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -521,7 +523,7 @@ class LineMetricChart extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).highlightColor
+                                    color: (measurementSettings.maxValue != null || measurementSettings.minValue != null) ? ((measurementSettings.maxValue != null && measurements.last.value >= measurementSettings.maxValue!) || (measurementSettings.minValue != null && measurements.last.value < measurementSettings.minValue!)) ? Colors.redAccent : Colors.greenAccent : Theme.of(context).highlightColor
                                 ),
                               ),
                             ]
@@ -541,7 +543,7 @@ class LineMetricChart extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).highlightColor
+                                    color: (measurementSettings.maxValue != null || measurementSettings.minValue != null) ? ((measurementSettings.maxValue != null && minValue >= measurementSettings.maxValue!) || (measurementSettings.minValue != null && minValue < measurementSettings.minValue!)) ? Colors.redAccent : Colors.greenAccent : Theme.of(context).highlightColor
                                 ),
                               ),
                             ]
@@ -564,11 +566,11 @@ class LineMetricChart extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${(measurements.map((m) => m.value).reduce((a, b) => a + b) / measurements.length).toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
+                                '${(avg).toStringAsFixed(2)}${measurementType.unit.isNotEmpty ? ' ${measurementType.unit}' : ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).highlightColor
+                                    color: (measurementSettings.maxValue != null || measurementSettings.minValue != null) ? ((measurementSettings.maxValue != null && avg >= measurementSettings.maxValue!) || (measurementSettings.minValue != null && avg < measurementSettings.minValue!)) ? Colors.redAccent : Colors.greenAccent : Theme.of(context).highlightColor
                                 ),
                               ),
                             ]
@@ -588,7 +590,7 @@ class LineMetricChart extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).highlightColor
+                                    color: (measurementSettings.maxValue != null || measurementSettings.minValue != null) ? ((measurementSettings.maxValue != null && maxValue >= measurementSettings.maxValue!) || (measurementSettings.minValue != null && maxValue < measurementSettings.minValue!)) ? Colors.redAccent : Colors.greenAccent : Theme.of(context).highlightColor
                                 ),
                               ),
                             ]

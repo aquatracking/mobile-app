@@ -3,6 +3,7 @@ import 'package:aquatracking/component/action_button.dart';
 import 'package:aquatracking/component/inputs/date_and_time_input.dart';
 import 'package:aquatracking/component/inputs/number_input.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
+import 'package:aquatracking/model/measurement_settings_model.dart';
 import 'package:aquatracking/model/measurement_type_model.dart';
 import 'package:aquatracking/service/aquariums_service.dart';
 import 'package:aquatracking/utils/globals.dart';
@@ -49,20 +50,22 @@ class _AddAquariumMeasurementScreenState extends State<AddAquariumMeasurementScr
                 style: Theme.of(context).textTheme.headline6,
               ),
               const SizedBox(height: 20),
-              StreamBuilder<List<MeasurementTypeModel>>(
-                stream: measurementTypesBloc.stream,
+              StreamBuilder<List<MeasurementSettingsModel>>(
+                stream: widget.aquarium.measurementSettingsBloc.stream,
                 builder: (context, snapshot) {
                   if(snapshot.hasData && snapshot.data != null) {
                     if (snapshot.data!.isEmpty) {
                       return const Center(
                           child: Text('Aucun type de relevé disponible'));
                     } else {
+                      snapshot.data!.sort((a, b) => a.order.compareTo(b.order));
+                      var data = snapshot.data!.where((element) => element.visible).toList();
                       return DropdownButtonFormField<MeasurementTypeModel>(
                         items: [
-                          for(final measurementType in snapshot.data!)
+                          for(final setting in data)
                             DropdownMenuItem(
-                              value: measurementType,
-                              child: Text(measurementType.name),
+                              value: setting.type,
+                              child: Text(setting.type.name),
                             ),
                         ],
                         isExpanded: true,

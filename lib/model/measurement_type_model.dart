@@ -14,4 +14,10 @@ class MeasurementTypeModel {
     name: json["name"],
     unit: json["unit"],
   );
+
+  Map<String, dynamic> toJson() => {
+    "code": code,
+    "name": name,
+    "unit": unit,
+  };
 }

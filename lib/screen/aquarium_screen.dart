@@ -1,6 +1,7 @@
 import 'package:aquatracking/component/layout.dart';
 import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
+import 'package:aquatracking/screen/aquarium_measurement_settings_screen.dart';
 import 'package:aquatracking/tabs/aquarium_screen/aquarium_analyse_tab.dart';
 import 'package:aquatracking/tabs/aquarium_screen/aquarium_information_tab.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class AquariumScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    aquarium.measurementSettingsBloc.fetchMeasurementSettings();
     return DefaultTabController(
       length: 2,
       child: Layout(
@@ -23,14 +25,21 @@ class AquariumScreen extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             height: 40,
-            width: 40,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: const Color(0x90000000),
             ),
-            child: IconButton(
-              icon: const Icon(Icons.edit_rounded),
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateAquariumScreen(aquarium: aquarium))),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit_rounded),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateAquariumScreen(aquarium: aquarium))),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings_rounded),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AquariumMeasurementSettingsScreen(aquarium: aquarium))),
+                ),
+              ],
             ),
           ),
         ],

@@ -55,7 +55,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            widget.measurementSettings.defaultMode = 4;
+                            widget.measurementSettings.defaultMode = 5;
                           });
                         },
                         style: TextButton.styleFrom(
@@ -64,6 +64,25 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                         ),
                         child: Text(
                           '1a',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: (widget.measurementSettings.defaultMode == 5) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            widget.measurementSettings.defaultMode = 4;
+                          });
+                        },
+                        style: TextButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          minimumSize: const Size(30, 30),
+                        ),
+                        child: Text(
+                          '6m',
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,

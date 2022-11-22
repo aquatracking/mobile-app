@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/screen/aquarium_screen.dart';
@@ -14,7 +16,7 @@ class AquariumCard extends StatelessWidget {
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AquariumScreen(aquarium: aquarium))),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
-        width: double.infinity,
+        width: [MediaQuery.of(context).size.width*0.8, 350.0].reduce(min),
         decoration: BoxDecoration(
           color: const Color(0xFF3C3F41),
           borderRadius: BorderRadius.circular(10),

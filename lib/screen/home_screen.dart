@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:aquatracking/component/alert_card.dart';
 import 'package:aquatracking/component/aquarium_card.dart';
 import 'package:aquatracking/component/layout.dart';
@@ -69,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                       items:  <AquariumCard>[
                         for(AquariumModel aquarium in snapshot.data!) AquariumCard(aquarium: aquarium),
                       ],
-                      options: CarouselOptions(height: ((MediaQuery.of(context).size.width*0.8-32)/16)*9+62),
+                      options: CarouselOptions(height: (([MediaQuery.of(context).size.width*0.8, 375.0].reduce(min)-32)/16)*9+62),
                     );
                   } else {
                     return const Center(

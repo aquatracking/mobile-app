@@ -1,9 +1,8 @@
-import 'package:aquatracking/component/alert_card.dart';
-import 'package:aquatracking/component/aquarium_card.dart';
 import 'package:aquatracking/component/layout.dart';
+import 'package:aquatracking/component/m3_alert_card.dart';
+import 'package:aquatracking/component/m3_aquarium_card.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/utils/globals.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,72 +13,64 @@ class HomeScreen extends StatelessWidget {
     aquariumsBloc.fetchAquariums();
     measurementTypesBloc.fetchMeasurementTypes();
     return Layout(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Bonjour',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+      child: ListView(
+        children: <Widget>[
+          // Welcome message
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              'Bonjour',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Bienvenue sur AquaTracking',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              'Bienvenue sur AquaTracking',
+              style: TextStyle(
+                fontSize: 20,
               ),
             ),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: AlertCard(title: 'Tout va bien', description: 'Vous n\'avez aucune alerte ou tache à effectuer', icon: Icons.check_circle_rounded, color: Colors.green),
-            ),
-            /*SizedBox(height: 20),
-            AlertCard(title: 'Attention', description: 'Vous avez une alerte', icon: Icons.warning, color: Colors.orange),
-            SizedBox(height: 20),
-            AlertCard(title: 'Danger', description: 'Vous avez une alerte', icon: Icons.error, color: Colors.red),*/
-            const SizedBox(height: 30),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Mes aquariums',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+          ),
+          //const SizedBox(height: 5),
+          //const M3AlertCard(title: 'Danger', description: 'Température trop élevé sur l\'aquarium Mattew\'s Home', icon: Icons.warning_rounded, color: Colors.orange),
+          //const M3AlertCard(title: 'Alerte', description: 'Température trop élevé sur l\'aquarium Mattew\'s Home', icon: Icons.dangerous_rounded, color: Colors.red),
+          //const M3AlertCard(title: 'Information', description: 'Vous n\'avez aucune alerte ou tache à effectuer', icon: Icons.info_rounded, color: Colors.blue),
+          //const M3AlertCard(title: 'Succès', description: 'Température trop élevé sur l\'aquarium Mattew\'s Home', icon: Icons.check_circle_rounded, color: Colors.green),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              'Mes aquariums',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
-            StreamBuilder<List<AquariumModel>>(
-                stream: aquariumsBloc.stream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    return (snapshot.data!.isEmpty) ?
-                    const Text('Vous n\'avez aucun aquarium') :
-                    CarouselSlider(
-                      items:  <AquariumCard>[
-                        for(AquariumModel aquarium in snapshot.data!) AquariumCard(aquarium: aquarium),
-                      ],
-                      options: CarouselOptions(height: ((MediaQuery.of(context).size.width*0.8-32)/16)*9+62),
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+          ),
+          const SizedBox(height: 10),
+          StreamBuilder<List<AquariumModel>>(
+              stream: aquariumsBloc.stream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  return (snapshot.data!.isEmpty) ?
+                  const Text('Vous n\'avez aucun aquarium') :
+                  Column(
+                    children:  <M3AquariumCard>[
+                      for(AquariumModel aquarium in snapshot.data!) M3AquariumCard(aquarium: aquarium),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-            )
-          ],
-        ),
+              }
+          )
+        ],
       ),
     );
   }

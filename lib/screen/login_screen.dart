@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:aquatracking/errors/bad_login_error.dart';
 import 'package:aquatracking/model/authentication_model.dart';
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:aquatracking/screen/register_screen.dart';
 import 'package:aquatracking/service/authentication_service.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez saisir votre mot de passe');
                   } else {
                     authenticationService.login(authModel.email, authModel.password).then((value) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
                     }).catchError((e) {
                       if(e is BadLoginError) {
                         PopupUtils.showError(context, 'Connexion impossible', "email ou mot de passe incorrect");

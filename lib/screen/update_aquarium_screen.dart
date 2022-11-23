@@ -2,7 +2,7 @@ import 'package:aquatracking/component/action_button.dart';
 import 'package:aquatracking/component/inputs/text_input.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/update_aquarium_model.dart';
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:aquatracking/service/aquariums_service.dart';
 import 'package:aquatracking/utils/globals.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
@@ -150,7 +150,7 @@ class _UpdateAquariumScreenState extends State<UpdateAquariumScreen> {
                           'Le nom de l\'aquarium est obligatoire');
                     } else {
                       aquariumsService.updateAquarium(widget.aquarium, _updateAquariumModel).then((value) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
                         aquariumsBloc.fetchAquariums();
                       }).catchError((error) {
                         PopupUtils.showError(context, 'Une erreur est survenue', "Impossible d'ajouter l'aquarium");

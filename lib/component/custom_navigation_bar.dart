@@ -1,4 +1,4 @@
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -9,7 +9,7 @@ class CustomNavigationBar extends StatelessWidget {
     double iconSize = 35;
     int position = -1;
 
-    if(context.findAncestorWidgetOfExactType<HomeScreen>() != null) {
+    if(context.findAncestorWidgetOfExactType<MainScreen>() != null) {
       position = 0;
     }
 
@@ -30,7 +30,7 @@ class CustomNavigationBar extends StatelessWidget {
               ),
               onPressed: () {
                 if(position != 0) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
                 }
               },
             ),

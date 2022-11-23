@@ -3,7 +3,7 @@ import 'package:aquatracking/component/modals/add_aquarium_info_modal.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/screen/add_aquarium_screen.dart';
 import 'package:aquatracking/screen/aquarium_screen.dart';
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class Layout extends StatelessWidget {
@@ -16,7 +16,7 @@ class Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isHomeScreen = context.findAncestorWidgetOfExactType<HomeScreen>() != null;
+    bool isHomeScreen = context.findAncestorWidgetOfExactType<MainScreen>() != null;
     bool isAquariumScreen = (aquarium != null) && (context.findAncestorWidgetOfExactType<AquariumScreen>() != null);
 
     return Scaffold(
@@ -39,7 +39,7 @@ class Layout extends StatelessWidget {
         ),
         actions: actions,
       ) : null,
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           if(isHomeScreen) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const AddAquariumScreen()));
@@ -51,9 +51,7 @@ class Layout extends StatelessWidget {
         child: const Icon(Icons.add),
         elevation: 2,
         backgroundColor: Theme.of(context).highlightColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const CustomNavigationBar(),
+      ),*/
     );
   }
 }

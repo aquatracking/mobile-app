@@ -1,4 +1,4 @@
-import 'package:aquatracking/globals.dart';
+import 'package:aquatracking/component/image_placeholder.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/screen/aquarium_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +26,11 @@ class M3AquariumCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   child: AspectRatio(
                       aspectRatio: 16 / 9,
-                      child: Image(
-                          image: (aquarium.image != null) ? Image.memory(aquarium.image!).image : imagePlaceholder,
-                          fit: BoxFit.fill
-                      )
+                      child: (aquarium.image != null) ?
+                        Image(
+                            image:  Image.memory(aquarium.image!).image,
+                            fit: BoxFit.fill
+                        ) : const ImagePlaceholder()
                   ),
                 ),
                 // title of card

@@ -12,7 +12,7 @@ class PopupUtils {
             //buttons?
             actions: <Widget>[
               TextButton(
-                child: Text("Fermer", style: TextStyle(color: Theme.of(context).highlightColor)),
+                child: const Text("Fermer"),
                 onPressed: () { Navigator.of(context).pop(); }, //closes popup
               ),
             ],

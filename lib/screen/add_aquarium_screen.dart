@@ -1,14 +1,10 @@
-import 'dart:developer';
-
+import 'package:aquatracking/component/image_selector.dart';
 import 'package:aquatracking/model/create_aquarium_model.dart';
 import 'package:aquatracking/service/aquariums_service.dart';
 import 'package:aquatracking/utils/globals.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddAquariumScreen extends StatefulWidget {
   const AddAquariumScreen({Key? key}) : super(key: key);
@@ -17,7 +13,6 @@ class AddAquariumScreen extends StatefulWidget {
   State<AddAquariumScreen> createState() => _AddAquariumScreenState();
 }
 
-ImageProvider _image = Image.asset('assets/images/placeholder.jpg').image;
 CreateAquariumModel _createAquariumModel = CreateAquariumModel();
 
 class _AddAquariumScreenState extends State<AddAquariumScreen> {
@@ -29,121 +24,65 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ImagePicker picker = ImagePicker();
     AquariumsService aquariumsService = AquariumsService();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: const Color(0x90000000),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+        title: const Text('Créer un aquarium'),
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.close_rounded),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => {
+              if (_createAquariumModel.name == null || _createAquariumModel.name!.isEmpty) {
+                PopupUtils.showError(context, 'Paramètre manquant', 'Veuillez entrer un nom pour l\'aquarium')
+              } else if (_createAquariumModel.volume == null) {
+                PopupUtils.showError(context, 'Paramètre manquant', 'Veuillez entrer un volume pour l\'aquarium')
+              } else if (_createAquariumModel.startedDate == null) {
+                PopupUtils.showError(context, 'Paramètre manquant', 'Veuillez entrer une date de début pour l\'aquarium')
+              } else {
+                aquariumsService.addAquarium(_createAquariumModel).then((value) {
+                  Navigator.pop(context);
+                  aquariumsBloc.fetchAquariums();
+                }).catchError((error) {
+                  PopupUtils.showError(context, 'Une erreur est survenue', "Impossible d'ajouter l'aquarium");
+                })
+              }
+            },
+            child: const Text('Enregistrer',),
+          )
+        ],
       ),
       body: Column(
         children: [
-          Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image(
-                        image: (_createAquariumModel.image != null)
-                            ? MemoryImage(_createAquariumModel.image!)
-                            : _image,
-                        fit: BoxFit.fill)),
-              ),
-              Positioned(
-                bottom: 5,
-                right: 5,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: const Color(0x90000000),
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        splashRadius: 20,
-                        icon: const Icon(Icons.photo_camera_rounded),
-                        onPressed: () {
-                          picker.pickImage(source: ImageSource.camera)
-                            .then((file) {
-                              cropsImage(file);
-                            }
-                          );
-                        },
-                      ),
-                      IconButton(
-                        splashRadius: 20,
-                        icon: const Icon(Icons.image_rounded),
-                        onPressed: () {
-                          picker.pickImage(source: ImageSource.gallery)
-                            .then((file) {
-                              cropsImage(file);
-                            }
-                          );
-                        },
-                      ),
-                      Visibility(
-                        visible: _createAquariumModel.image != null,
-                        child: IconButton(
-                          splashRadius: 20,
-                          icon: const Icon(Icons.delete_rounded),
-                          onPressed: () {
-                            setState(() {
-                              _createAquariumModel.image = null;
-                            });
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                ImageSelector(
+                  image: _createAquariumModel.image,
+                  onImageSelected: (image) => _createAquariumModel.image = image,
+                ),
+                const SizedBox(
+                  height: 28,
+                ),
                 TextFormField(
                   textInputAction: TextInputAction.next,
                   onChanged: (value) {
                     _createAquariumModel.name = value;
                   },
-                  cursorColor: Theme.of(context).primaryColor,
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
                   maxLength: 50,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nom de l\'aquarium',
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    icon: Icon(
-                      Icons.tag_rounded,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.label),
                   ),
+                ),
+                const SizedBox(
+                  height: 6,
                 ),
                 TextFormField(
                   minLines: 1,
@@ -153,70 +92,40 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                   onChanged: (value) {
                     _createAquariumModel.description = value;
                   },
-                  cursorColor: Theme.of(context).primaryColor,
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Description',
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    icon: Icon(
-                      Icons.description_rounded,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                    prefixIcon: Icon(Icons.description),
+                    border: OutlineInputBorder(),
                   ),
+                ),
+                const SizedBox(
+                  height: 6,
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     _createAquariumModel.volume = int.parse(value);
                   },
-                  cursorColor: Theme.of(context).primaryColor,
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nombre de litres',
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    icon: Icon(
+                    prefixIcon: Icon(
                       Icons.local_drink_rounded,
-                      color: Theme.of(context).primaryColor,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                    border: OutlineInputBorder(),
                   ),
                 ),
-                const Padding(padding: EdgeInsets.all(9.0)),
+                const SizedBox(
+                  height: 28,
+                ),
                 DateTimePicker(
                   dateMask: "d MMMM yyyy",
-                  cursorColor: Theme.of(context).primaryColor,
                   locale: const Locale("fr", "FR"),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Date de début',
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    icon: Icon(
+                    prefixIcon: Icon(
                       Icons.calendar_today_rounded,
-                      color: Theme.of(context).primaryColor,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                    border: OutlineInputBorder(),
                   ),
                   type: DateTimePickerType.date,
                   firstDate: DateTime(1970),
@@ -233,7 +142,7 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                         child: ListTile(
                             title: const Text('Eau douce'),
                             leading: Radio<bool>(
-                              activeColor: Theme.of(context).highlightColor,
+                              activeColor: Theme.of(context).colorScheme.primary,
                               value: false,
                               groupValue: _createAquariumModel.salt,
                               onChanged: (value) {
@@ -247,7 +156,7 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                         child: ListTile(
                             title: const Text('Eau salée'),
                             leading: Radio<bool>(
-                              activeColor: Theme.of(context).highlightColor,
+                              activeColor: Theme.of(context).colorScheme.primary,
                               value: true,
                               groupValue: _createAquariumModel.salt,
                               onChanged: (value) {
@@ -259,89 +168,11 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
                       )
                     ]
                 ),
-                const Padding(padding: EdgeInsets.all(8.0)),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed)) {
-                          return Theme.of(context).highlightColor;
-                        }
-                        return Theme.of(context)
-                            .highlightColor; // Use the component's default.
-                      },
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_createAquariumModel.name == null ||
-                        _createAquariumModel.name!.isEmpty) {
-                      PopupUtils.showError(context, 'Paramètre manquant',
-                          'Veuillez entrer un nom pour l\'aquarium');
-                    } else if (_createAquariumModel.volume == null) {
-                      PopupUtils.showError(context, 'Paramètre manquant',
-                          'Veuillez entrer un volume pour l\'aquarium');
-                    } else if (_createAquariumModel.startedDate == null) {
-                      PopupUtils.showError(context, 'Paramètre manquant',
-                          'Veuillez entrer une date de début pour l\'aquarium');
-                    } else {
-                      aquariumsService.addAquarium(_createAquariumModel).then((value) {
-                        Navigator.pop(context);
-                        aquariumsBloc.fetchAquariums();
-                      }).catchError((error) {
-                        PopupUtils.showError(context, 'Une erreur est survenue', "Impossible d'ajouter l'aquarium");
-                      });
-                    }
-                  },
-                  child: SizedBox(
-                    height: 50,
-                    width: 150,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Créer',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  cropsImage(XFile? file) {
-    if(file != null) {
-      ImageCropper imageCropper = ImageCropper();
-
-      imageCropper.cropImage(
-        sourcePath: file.path,
-        aspectRatio: const CropAspectRatio(
-          ratioX: 16,
-          ratioY: 9,
-        ),
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Redimensionner',
-            toolbarColor: Theme.of(context).bottomAppBarColor,
-            toolbarWidgetColor: Theme.of(context).primaryColor,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: true
-          )
-        ]
-      ).then((cropFile) async => {
-        if(cropFile != null) {
-          _createAquariumModel.image = await cropFile.readAsBytes(),
-          setState(() {})
-        }
-      });
-    }
   }
 }

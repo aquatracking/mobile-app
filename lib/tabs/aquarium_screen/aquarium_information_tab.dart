@@ -1,4 +1,4 @@
-import 'package:aquatracking/component/solo_metric.dart';
+import 'package:aquatracking/component/aquarium_detail_tile.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/utils/date_tools.dart';
 import 'package:flutter/material.dart';
@@ -12,74 +12,80 @@ class AquariumInformationTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  aquarium.description,
-                  textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+              Visibility(
+                visible: aquarium.description.isNotEmpty,
+                child: Card(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Description',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          aquarium.description,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ),
               ),
-              Visibility(visible: aquarium.description.isNotEmpty ,child: const SizedBox(height: 30)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SoloMetric(
-                    metric: 'Volume',
-                    value: aquarium.volume.toString(),
-                    unit: 'L',
-                  ),
-                  SoloMetric(
-                    metric: "Type d'eau",
-                    value: (aquarium.salt) ? 'Salée' : 'Douce',
-                  ),
-                  // todo : Implémenter les poissons et plantes
-                  /*SoloMetric(
-                    metric: 'Poissons',
-                    value: 0.toString(),
-                  ),
-                  SoloMetric(
-                    metric: "Plantes",
-                    value: 0.toString()
-                  )*/
-                ],
-              ),
-              const SizedBox(height: 30),
-              // Date de création
-              RichText(
-                  text: TextSpan(
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                    children: <TextSpan>[
-                      const TextSpan(
-                        text: "Démarré il y a ",
-                      ),
-                      TextSpan(
-                        text: DateTime.now().difference(aquarium.startedDate).inDays.toString(),
+              Card(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Informations',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).highlightColor
-                        ),
-                      ),
-                      const TextSpan(
-                          text: " jours, le "
-                      ),
-                      TextSpan(
-                        text: DateTools.convertUTCToLocalHumanString(aquarium.startedDate.toString()),
-                        style: TextStyle(
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).highlightColor
                         ),
                       ),
-                    ]
-                  )
-              )
+                      const SizedBox(height: 8),
+                      AquariumDetailTile(metric: 'Volume', value: aquarium.volume.toString(), unit: 'L', icon: Icons.water_drop_rounded),
+                      AquariumDetailTile(metric: 'Type d\'eau', value: aquarium.salt ? 'Eau de mer' : 'Eau douce', icon: Icons.water_rounded),
+                      AquariumDetailTile(metric: 'Date de création', value: DateTools.convertUTCToLocalHumanString(aquarium.startedDate.toString()), icon: Icons.calendar_today_rounded),
+                    ],
+                  ),
+                )
+              ),
+              Card(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Statistiques',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      AquariumDetailTile(metric: 'Démarré il y a', value: DateTime.now().difference(aquarium.startedDate).inDays.toString(), unit: ' jours', icon: Icons.timer_rounded),
+                    ],
+                  ),
+                )
+              ),
             ],
           ),
         )

@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       ],
       theme: ThemeData(
         brightness: Brightness.dark,
-        colorSchemeSeed: Colors.cyan,
+        colorSchemeSeed: Colors.yellow,
         useMaterial3: true,
       ),
       home: (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const MainScreen() : const LoginScreen(),

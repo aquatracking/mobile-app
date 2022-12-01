@@ -113,8 +113,8 @@ class AquariumScreen extends StatelessWidget {
               unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
               indicatorWeight: 3,
               tabs: const [
-                Tab(icon: Icon(Icons.info_rounded)),
-                Tab(icon: Icon(Icons.analytics_rounded)),
+                Tab(icon: Icon(Icons.info_rounded, semanticLabel: 'Information',)),
+                Tab(icon: Icon(Icons.science_rounded, semanticLabel: 'Analyse',)),
               ],
             ),
             Expanded(

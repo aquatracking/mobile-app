@@ -1,6 +1,6 @@
+import 'package:aquatracking/component/dialogs/new_measurement_dialog.dart';
 import 'package:aquatracking/component/image_placeholder.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
-import 'package:aquatracking/screen/add_aquarium_measurement_screen.dart';
 import 'package:aquatracking/screen/aquarium_measurement_settings_screen.dart';
 import 'package:aquatracking/tabs/aquarium_screen/aquarium_analyse_tab.dart';
 import 'package:aquatracking/tabs/aquarium_screen/aquarium_information_tab.dart';
@@ -61,7 +61,11 @@ class AquariumScreen extends StatelessWidget {
           icon: const Icon(Icons.add),
           label: const Text('Ajouter une mesure'),
           onPressed: () => {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AddAquariumMeasurementScreen(aquarium: aquarium)))
+            showDialog(
+              context: context,
+              builder: (context) => NewMeasurementDialog(aquarium: aquarium),
+            )
+            //Navigator.push(context, MaterialPageRoute(builder: (context) => AddAquariumMeasurementScreen(aquarium: aquarium)))
           },
         ),
         body: Column(

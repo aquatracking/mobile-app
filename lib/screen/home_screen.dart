@@ -1,4 +1,4 @@
-import 'package:aquatracking/component/m3_aquarium_card.dart';
+import 'package:aquatracking/component/aquarium_card.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/utils/globals.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +56,8 @@ class HomeScreen extends StatelessWidget {
                 return (snapshot.data!.isEmpty) ?
                 const Text('Vous n\'avez aucun aquarium') :
                 Column(
-                  children:  <M3AquariumCard>[
-                    for(AquariumModel aquarium in snapshot.data!) M3AquariumCard(aquarium: aquarium),
+                  children:  <AquariumCard>[
+                    for(AquariumModel aquarium in snapshot.data!) AquariumCard(aquarium: aquarium),
                   ],
                 );
               } else {

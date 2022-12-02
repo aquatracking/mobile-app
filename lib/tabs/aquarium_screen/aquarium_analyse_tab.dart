@@ -29,6 +29,7 @@ class AquariumAnalyseTab extends StatelessWidget {
               await aquarium.measurementSettingsBloc.fetchMeasurementSettings();
             },
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(

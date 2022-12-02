@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class M3AlertCard extends StatelessWidget {
+class AlertCard extends StatelessWidget {
   final String title;
   final String description;
   final IconData icon;
   final Color color;
 
 
-  const M3AlertCard({Key? key, required this.title, required this.description, required this.icon, required this.color}) : super(key: key);
+  const AlertCard({Key? key, required this.title, required this.description, required this.icon, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

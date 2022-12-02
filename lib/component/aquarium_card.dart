@@ -3,10 +3,10 @@ import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/screen/aquarium_screen.dart';
 import 'package:flutter/material.dart';
 
-class M3AquariumCard extends StatelessWidget {
+class AquariumCard extends StatelessWidget {
   final AquariumModel aquarium;
 
-  const M3AquariumCard({Key? key, required this.aquarium}) : super(key: key);
+  const AquariumCard({Key? key, required this.aquarium}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

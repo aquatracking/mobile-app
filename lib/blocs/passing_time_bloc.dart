@@ -33,7 +33,7 @@ class PassingTimeBloc extends Bloc {
         if(passingTime == 0) {
           passingTime = timeDiff.inSeconds;
           unit = 'seconde';
-          nextRefresh = 60 - timeDiff.inSeconds;
+          nextRefresh = 1;
         }
       }
     }

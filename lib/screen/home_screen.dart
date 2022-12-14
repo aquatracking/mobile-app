@@ -56,8 +56,9 @@ class HomeScreen extends StatelessWidget {
                 return (snapshot.data!.isEmpty) ?
                 const Text('Vous n\'avez aucun aquarium') :
                 Column(
-                  children:  <AquariumCard>[
+                  children: [
                     for(AquariumModel aquarium in snapshot.data!) AquariumCard(aquarium: aquarium),
+                    const SizedBox(height: 80),
                   ],
                 );
               } else {

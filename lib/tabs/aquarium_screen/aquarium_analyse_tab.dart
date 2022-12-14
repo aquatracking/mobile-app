@@ -72,7 +72,7 @@ class AquariumAnalyseTab extends StatelessWidget {
                     ),
                     for(final setting in measurementSettings)
                       AquariumMetricTile(metric: setting, aquarium: aquarium),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 70),
                   ],
                 ),
               ),

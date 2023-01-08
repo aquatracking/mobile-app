@@ -3,6 +3,7 @@ import 'package:aquatracking/blocs/passing_time_bloc.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
 import 'package:aquatracking/model/measurement_settings_model.dart';
+import 'package:aquatracking/screen/aquarium_measurement_screen.dart';
 import 'package:flutter/material.dart';
 
 class AquariumMetricTile extends StatefulWidget {
@@ -65,7 +66,7 @@ class _AquariumMetricTileState extends State<AquariumMetricTile> {
           Color colorSeed = Colors.blue;
           if(measurement != null) {
             if(widget.metric.maxValue != null || widget.metric.minValue != null) {
-              if((widget.metric.maxValue != null && measurement.value >= widget.metric.maxValue!) || (widget.metric.minValue != null && measurement.value < widget.metric.minValue!)) {
+              if((widget.metric.maxValue != null && measurement.value > widget.metric.maxValue!) || (widget.metric.minValue != null && measurement.value < widget.metric.minValue!)) {
                 colorSeed = Colors.redAccent;
               } else {
                 colorSeed = Colors.greenAccent;
@@ -108,32 +109,21 @@ class _AquariumMetricTileState extends State<AquariumMetricTile> {
             child: Card(
               color: colorScheme.surface,
               child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  leading: Icon(icon, size: 40, color: colorScheme.primary),
-                  title: Text(widget.metric.type.name),
-                  subtitle: valueWidget,
-                  trailing: const Icon(Icons.arrow_forward_rounded),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                            title: Text(widget.metric.type.name),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Valeur max: ' + (widget.metric.maxValue != null ? widget.metric.maxValue.toString() : 'Aucune') + widget.metric.type.unit),
-                                Text('Valeur min: ' + (widget.metric.minValue != null ? widget.metric.minValue.toString() : 'Aucune') + widget.metric.type.unit),
-                              ],
-                            )
-                        );
-                      },
-                    );
-                  }
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                leading: Icon(icon, size: 40, color: colorScheme.primary),
+                title: Text(widget.metric.type.name),
+                subtitle: valueWidget,
+                trailing: const Icon(Icons.arrow_forward_rounded),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AquariumMeasurementScreen(aquarium: widget.aquarium, metric: widget.metric),
+                    ),
+                  );
+                },
               ),
             ),
           );

@@ -4,9 +4,10 @@ class AquariumDetailTile extends StatelessWidget {
   final String metric;
   final String value;
   final String unit;
-  final IconData icon;
+  final IconData? icon;
+  final String? warning;
 
-  const AquariumDetailTile({Key? key, required this.metric, required this.value, this.unit = "", required this.icon}) : super(key: key);
+  const AquariumDetailTile({Key? key, required this.metric, required this.value, this.unit = "", this.icon, this.warning}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,13 @@ class AquariumDetailTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
-          const SizedBox(width: 16),
+          Visibility(
+            visible: icon != null,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,6 +44,32 @@ class AquariumDetailTile extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          const Spacer(),
+          Visibility(
+            visible: warning != null,
+            child: IconButton(
+              icon: Icon(Icons.warning_rounded, color: Theme.of(context).colorScheme.onSurfaceVariant),
+              onPressed: (){
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('Attention'),
+                      content: Text(warning!),
+                      actions: [
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                );
+              }
+            ),
           ),
         ],
       ),

@@ -56,122 +56,118 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                ImageSelector(
-                  image: _createAquariumModel.image,
-                  onImageSelected: (image) => _createAquariumModel.image = image,
-                ),
-                const SizedBox(
-                  height: 28,
-                ),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
-                  onChanged: (value) {
-                    _createAquariumModel.name = value;
-                  },
-                  maxLength: 50,
-                  decoration: const InputDecoration(
-                    labelText: 'Nom de l\'aquarium',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.label),
-                  ),
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                TextFormField(
-                  minLines: 1,
-                  maxLines: 5,
-                  maxLength: 255,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (value) {
-                    _createAquariumModel.description = value;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                    prefixIcon: Icon(Icons.description),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    _createAquariumModel.volume = int.parse(value);
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Nombre de litres',
-                    prefixIcon: Icon(
-                      Icons.local_drink_rounded,
-                    ),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 28,
-                ),
-                DateTimePicker(
-                  dateMask: "d MMMM yyyy",
-                  locale: const Locale("fr", "FR"),
-                  decoration: const InputDecoration(
-                    labelText: 'Date de début',
-                    prefixIcon: Icon(
-                      Icons.calendar_today_rounded,
-                    ),
-                    border: OutlineInputBorder(),
-                  ),
-                  type: DateTimePickerType.date,
-                  firstDate: DateTime(1970),
-                  lastDate: DateTime.now(),
-                  onChanged: (value) {
-                    _createAquariumModel.startedDate = DateTime.tryParse(value);
-                  },
-                ),
-                const Padding(padding: EdgeInsets.all(9.0)),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: ListTile(
-                            title: const Text('Eau douce'),
-                            leading: Radio<bool>(
-                              activeColor: Theme.of(context).colorScheme.primary,
-                              value: false,
-                              groupValue: _createAquariumModel.salt,
-                              onChanged: (value) {
-                                setState(() {
-                                  _createAquariumModel.salt = value!;
-                                });
-                              },
-                            )),
-                      ),
-                      Flexible(
-                        child: ListTile(
-                            title: const Text('Eau salée'),
-                            leading: Radio<bool>(
-                              activeColor: Theme.of(context).colorScheme.primary,
-                              value: true,
-                              groupValue: _createAquariumModel.salt,
-                              onChanged: (value) {
-                                setState(() {
-                                  _createAquariumModel.salt = value!;
-                                });
-                              },
-                            )),
-                      )
-                    ]
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ImageSelector(
+              image: _createAquariumModel.image,
+              onImageSelected: (image) => _createAquariumModel.image = image,
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 28,
+            ),
+            TextFormField(
+              textInputAction: TextInputAction.next,
+              onChanged: (value) {
+                _createAquariumModel.name = value;
+              },
+              maxLength: 50,
+              decoration: const InputDecoration(
+                labelText: 'Nom de l\'aquarium',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.label_rounded),
+              ),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            TextFormField(
+              minLines: 1,
+              maxLines: 5,
+              maxLength: 255,
+              textInputAction: TextInputAction.next,
+              onChanged: (value) {
+                _createAquariumModel.description = value;
+              },
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                prefixIcon: Icon(Icons.description_rounded),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            TextFormField(
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                _createAquariumModel.volume = int.parse(value);
+              },
+              decoration: const InputDecoration(
+                labelText: 'Nombre de litres',
+                prefixIcon: Icon(
+                  Icons.local_drink_rounded,
+                ),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(
+              height: 28,
+            ),
+            DateTimePicker(
+              dateMask: "d MMMM yyyy",
+              locale: const Locale("fr", "FR"),
+              decoration: const InputDecoration(
+                labelText: 'Date de début',
+                prefixIcon: Icon(
+                  Icons.calendar_today_rounded,
+                ),
+                border: OutlineInputBorder(),
+              ),
+              type: DateTimePickerType.date,
+              firstDate: DateTime(1970),
+              lastDate: DateTime.now(),
+              onChanged: (value) {
+                _createAquariumModel.startedDate = DateTime.tryParse(value);
+              },
+            ),
+            const Padding(padding: EdgeInsets.all(9.0)),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: ListTile(
+                        title: const Text('Eau douce'),
+                        leading: Radio<bool>(
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          value: false,
+                          groupValue: _createAquariumModel.salt,
+                          onChanged: (value) {
+                            setState(() {
+                              _createAquariumModel.salt = value!;
+                            });
+                          },
+                        )),
+                  ),
+                  Flexible(
+                    child: ListTile(
+                        title: const Text('Eau salée'),
+                        leading: Radio<bool>(
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          value: true,
+                          groupValue: _createAquariumModel.salt,
+                          onChanged: (value) {
+                            setState(() {
+                              _createAquariumModel.salt = value!;
+                            });
+                          },
+                        )),
+                  )
+                ]
+            ),
+          ],
+        ),
       ),
     );
   }

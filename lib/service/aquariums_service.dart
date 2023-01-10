@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/create_aquarium_model.dart';
@@ -90,5 +91,16 @@ class AquariumsService extends Service {
     });
 
     return (rawMeasurement != null) ? MeasurementModel.fromJson(rawMeasurement) : null;
+  }
+
+  Future<Uint8List?> getImage(AquariumModel aquarium) async {
+    var rawImage = await get('/aquariums/${aquarium.id}/image').catchError((e) {
+      log("Error getting image : $e");
+      return null;
+    });
+
+    print(rawImage);
+
+    return null;
   }
 }

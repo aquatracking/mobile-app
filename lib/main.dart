@@ -44,10 +44,16 @@ class MyApp extends StatelessWidget {
         Locale("fr"),
       ],
       theme: ThemeData(
+        brightness: Brightness.light,
+        colorSchemeSeed: Colors.cyan,
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
         brightness: Brightness.dark,
         colorSchemeSeed: Colors.cyan,
         useMaterial3: true,
       ),
+      themeMode: ThemeMode.system,
       home: (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const MainScreen() : const LoginScreen(),
     );
   }

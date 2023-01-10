@@ -57,7 +57,7 @@ class _AquariumMetricTileState extends State<AquariumMetricTile> {
         builder: (context, snapshot) {
           MeasurementModel? measurement;
           bool loading = false;
-          if(!snapshot.hasData) {
+          if(!snapshot.connectionState.name.contains('active')) {
             loading = true;
           } else if(snapshot.data != null) {
             measurement = snapshot.data;

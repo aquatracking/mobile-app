@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:aquatracking/blocs/aquarium_image_bloc.dart';
 import 'package:aquatracking/blocs/measurement_settings_bloc.dart';
+import 'package:aquatracking/service/aquariums_service.dart';
 
 class AquariumModel {
   String id;
@@ -8,10 +10,9 @@ class AquariumModel {
   String description;
   DateTime startedDate;
   int volume;
-  String imageUrl;
-  Uint8List? image;
   bool salt;
   late MeasurementSettingsBloc measurementSettingsBloc;
+  late AquariumImageBloc aquariumImageBloc;
 
   AquariumModel({
     required this.id,
@@ -19,11 +20,10 @@ class AquariumModel {
     this.description = "",
     required this.startedDate,
     required this.volume,
-    this.imageUrl = "",
-    this.image,
     this.salt = false,
   }) {
     measurementSettingsBloc = MeasurementSettingsBloc(aquarium: this);
+    aquariumImageBloc = AquariumImageBloc(aquarium: this);
   }
 
   factory AquariumModel.fromJson(Map<String, dynamic> json) => AquariumModel(
@@ -32,8 +32,6 @@ class AquariumModel {
     description: json["description"],
     startedDate: DateTime.parse(json["startedDate"]),
     volume: json["volume"],
-    imageUrl: "",
-    image: (json["image"] != null) ? Uint8List.fromList(List<int>.from(json["image"]["data"])) : null,
     salt: json["salt"],
   );
 }

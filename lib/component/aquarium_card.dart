@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:aquatracking/component/image_placeholder.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/screen/aquarium_screen.dart';
@@ -24,13 +26,18 @@ class AquariumCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: (aquarium.image != null) ?
-                        Image(
-                            image:  Image.memory(aquarium.image!).image,
-                            fit: BoxFit.fill
-                        ) : const ImagePlaceholder()
+                  child: StreamBuilder<Uint8List?>(
+                    stream: aquarium.aquariumImageBloc.stream,
+                    builder: (context, snapshot) {
+                      return AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: (snapshot.hasData && snapshot.data != null) ?
+                          Image(
+                              image:  Image.memory(snapshot.data!).image,
+                              fit: BoxFit.fill
+                          ) : const ImagePlaceholder()
+                      );
+                    },
                   ),
                 ),
                 // title of card

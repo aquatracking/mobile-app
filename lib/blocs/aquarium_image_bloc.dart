@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/measurement_model.dart';
 import 'package:aquatracking/model/measurement_type_model.dart';
@@ -6,26 +8,28 @@ import 'package:rxdart/rxdart.dart';
 
 import 'bloc.dart';
 
-class LastMeasurementBloc extends Bloc {
-  final _lastMeasurementController = BehaviorSubject<MeasurementModel?>();
+class AquariumImageBloc extends Bloc {
+  final _aquariumImageController = BehaviorSubject<Uint8List?>();
   final _aquariumService = AquariumsService();
 
   final AquariumModel aquarium;
-  final MeasurementTypeModel measurementType;
 
-  LastMeasurementBloc({required this.aquarium, required this.measurementType}) {
-    fetchLastMeasurement();
+  AquariumImageBloc({required this.aquarium}) {
+    _aquariumImageController.add(null);
+    fetchImage();
   }
 
-  Stream<MeasurementModel?> get stream => _lastMeasurementController.stream;
+  Stream<Uint8List?> get stream => _aquariumImageController.stream;
 
-  fetchLastMeasurement() async {
-    final measurement = await _aquariumService.getLastMeasurement(aquarium, measurementType);
-    _lastMeasurementController.add(measurement);
+  fetchImage() async {
+    final image = await _aquariumService.getImage(aquarium);
+    _aquariumImageController.add(image);
   }
+
+  get value => _aquariumImageController.value;
 
   @override
   void dispose() {
-    _lastMeasurementController.close();
+    _aquariumImageController.close();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:aquatracking/component/dialogs/new_measurement_dialog.dart';
 import 'package:aquatracking/component/image_placeholder.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
@@ -74,9 +76,18 @@ class AquariumScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   width: double.infinity,
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: (aquarium.image == null) ? const ImagePlaceholder() : Image(image: MemoryImage(aquarium.image!), fit: BoxFit.fill)
+                  child: StreamBuilder<Uint8List?>(
+                    stream: aquarium.aquariumImageBloc.stream,
+                    builder: (context, snapshot) {
+                      return AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: (snapshot.hasData && snapshot.data != null) ?
+                          Image(
+                              image:  Image.memory(snapshot.data!).image,
+                              fit: BoxFit.fill
+                          ) : const ImagePlaceholder()
+                      );
+                    },
                   ),
                 ),
                 Positioned(

@@ -24,7 +24,7 @@ class _UpdateAquariumScreenState extends State<UpdateAquariumScreen> {
   void initState() {
     _updateAquariumModel.name = widget.aquarium.name;
     _updateAquariumModel.description = widget.aquarium.description;
-    _updateAquariumModel.image = widget.aquarium.image;
+    _updateAquariumModel.image = widget.aquarium.aquariumImageBloc.value;
     super.initState();
   }
 

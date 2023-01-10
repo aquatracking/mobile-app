@@ -99,8 +99,8 @@ class AquariumsService extends Service {
       return null;
     });
 
-    print(rawImage);
+    Uint8List? image = (rawImage["data"] != null) ? Uint8List.fromList(List<int>.from(rawImage["data"])) : null;
 
-    return null;
+    return image;
   }
 }

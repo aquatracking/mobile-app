@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:aquatracking/blocs/measurement_settings_bloc.dart';
+
 class AquariumModel {
   String id;
   String name;
@@ -9,6 +11,7 @@ class AquariumModel {
   String imageUrl;
   Uint8List? image;
   bool salt;
+  late MeasurementSettingsBloc measurementSettingsBloc;
 
   AquariumModel({
     required this.id,
@@ -19,7 +22,9 @@ class AquariumModel {
     this.imageUrl = "",
     this.image,
     this.salt = false,
-  });
+  }) {
+    measurementSettingsBloc = MeasurementSettingsBloc(aquarium: this);
+  }
 
   factory AquariumModel.fromJson(Map<String, dynamic> json) => AquariumModel(
     id: json["id"],

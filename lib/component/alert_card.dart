@@ -6,58 +6,50 @@ class AlertCard extends StatelessWidget {
   final IconData icon;
   final Color color;
 
+
   const AlertCard({Key? key, required this.title, required this.description, required this.icon, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width*0.9;
+    ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: this.color, brightness: Theme.of(context).brightness);
 
-    return Container(
-      height: 100,
-      width: width,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
+    var color = colorScheme.onPrimaryContainer;
+    var backgroundColor = colorScheme.primaryContainer;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        //color: Theme.of(context).brightness == Brightness.dark ? const Color(0xFFf57c00) : Colors.white,
+        color: backgroundColor,
+        child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          onTap: () => {},
+          child: ListTile(
+            leading: Icon(
               icon,
               size: 50,
-              color: Colors.white,
+              color: color,
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            SizedBox(
-              width: width-50-20-44,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    overflow: TextOverflow.fade,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
+            title: Text(
+              title,
+              overflow: TextOverflow.fade,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: color,
               ),
             ),
-          ]
+            subtitle: Text(
+              description,
+              style: TextStyle(
+                fontSize: 15,
+                color: color,
+              ),
+            ),
+
+          )
         ),
       ),
     );

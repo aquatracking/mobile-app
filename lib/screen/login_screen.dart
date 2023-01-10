@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:aquatracking/errors/bad_login_error.dart';
 import 'package:aquatracking/model/authentication_model.dart';
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:aquatracking/screen/register_screen.dart';
 import 'package:aquatracking/service/authentication_service.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
@@ -22,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     AuthenticationService authenticationService = AuthenticationService();
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -31,10 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Text('Connexion',
+              const Text('Connexion',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   )),
@@ -42,74 +38,37 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 textInputAction: TextInputAction.next,
                 onChanged: (value) {
-                  authModel.email = value;
+                  setState(() {
+                    authModel.email = value;
+                  });
                 },
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.email,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  prefixIcon: Icon(Icons.email_rounded),
                 ),
               ),
               TextFormField(
                 onChanged: (value) {
-                  authModel.password = value;
+                  setState(() {
+                    authModel.password = value;
+                  });
                 },
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Mot de passe',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.lock,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  prefixIcon: Icon(Icons.lock_rounded),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 50)),
               ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return const Color(0xFF0781d7);
-                      }
-                      return Theme.of(context)
-                          .highlightColor; // Use the component's default.
-                    },
-                  ),
-                ),
-                onPressed: () {
+                onPressed: !isFormValid() ? null : () {
                   if(authModel.email.isEmpty) {
                     PopupUtils.showError(context, 'Email maquant', 'Veuillez saisir votre email');
                   } else if(authModel.password.isEmpty) {
                     PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez saisir votre mot de passe');
                   } else {
                     authenticationService.login(authModel.email, authModel.password).then((value) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
                     }).catchError((e) {
                       if(e is BadLoginError) {
                         PopupUtils.showError(context, 'Connexion impossible', "email ou mot de passe incorrect");
@@ -121,21 +80,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: SizedBox(
                   height: 50,
-                  width: 150,
+                  width: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         'Connexion',
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
                           fontSize: 20,
                         ),
                       ),
-                      const Padding(padding: EdgeInsets.only(left: 10)),
+                      Padding(padding: EdgeInsets.only(left: 10)),
                       Icon(
-                        Icons.arrow_forward,
-                        color: Theme.of(context).primaryColor,
+                        Icons.arrow_forward_rounded,
                       ),
                     ],
                   ),
@@ -145,15 +102,18 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Pas encore inscrit ?',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
                   ),
-                  TextButton(onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
-                  }, child: Text('Inscrivez-vous', style: TextStyle(color: Theme.of(context).highlightColor),)),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                      child: const Text('Inscrivez-vous')
+                  ),
                 ],
               )
             ],
@@ -161,5 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  isFormValid() {
+    return authModel.email.isNotEmpty && authModel.password.isNotEmpty;
   }
 }

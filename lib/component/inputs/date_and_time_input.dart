@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 
 /// Date input widget, implementation of our base input widget
 class DateAndTimeInput extends StatelessWidget {
-  final String label;
   final String? defaultValue;
   final IconData? icon;
   final DateTime firstDate;
   final DateTime lastDate;
   final void Function(String) onChanged;
 
-  const DateAndTimeInput({Key? key, required this.label, this.defaultValue, this.icon, required this.onChanged, required this.firstDate, required this.lastDate}) : super(key: key);
+  const DateAndTimeInput({Key? key, this.defaultValue, this.icon, required this.onChanged, required this.firstDate, required this.lastDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

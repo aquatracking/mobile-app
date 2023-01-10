@@ -17,7 +17,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -26,10 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Text('Inscription',
+              const Text('Inscription',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   )),
@@ -37,117 +35,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 textInputAction: TextInputAction.next,
                 onChanged: (value) {
-                  registerModel.username = value;
+                  setState(() {
+                    registerModel.username = value;
+                  });
                 },
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Nom d\'utilisateur',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  prefixIcon: Icon(Icons.person_rounded),
                 ),
               ),
               TextFormField(
                 textInputAction: TextInputAction.next,
                 onChanged: (value) {
-                  registerModel.email = value;
+                  setState(() {
+                    registerModel.email = value;
+                  });
                 },
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.email,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  prefixIcon: Icon(Icons.email_rounded),
                 ),
               ),
               TextFormField(
+                textInputAction: TextInputAction.next,
                 onChanged: (value) {
-                  registerModel.password = value;
+                  setState(() {
+                    registerModel.password = value;
+                  });
                 },
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Mot de passe',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.lock,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  prefixIcon: Icon(Icons.lock_rounded),
                 ),
               ),
               TextFormField(
                 onChanged: (value) {
-                  registerModel.passwordConfirmation = value;
+                  setState(() {
+                    registerModel.passwordConfirmation = value;
+                  });
                 },
-                cursorColor: Theme.of(context).primaryColor,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Confirmation du mot de passe',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.lock,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  prefixIcon: Icon(Icons.lock_rounded),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 50)),
               ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return const Color(0xFF0781d7);
-                      }
-                      return Theme.of(context)
-                          .highlightColor; // Use the component's default.
-                    },
-                  ),
-                ),
-                onPressed: () {
+                onPressed: !isFormValid() ? null : () {
                   if(registerModel.username.isEmpty) {
                     PopupUtils.showError(context, 'Nom d\'utilisateur manquant', 'Veuillez entrer un nom d\'utilisateur');
                   } else if(registerModel.email.isEmpty) {
@@ -162,21 +98,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
                 child: SizedBox(
                   height: 50,
-                  width: 150,
+                  width: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         'S\'inscrire',
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
                           fontSize: 20,
                         ),
                       ),
-                      const Padding(padding: EdgeInsets.only(left: 10)),
+                      Padding(padding: EdgeInsets.only(left: 10)),
                       Icon(
-                        Icons.arrow_forward,
-                        color: Theme.of(context).primaryColor,
+                        Icons.arrow_forward_rounded,
                       ),
                     ],
                   ),
@@ -186,15 +120,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Déja inscrit ?',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
+                  const Text(
+                    'Déja inscrit ?'
                   ),
-                  TextButton(onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
-                  }, child: Text('Connectez-vous', style: TextStyle(color: Theme.of(context).highlightColor),)),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                      child: const Text('Connectez-vous')
+                  ),
                 ],
               )
             ],
@@ -202,5 +139,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  isFormValid() {
+    return registerModel.username.isNotEmpty && registerModel.email.isNotEmpty && registerModel.password.isNotEmpty && registerModel.passwordConfirmation.isNotEmpty;
   }
 }

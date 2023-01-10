@@ -50,7 +50,7 @@ class MeasurementsBloc extends Bloc {
         from = from.subtract(const Duration(days: 365~/2));
         break;
       default:
-        from = from.subtract(const Duration(days: 365~/2));
+        from = from.subtract(const Duration(days: 365));
         break;
     }
 

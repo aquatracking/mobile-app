@@ -1,4 +1,3 @@
-import 'package:aquatracking/component/inputs/number_input.dart';
 import 'package:aquatracking/model/measurement_settings_model.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,8 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
   bool open = false;
   @override
   Widget build(BuildContext context) {
-    var color = (widget.measurementSettings.visible || open) ? Colors.white : Colors.grey;
+    var colorScheme = Theme.of(context).colorScheme;
+    var color = (widget.measurementSettings.visible || open) ? colorScheme.onSurface : colorScheme.onSurface.withOpacity(0.5);
     return InkWell(
       onTap: () {
         setState(() {
@@ -27,7 +27,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
         child: Column(
           children: [
             Container(
-              color: (open) ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
+              color: (open) ? colorScheme.surfaceVariant : colorScheme.surface,
               child: Row(
                 children: [
                   IconButton(
@@ -39,7 +39,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                   ),
                   Text(widget.measurementSettings.type.name, style: TextStyle(color: color)),
                   const Spacer(),
-                  Icon(Icons.menu, color: color),
+                  Icon(Icons.drag_handle_rounded, color: color),
                 ]
               ),
             ),
@@ -67,7 +67,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: (widget.measurementSettings.defaultMode == 5) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                              color: (widget.measurementSettings.defaultMode == 5) ? colorScheme.primary : colorScheme.onSurfaceVariant
                           ),
                         ),
                       ),
@@ -86,7 +86,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: (widget.measurementSettings.defaultMode == 4) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                              color: (widget.measurementSettings.defaultMode == 4) ? colorScheme.primary : colorScheme.onSurfaceVariant
                           ),
                         ),
                       ),
@@ -105,7 +105,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: (widget.measurementSettings.defaultMode == 3) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                              color: (widget.measurementSettings.defaultMode == 3) ? colorScheme.primary : colorScheme.onSurfaceVariant
                           ),
                         ),
                       ),
@@ -124,7 +124,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: (widget.measurementSettings.defaultMode == 2) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                              color: (widget.measurementSettings.defaultMode == 2) ? colorScheme.primary : colorScheme.onSurfaceVariant
                           ),
                         ),
                       ),
@@ -143,7 +143,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: (widget.measurementSettings.defaultMode == 1) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                              color: (widget.measurementSettings.defaultMode == 1) ? colorScheme.primary : colorScheme.onSurfaceVariant
                           ),
                         ),
                       ),
@@ -162,34 +162,47 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: (widget.measurementSettings.defaultMode == 0) ? Theme.of(context).highlightColor : Theme.of(context).primaryColor
+                              color: (widget.measurementSettings.defaultMode == 0) ? colorScheme.primary : colorScheme.onSurfaceVariant
                           ),
                         ),
                       ),
                     ]
                   ),
-                  NumberInput(
-                    label: 'Valeur minimum',
-                    icon: Icons.arrow_downward,
-                    defaultValue: (widget.measurementSettings.minValue != null) ? widget.measurementSettings.minValue.toString() : '',
-                    onChanged: (value) {
-                      widget.measurementSettings.minValue = (value == '') ? null : double.parse(value);
-                      setState(() {});
-                    },
-                  ),
-                  NumberInput(
-                    label: 'Valeur maximum',
-                    icon: Icons.arrow_upward,
-                    defaultValue: (widget.measurementSettings.maxValue != null) ? widget.measurementSettings.maxValue.toString() : '',
+                  TextFormField(
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
                       widget.measurementSettings.maxValue = (value == '') ? null : double.parse(value);
                       setState(() {});
                     },
+                    initialValue: (widget.measurementSettings.maxValue != null) ? widget.measurementSettings.maxValue.toString() : '',
+                    decoration: const InputDecoration(
+                      labelText: 'Valeur maximale',
+                      prefixIcon: Icon(
+                        Icons.trending_up_rounded,
+                      ),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      widget.measurementSettings.minValue = (value == '') ? null : double.parse(value);
+                      setState(() {});
+                    },
+                    initialValue: (widget.measurementSettings.minValue != null) ? widget.measurementSettings.minValue.toString() : '',
+                    decoration: const InputDecoration(
+                      labelText: 'Valeur minimum',
+                      prefixIcon: Icon(
+                        Icons.trending_down_rounded,
+                      ),
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   SwitchListTile(
                     title: const Text('Notification par mail'),
                     secondary: const Icon(Icons.email_rounded),
-                    activeColor: Theme.of(context).highlightColor,
+                    activeColor: colorScheme.primary,
                     contentPadding: const EdgeInsets.all(0),
                     value: widget.measurementSettings.mailAlert,
                     onChanged: (value) {
@@ -200,7 +213,7 @@ class _MeasurementSettingsCardState extends State<MeasurementSettingsCard> {
                   SwitchListTile(
                     title: const Text('Notification push'),
                     secondary: const Icon(Icons.notifications_rounded),
-                    activeColor: Theme.of(context).highlightColor,
+                    activeColor: colorScheme.primary,
                     contentPadding: const EdgeInsets.all(0),
                     value: widget.measurementSettings.notificationAlert,
                     onChanged: (value) {

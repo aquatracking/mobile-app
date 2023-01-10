@@ -82,4 +82,13 @@ class AquariumsService extends Service {
       return null;
     });
   }
+
+  Future<MeasurementModel?> getLastMeasurement(AquariumModel aquarium, MeasurementTypeModel measurementType) async {
+    var rawMeasurement = await get('/aquariums/${aquarium.id}/measurements/${measurementType.code}/last').catchError((e) {
+      log("Error getting last measurement : $e");
+      return null;
+    });
+
+    return MeasurementModel.fromJson(rawMeasurement);
+  }
 }

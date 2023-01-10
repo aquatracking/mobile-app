@@ -1,6 +1,6 @@
 import 'package:aquatracking/component/action_button.dart';
 import 'package:aquatracking/globals.dart';
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:aquatracking/screen/login_screen.dart';
 import 'package:aquatracking/service/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class ServiceUnavailableScreen extends StatelessWidget {
                 String? refreshToken = prefs.getString('refresh_token');
                 if(refreshToken != null) {
                   authenticationService.checkLogin(refreshToken).then((value) => {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const HomeScreen() : const LoginScreen()))
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const MainScreen() : const LoginScreen()))
                   });
                 } else {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));

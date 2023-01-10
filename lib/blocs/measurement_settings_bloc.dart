@@ -18,12 +18,17 @@ class MeasurementSettingsBloc extends Bloc {
 
   fetchMeasurementSettings() async {
     final measurementSettings = await _aquariumsService.getMeasurementSettings(aquarium);
+    measurementSettings.sort((a, b) => a.order.compareTo(b.order));
     _measurementSettingsController.add(measurementSettings);
   }
 
   update(List<MeasurementSettingsModel> measurementSettings) async {
     await _aquariumsService.updateMeasurementSettings(aquarium, measurementSettings);
     fetchMeasurementSettings();
+  }
+
+  getMeasurementSettings() {
+    return _measurementSettingsController.value;
   }
 
   @override

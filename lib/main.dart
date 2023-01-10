@@ -1,7 +1,5 @@
-import 'dart:developer';
-
 import 'package:aquatracking/globals.dart';
-import 'package:aquatracking/screen/home_screen.dart';
+import 'package:aquatracking/screen/main_screen.dart';
 import 'package:aquatracking/screen/login_screen.dart';
 import 'package:aquatracking/screen/service_unavailable_screen.dart';
 import 'package:aquatracking/service/authentication_service.dart';
@@ -46,14 +44,17 @@ class MyApp extends StatelessWidget {
         Locale("fr"),
       ],
       theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: const Color(0xFFFFFFFF),
-        highlightColor: const Color(0xFF2ec1e2),
-        backgroundColor: const Color(0xFF161616),
-
-        fontFamily: 'Roboto'
+        brightness: Brightness.light,
+        colorSchemeSeed: Colors.cyan,
+        useMaterial3: true,
       ),
-      home: (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const HomeScreen() : const LoginScreen(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.cyan,
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.system,
+      home: (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const MainScreen() : const LoginScreen(),
     );
   }
 }

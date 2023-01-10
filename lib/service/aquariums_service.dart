@@ -89,6 +89,6 @@ class AquariumsService extends Service {
       return null;
     });
 
-    return MeasurementModel.fromJson(rawMeasurement);
+    return (rawMeasurement != null) ? MeasurementModel.fromJson(rawMeasurement) : null;
   }
 }

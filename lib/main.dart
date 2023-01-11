@@ -45,12 +45,12 @@ class MyApp extends StatelessWidget {
       ],
       theme: ThemeData(
         brightness: Brightness.light,
-        colorSchemeSeed: Colors.cyan,
+        colorSchemeSeed: colorSeed,
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        colorSchemeSeed: Colors.cyan,
+        colorSchemeSeed: colorSeed,
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,

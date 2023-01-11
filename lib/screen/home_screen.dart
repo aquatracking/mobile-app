@@ -32,12 +32,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        //const SizedBox(height: 5),
+        const SizedBox(height: 5),
         //const M3AlertCard(title: 'Danger', description: 'Température trop élevé sur l\'aquarium Mattew\'s Home', icon: Icons.warning_rounded, color: Colors.orange),
         //const M3AlertCard(title: 'Alerte', description: 'Température trop élevé sur l\'aquarium Mattew\'s Home', icon: Icons.dangerous_rounded, color: Colors.red),
-        //const M3AlertCard(title: 'Information', description: 'Vous n\'avez aucune alerte ou tache à effectuer', icon: Icons.info_rounded, color: Colors.blue),
+        //const AlertCard(title: 'Information', description: 'Vous n\'avez aucune alerte ou tache à effectuer', icon: Icons.info_rounded, color: Colors.blue),
         //const M3AlertCard(title: 'Succès', description: 'Température trop élevé sur l\'aquarium Mattew\'s Home', icon: Icons.check_circle_rounded, color: Colors.green),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Text(

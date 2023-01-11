@@ -1,7 +1,11 @@
 import 'package:aquatracking/errors/bad_login_error.dart';
 import 'package:aquatracking/globals.dart';
+import 'package:aquatracking/screen/login_screen.dart';
 import 'package:aquatracking/service/service.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user_model.dart';
 
@@ -22,6 +26,7 @@ class AuthenticationService extends Service {
     });
 
     loggedIn = true;
+    setLocalUsername();
     return UserModel.fromJson(value);
   }
 
@@ -44,11 +49,31 @@ class AuthenticationService extends Service {
       );
 
       loggedIn = (value.statusCode == 200);
+      if(loggedIn) {
+        setLocalUsername();
+      }
     } catch (e) {
       loggedIn = false;
       if(e.toString().contains('Connection closed')) {
         serviceAvailable = false;
       }
     }
+  }
+
+  Future<void> setLocalUsername() async {
+    prefs = await SharedPreferences.getInstance();
+
+    String? refreshToken = prefs.getString('refresh_token');
+    if(refreshToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
+      username = decodedToken['username'];
+    }
+  }
+
+  Future<void> logout(context) async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.remove('refresh_token');
+    loggedIn = false;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 }

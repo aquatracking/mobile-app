@@ -1,5 +1,7 @@
 import 'package:aquatracking/component/aquarium_card.dart';
+import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
+import 'package:aquatracking/service/authentication_service.dart';
 import 'package:aquatracking/utils/globals.dart';
 import 'package:flutter/material.dart';
 
@@ -10,26 +12,47 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     aquariumsBloc.fetchAquariums();
     measurementTypesBloc.fetchMeasurementTypes();
+    AuthenticationService authenticationService = AuthenticationService();
     return ListView(
       children: <Widget>[
         // Welcome message
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            'Bonjour',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            'Bienvenue sur AquaTracking',
-            style: TextStyle(
-              fontSize: 20,
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Bonjour $username',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    'Bienvenue sur AquaTracking',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                tooltip: 'Déconnexion',
+                onPressed: () {
+                  authenticationService.logout(context);
+                },
+                icon: Icon(
+                  Icons.logout_rounded,
+                  size: 30,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              )
+            ],
           ),
         ),
         const SizedBox(height: 5),

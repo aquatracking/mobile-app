@@ -10,3 +10,4 @@ Color colorSeed = (debug) ? Colors.green : Colors.cyan;
 
 
 late SharedPreferences prefs;
+String username = '';

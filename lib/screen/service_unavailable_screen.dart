@@ -12,10 +12,10 @@ class ServiceUnavailableScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthenticationService authenticationService = AuthenticationService();
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      body: Container(
+      body: SizedBox(
         height: double.infinity,
         width: double.infinity,
         child: Column(

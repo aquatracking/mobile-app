@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:aquatracking/model/aquarium_model.dart';
-import 'package:aquatracking/model/measurement_model.dart';
-import 'package:aquatracking/model/measurement_type_model.dart';
 import 'package:aquatracking/service/aquariums_service.dart';
 import 'package:rxdart/rxdart.dart';
 

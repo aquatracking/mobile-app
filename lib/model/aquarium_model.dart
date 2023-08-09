@@ -1,8 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:aquatracking/blocs/aquarium_image_bloc.dart';
 import 'package:aquatracking/blocs/measurement_settings_bloc.dart';
-import 'package:aquatracking/service/aquariums_service.dart';
 
 class AquariumModel {
   String id;

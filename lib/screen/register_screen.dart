@@ -96,12 +96,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     PopupUtils.showError(context, "Impossible de communiquer avec le serveur", "Veuillez réessayer plus tard");
                   }
                 },
-                child: SizedBox(
+                child: const SizedBox(
                   height: 50,
                   width: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
                         'S\'inscrire',
                         style: TextStyle(

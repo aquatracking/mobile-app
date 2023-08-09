@@ -1,8 +1,6 @@
 import 'package:aquatracking/component/line_metric_chart.dart';
 import 'package:aquatracking/model/aquarium_model.dart';
 import 'package:aquatracking/model/measurement_settings_model.dart';
-import 'package:aquatracking/model/measurement_type_model.dart';
-import 'package:aquatracking/utils/globals.dart';
 import 'package:flutter/material.dart';
 
 class AquariumAnalyseTab extends StatelessWidget {

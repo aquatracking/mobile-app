@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:aquatracking/globals.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';

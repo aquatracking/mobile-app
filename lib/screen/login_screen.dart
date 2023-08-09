@@ -78,12 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   }
                 },
-                child: SizedBox(
+                child: const SizedBox(
                   height: 50,
                   width: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
                         'Connexion',
                         style: TextStyle(

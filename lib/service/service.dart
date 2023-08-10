@@ -6,7 +6,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 abstract class Service {
   late Dio dio;
   late Options options;
-  static late CookieJar cookieJar= CookieJar();
+  static late CookieJar cookieJar = persistCookieJar;
 
   Service() {
     dio = Dio();

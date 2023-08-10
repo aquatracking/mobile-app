@@ -2,7 +2,6 @@ import 'package:aquatracking/errors/bad_login_error.dart';
 import 'package:aquatracking/globals.dart';
 import 'package:aquatracking/screen/login_screen.dart';
 import 'package:aquatracking/service/service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,11 +13,11 @@ class AuthenticationService extends Service {
   static bool serviceAvailable = true;
 
   Future<UserModel> login(String email, String password) async {
-    var value =  await post('/users/login', {
+    var value = await post('/users/login', {
       'email': email,
       'password': password
     }).catchError((e) {
-      if(e.response?.statusCode == 401 || e.response?.statusCode == 404) {
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 404) {
         throw BadLoginError();
       } else {
         throw e;
@@ -30,31 +29,20 @@ class AuthenticationService extends Service {
     return UserModel.fromJson(value);
   }
 
-  Future<void> checkLogin(String refreshToken) async {
-    var options = Options(
-      headers: {
-        "Accept": "application/json",
-        "cookie": refreshToken
-      },
-      responseType: ResponseType.json,
-    );
-
+  Future<void> checkLogin() async {
     loggedIn = false;
     serviceAvailable = true;
 
     try {
-      var value = await dio.get(
-          '$apiBaseUrl/',
-          options: options
-      );
+      var value = await dio.get('$apiBaseUrl/');
 
       loggedIn = (value.statusCode == 200);
-      if(loggedIn) {
+      if (loggedIn) {
         setLocalUsername();
       }
     } catch (e) {
       loggedIn = false;
-      if(e.toString().contains('Connection closed')) {
+      if (e.toString().contains('Connection closed')) {
         serviceAvailable = false;
       }
     }
@@ -64,7 +52,7 @@ class AuthenticationService extends Service {
     prefs = await SharedPreferences.getInstance();
 
     String? refreshToken = prefs.getString('refresh_token');
-    if(refreshToken != null) {
+    if (refreshToken != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(refreshToken);
       username = decodedToken['username'];
     }
@@ -73,6 +61,9 @@ class AuthenticationService extends Service {
   Future<void> logout(context) async {
     prefs = await SharedPreferences.getInstance();
     prefs.remove('refresh_token');
+
+    persistCookieJar.deleteAll();
+
     loggedIn = false;
     Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }

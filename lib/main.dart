@@ -3,20 +3,28 @@ import 'package:aquatracking/screen/main_screen.dart';
 import 'package:aquatracking/screen/login_screen.dart';
 import 'package:aquatracking/screen/service_unavailable_screen.dart';
 import 'package:aquatracking/service/authentication_service.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 initSharedPreferences() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
 
+  persistCookieJar = PersistCookieJar(
+      storage: FileStorage(
+          (await getApplicationDocumentsDirectory()).path + "/.cookies/"
+      )
+  );
+
   String? refreshToken = prefs.getString('refresh_token');
 
   if(refreshToken != null) {
     AuthenticationService authenticationService = AuthenticationService();
-    await authenticationService.checkLogin(refreshToken);
+    await authenticationService.checkLogin();
   }
 }
 

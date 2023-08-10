@@ -31,7 +31,7 @@ class ServiceUnavailableScreen extends StatelessWidget {
               onPressed: () {
                 String? refreshToken = prefs.getString('refresh_token');
                 if(refreshToken != null) {
-                  authenticationService.checkLogin(refreshToken).then((value) => {
+                  authenticationService.checkLogin().then((value) => {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => (!AuthenticationService.serviceAvailable) ? const ServiceUnavailableScreen() : (AuthenticationService.loggedIn) ? const MainScreen() : const LoginScreen()))
                   });
                 } else {

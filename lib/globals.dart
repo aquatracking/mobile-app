@@ -1,3 +1,4 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,3 +12,5 @@ Color colorSeed = (debug) ? Colors.green : Colors.cyan;
 
 late SharedPreferences prefs;
 String username = '';
+
+late PersistCookieJar persistCookieJar;

@@ -1,4 +1,8 @@
+import 'package:aquatracking/errors/email_already_exists_error.dart';
+import 'package:aquatracking/errors/register_disabled_error.dart';
+import 'package:aquatracking/errors/user_already_exists_error.dart';
 import 'package:aquatracking/model/register_model.dart';
+import 'package:aquatracking/service/authentication_service.dart';
 import 'package:aquatracking/utils/popup_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +20,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
+    AuthenticationService authenticationService = AuthenticationService();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -93,7 +98,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   } else if(registerModel.passwordConfirmation != registerModel.password) {
                     PopupUtils.showError(context, 'Confirmation du mot de passe incorrecte', 'Le mot de passe et la confirmation du mot de passe ne sont pas identiques');
                   } else {
-                    PopupUtils.showError(context, "Impossible de communiquer avec le serveur", "Veuillez réessayer plus tard");
+                    authenticationService.register(registerModel.username, registerModel.email, registerModel.password).then((value) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                    }).catchError((e) {
+                      if(e is RegisterDisabledError) {
+                        PopupUtils.showError(context, 'Inscription impossible', "L'inscription est désactivée, veuillez contacter un administrateur");
+                      } else if(e is UserAlreadyExistsError) {
+                        PopupUtils.showError(context, 'Inscription impossible', "Ce nom d'utilisateur est déjà utilisé");
+                      } else if(e is EmailAlreadyExistsError) {
+                        PopupUtils.showError(context, 'Inscription impossible', "Cet email est déjà utilisé");
+                      } else if(e.toString().contains('Connection closed') || e.toString().contains('Connection refused')) {
+                        PopupUtils.showError(context, 'Service indisponible', "Le service est indisponible, veuillez réessayer plus tard");
+                      } else {
+                        PopupUtils.showError(context, 'Erreur', "Une erreur est survenue");
+                      }
+                    });
                   }
                 },
                 child: const SizedBox(

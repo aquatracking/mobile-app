@@ -1,0 +1,3 @@
+class UserAlreadyExistsError extends Error {
+  
+}

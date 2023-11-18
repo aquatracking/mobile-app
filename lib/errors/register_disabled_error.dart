@@ -1,0 +1,3 @@
+class RegisterDisabledError extends Error {
+  
+}

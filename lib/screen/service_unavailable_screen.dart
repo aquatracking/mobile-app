@@ -28,6 +28,8 @@ class ServiceUnavailableScreen extends StatelessWidget {
               text: "Réessayer",
               icon: Icons.refresh_rounded,
               width: 130,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
               onPressed: () {
                 String? refreshToken = prefs.getString('refresh_token');
                 if(refreshToken != null) {

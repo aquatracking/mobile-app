@@ -38,7 +38,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: "3.3.10"
+          flutter-version: "3.16.0"
           cache: true
       - name: "Install dependencies"
         run: flutter pub get
@@ -60,7 +60,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: "3.3.10"
+          flutter-version: "3.16.0"
           cache: true
           architecture: "x64"
       - name: "Install dependencies"

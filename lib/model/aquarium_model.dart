@@ -6,7 +6,8 @@ class AquariumModel {
   String name;
   String description;
   DateTime startedDate;
-  int volume;
+  DateTime? archivedDate;
+  int? volume;
   bool salt;
   late MeasurementSettingsBloc measurementSettingsBloc;
   late AquariumImageBloc aquariumImageBloc;
@@ -16,7 +17,8 @@ class AquariumModel {
     required this.name,
     this.description = "",
     required this.startedDate,
-    required this.volume,
+    this.archivedDate,
+    this.volume,
     this.salt = false,
   }) {
     measurementSettingsBloc = MeasurementSettingsBloc(aquarium: this);
@@ -24,11 +26,14 @@ class AquariumModel {
   }
 
   factory AquariumModel.fromJson(Map<String, dynamic> json) => AquariumModel(
-    id: json["id"],
-    name: json["name"],
-    description: json["description"],
-    startedDate: DateTime.parse(json["startedDate"]),
-    volume: json["volume"],
-    salt: json["salt"],
-  );
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        startedDate: DateTime.parse(json["startedDate"]),
+        archivedDate: json["archivedDate"] != null
+            ? DateTime.parse(json["archivedDate"])
+            : null,
+        volume: json["volume"],
+        salt: json["salt"],
+      );
 }

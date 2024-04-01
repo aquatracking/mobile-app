@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+
+  "sonarlint.connectedMode.project": {
+    "connectionId": "aquatracking",
+    "projectKey": "aquatracking_mobile-app"
+  }
+}

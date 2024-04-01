@@ -37,22 +37,38 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
         actions: [
           TextButton(
             onPressed: () => {
-              if (_createAquariumModel.name == null || _createAquariumModel.name!.isEmpty) {
-                PopupUtils.showError(context, 'Paramètre manquant', 'Veuillez entrer un nom pour l\'aquarium')
-              } else if (_createAquariumModel.volume == null) {
-                PopupUtils.showError(context, 'Paramètre manquant', 'Veuillez entrer un volume pour l\'aquarium')
-              } else if (_createAquariumModel.startedDate == null) {
-                PopupUtils.showError(context, 'Paramètre manquant', 'Veuillez entrer une date de début pour l\'aquarium')
-              } else {
-                aquariumsService.addAquarium(_createAquariumModel).then((value) {
-                  Navigator.pop(context);
-                  aquariumsBloc.fetchAquariums();
-                }).catchError((error) {
-                  PopupUtils.showError(context, 'Une erreur est survenue', "Impossible d'ajouter l'aquarium");
-                })
-              }
+              if (_createAquariumModel.name == null ||
+                  _createAquariumModel.name!.isEmpty)
+                {
+                  PopupUtils.showError(context, 'Paramètre manquant',
+                      'Veuillez entrer un nom pour l\'aquarium')
+                }
+              else if (_createAquariumModel.volume == null)
+                {
+                  PopupUtils.showError(context, 'Paramètre manquant',
+                      'Veuillez entrer un volume pour l\'aquarium')
+                }
+              else if (_createAquariumModel.startedDate == null)
+                {
+                  PopupUtils.showError(context, 'Paramètre manquant',
+                      'Veuillez entrer une date de début pour l\'aquarium')
+                }
+              else
+                {
+                  aquariumsService
+                      .addAquarium(_createAquariumModel)
+                      .then((value) {
+                    Navigator.pop(context);
+                    aquariumsBloc.fetchAquariums();
+                  }).catchError((error) {
+                    PopupUtils.showError(context, 'Une erreur est survenue',
+                        "Impossible d'ajouter l'aquarium");
+                  })
+                }
             },
-            child: const Text('Enregistrer',),
+            child: const Text(
+              'Enregistrer',
+            ),
           )
         ],
       ),
@@ -133,39 +149,36 @@ class _AddAquariumScreenState extends State<AddAquariumScreen> {
               },
             ),
             const Padding(padding: EdgeInsets.all(9.0)),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: ListTile(
-                        title: const Text('Eau douce'),
-                        leading: Radio<bool>(
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          value: false,
-                          groupValue: _createAquariumModel.salt,
-                          onChanged: (value) {
-                            setState(() {
-                              _createAquariumModel.salt = value!;
-                            });
-                          },
-                        )),
-                  ),
-                  Flexible(
-                    child: ListTile(
-                        title: const Text('Eau salée'),
-                        leading: Radio<bool>(
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          value: true,
-                          groupValue: _createAquariumModel.salt,
-                          onChanged: (value) {
-                            setState(() {
-                              _createAquariumModel.salt = value!;
-                            });
-                          },
-                        )),
-                  )
-                ]
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Flexible(
+                child: ListTile(
+                    title: const Text('Eau douce'),
+                    leading: Radio<bool>(
+                      activeColor: Theme.of(context).colorScheme.primary,
+                      value: false,
+                      groupValue: _createAquariumModel.salt,
+                      onChanged: (value) {
+                        setState(() {
+                          _createAquariumModel.salt = value!;
+                        });
+                      },
+                    )),
+              ),
+              Flexible(
+                child: ListTile(
+                    title: const Text('Eau salée'),
+                    leading: Radio<bool>(
+                      activeColor: Theme.of(context).colorScheme.primary,
+                      value: true,
+                      groupValue: _createAquariumModel.salt,
+                      onChanged: (value) {
+                        setState(() {
+                          _createAquariumModel.salt = value!;
+                        });
+                      },
+                    )),
+              )
+            ]),
           ],
         ),
       ),

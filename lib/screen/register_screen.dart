@@ -88,33 +88,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const Padding(padding: EdgeInsets.only(top: 50)),
               ElevatedButton(
-                onPressed: !isFormValid() ? null : () {
-                  if(registerModel.username.isEmpty) {
-                    PopupUtils.showError(context, 'Nom d\'utilisateur manquant', 'Veuillez entrer un nom d\'utilisateur');
-                  } else if(registerModel.email.isEmpty) {
-                    PopupUtils.showError(context, 'Email manquant', 'Veuillez entrer un email');
-                  } else if(registerModel.password.isEmpty) {
-                    PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez entrer un mot de passe');
-                  } else if(registerModel.passwordConfirmation != registerModel.password) {
-                    PopupUtils.showError(context, 'Confirmation du mot de passe incorrecte', 'Le mot de passe et la confirmation du mot de passe ne sont pas identiques');
-                  } else {
-                    authenticationService.register(registerModel.username, registerModel.email, registerModel.password).then((value) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
-                    }).catchError((e) {
-                      if(e is RegisterDisabledError) {
-                        PopupUtils.showError(context, 'Inscription impossible', "L'inscription est désactivée, veuillez contacter un administrateur");
-                      } else if(e is UserAlreadyExistsError) {
-                        PopupUtils.showError(context, 'Inscription impossible', "Ce nom d'utilisateur est déjà utilisé");
-                      } else if(e is EmailAlreadyExistsError) {
-                        PopupUtils.showError(context, 'Inscription impossible', "Cet email est déjà utilisé");
-                      } else if(e.toString().contains('Connection closed') || e.toString().contains('Connection refused')) {
-                        PopupUtils.showError(context, 'Service indisponible', "Le service est indisponible, veuillez réessayer plus tard");
-                      } else {
-                        PopupUtils.showError(context, 'Erreur', "Une erreur est survenue");
-                      }
-                    });
-                  }
-                },
+                onPressed: !isFormValid()
+                    ? null
+                    : () {
+                        if (registerModel.username.isEmpty) {
+                          PopupUtils.showError(
+                              context,
+                              'Nom d\'utilisateur manquant',
+                              'Veuillez entrer un nom d\'utilisateur');
+                        } else if (registerModel.email.isEmpty) {
+                          PopupUtils.showError(context, 'Email manquant',
+                              'Veuillez entrer un email');
+                        } else if (registerModel.password.isEmpty) {
+                          PopupUtils.showError(context, 'Mot de passe manquant',
+                              'Veuillez entrer un mot de passe');
+                        } else if (registerModel.passwordConfirmation !=
+                            registerModel.password) {
+                          PopupUtils.showError(
+                              context,
+                              'Confirmation du mot de passe incorrecte',
+                              'Le mot de passe et la confirmation du mot de passe ne sont pas identiques');
+                        } else {
+                          authenticationService
+                              .register(registerModel.username,
+                                  registerModel.email, registerModel.password)
+                              .then((value) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()));
+                          }).catchError((e) {
+                            if (e is RegisterDisabledError) {
+                              PopupUtils.showError(
+                                  context,
+                                  'Inscription impossible',
+                                  "L'inscription est désactivée, veuillez contacter un administrateur");
+                            } else if (e is UserAlreadyExistsError) {
+                              PopupUtils.showError(
+                                  context,
+                                  'Inscription impossible',
+                                  "Ce nom d'utilisateur est déjà utilisé");
+                            } else if (e is EmailAlreadyExistsError) {
+                              PopupUtils.showError(
+                                  context,
+                                  'Inscription impossible',
+                                  "Cet email est déjà utilisé");
+                            } else if (e
+                                    .toString()
+                                    .contains('Connection closed') ||
+                                e.toString().contains('Connection refused')) {
+                              PopupUtils.showError(
+                                  context,
+                                  'Service indisponible',
+                                  "Le service est indisponible, veuillez réessayer plus tard");
+                            } else {
+                              PopupUtils.showError(
+                                  context, 'Erreur', "Une erreur est survenue");
+                            }
+                          });
+                        }
+                      },
                 child: const SizedBox(
                   height: 50,
                   width: double.infinity,
@@ -139,18 +172,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Déja inscrit ?'
-                  ),
+                  const Text('Déja inscrit ?'),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.secondary,
                       ),
-                      child: const Text('Connectez-vous')
-                  ),
+                      child: const Text('Connectez-vous')),
                 ],
               )
             ],
@@ -161,6 +195,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   isFormValid() {
-    return registerModel.username.isNotEmpty && registerModel.email.isNotEmpty && registerModel.password.isNotEmpty && registerModel.passwordConfirmation.isNotEmpty;
+    return registerModel.username.isNotEmpty &&
+        registerModel.email.isNotEmpty &&
+        registerModel.password.isNotEmpty &&
+        registerModel.passwordConfirmation.isNotEmpty;
   }
 }

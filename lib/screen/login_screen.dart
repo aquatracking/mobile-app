@@ -61,23 +61,40 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const Padding(padding: EdgeInsets.only(top: 50)),
               ElevatedButton(
-                onPressed: !isFormValid() ? null : () {
-                  if(authModel.email.isEmpty) {
-                    PopupUtils.showError(context, 'Email maquant', 'Veuillez saisir votre email');
-                  } else if(authModel.password.isEmpty) {
-                    PopupUtils.showError(context, 'Mot de passe manquant', 'Veuillez saisir votre mot de passe');
-                  } else {
-                    authenticationService.login(authModel.email, authModel.password).then((value) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
-                    }).catchError((e) {
-                      if(e is BadLoginError) {
-                        PopupUtils.showError(context, 'Connexion impossible', "email ou mot de passe incorrect");
-                      } else {
-                        PopupUtils.showError(context, 'Erreur de connexion', "Une erreur est survenue");
-                      }
-                    });
-                  }
-                },
+                onPressed: !isFormValid()
+                    ? null
+                    : () {
+                        if (authModel.email.isEmpty) {
+                          PopupUtils.showError(context, 'Email maquant',
+                              'Veuillez saisir votre email');
+                        } else if (authModel.password.isEmpty) {
+                          PopupUtils.showError(context, 'Mot de passe manquant',
+                              'Veuillez saisir votre mot de passe');
+                        } else {
+                          authenticationService
+                              .login(
+                                  email: authModel.email,
+                                  password: authModel.password)
+                              .then((value) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainScreen()));
+                          }).catchError((e) {
+                            if (e is BadLoginError) {
+                              PopupUtils.showError(
+                                  context,
+                                  'Connexion impossible',
+                                  "email ou mot de passe incorrect");
+                            } else {
+                              PopupUtils.showError(
+                                  context,
+                                  'Erreur de connexion',
+                                  "Une erreur est survenue");
+                            }
+                          });
+                        }
+                      },
                 child: const SizedBox(
                   height: 50,
                   width: double.infinity,
@@ -107,13 +124,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterScreen()));
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.secondary,
                       ),
-                      child: const Text('Inscrivez-vous')
-                  ),
+                      child: const Text('Inscrivez-vous')),
                 ],
               )
             ],

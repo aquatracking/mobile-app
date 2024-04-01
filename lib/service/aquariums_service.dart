@@ -10,38 +10,43 @@ import 'package:aquatracking/model/update_aquarium_model.dart';
 import 'package:aquatracking/service/service.dart';
 
 class AquariumsService extends Service {
-
   Future<List<AquariumModel>> getAquariums() async {
-    var rawAquariums = await get('/aquariums').catchError((e) {
-      log('Error getting aquariums: $e');
-      return List.empty();
-    });
-
     List<AquariumModel> aquariums = [];
+    try {
+      var data = (await dio.get<List<dynamic>>('/aquariums')).data ?? [];
 
-    rawAquariums.forEach((rawAquarium) {
-      aquariums.add(AquariumModel.fromJson(rawAquarium));
-    });
+      for (var rawAquarium in data) {
+        aquariums.add(AquariumModel.fromJson(rawAquarium));
+      }
+    } catch (e) {
+      log('Error getting aquariums: $e');
+    }
 
     return aquariums;
   }
 
   Future<void> addAquarium(CreateAquariumModel createAquariumModel) async {
-    await post('/aquariums', createAquariumModel.toJson()).catchError((e) {
-      log('Error adding aquarium: $e');
+    await dio
+        .post('/aquariums', data: createAquariumModel.toJson())
+        .catchError((e) {
       return null;
     });
   }
 
-  Future<void> updateAquarium(AquariumModel aquariumModel, UpdateAquariumModel updateAquariumModel) async {
-    await patch('/aquariums/${aquariumModel.id}', updateAquariumModel.toJson()).catchError((e) {
+  Future<void> updateAquarium(AquariumModel aquariumModel,
+      UpdateAquariumModel updateAquariumModel) async {
+    await patch('/aquariums/${aquariumModel.id}', updateAquariumModel.toJson())
+        .catchError((e) {
       log('Error updating aquarium: $e');
       return null;
     });
   }
 
-  Future<List<MeasurementModel>> getMeasurements(AquariumModel aquarium, MeasurementTypeModel measurementType, DateTime from) async {
-    var rawMeasurements = await get('/aquariums/${aquarium.id}/measurements/${measurementType.code}?from=${from.toIso8601String()}').catchError((e) {
+  Future<List<MeasurementModel>> getMeasurements(AquariumModel aquarium,
+      MeasurementTypeModel measurementType, DateTime from) async {
+    var rawMeasurements = await get(
+            '/aquariums/${aquarium.id}/measurements/${measurementType.code}?from=${from.toIso8601String()}')
+        .catchError((e) {
       log('Error getting measurements: $e');
       return List.empty();
     });
@@ -55,15 +60,23 @@ class AquariumsService extends Service {
     return measurements;
   }
 
-  Future<void> addMeasurement(AquariumModel aquarium, MeasurementTypeModel measurementType, String value, DateTime measuredAt) async {
-    await post('/aquariums/${aquarium.id}/measurements/${measurementType.code}', {"value" : value, "measuredAt": measuredAt.toIso8601String()}).catchError((e) {
+  Future<void> addMeasurement(
+      AquariumModel aquarium,
+      MeasurementTypeModel measurementType,
+      String value,
+      DateTime measuredAt) async {
+    await post('/aquariums/${aquarium.id}/measurements/${measurementType.code}',
+            {"value": value, "measuredAt": measuredAt.toIso8601String()})
+        .catchError((e) {
       log('Error adding measurement: $e');
       return null;
     });
   }
 
-  Future<List<MeasurementSettingsModel>> getMeasurementSettings(AquariumModel aquarium) async {
-    var rawMeasurementSettings = await get('/aquariums/${aquarium.id}/measurements').catchError((e) {
+  Future<List<MeasurementSettingsModel>> getMeasurementSettings(
+      AquariumModel aquarium) async {
+    var rawMeasurementSettings =
+        await get('/aquariums/${aquarium.id}/measurements').catchError((e) {
       log('Error getting measurement settings: $e');
       return List.empty();
     });
@@ -71,26 +84,37 @@ class AquariumsService extends Service {
     List<MeasurementSettingsModel> measurementSettings = [];
 
     rawMeasurementSettings.forEach((rawMeasurementSetting) {
-      measurementSettings.add(MeasurementSettingsModel.fromJson(rawMeasurementSetting));
+      measurementSettings
+          .add(MeasurementSettingsModel.fromJson(rawMeasurementSetting));
     });
 
     return measurementSettings;
   }
 
-  Future<void> updateMeasurementSettings(AquariumModel aquarium, List<MeasurementSettingsModel> measurementSettings) async {
-    await patch('/aquariums/${aquarium.id}/measurements', {"settings":measurementSettings.map((measurementSetting) => measurementSetting.toJson()).toList()}).catchError((e) {
+  Future<void> updateMeasurementSettings(AquariumModel aquarium,
+      List<MeasurementSettingsModel> measurementSettings) async {
+    await patch('/aquariums/${aquarium.id}/measurements', {
+      "settings": measurementSettings
+          .map((measurementSetting) => measurementSetting.toJson())
+          .toList()
+    }).catchError((e) {
       log('Error updating measurement settings: $e');
       return null;
     });
   }
 
-  Future<MeasurementModel?> getLastMeasurement(AquariumModel aquarium, MeasurementTypeModel measurementType) async {
-    var rawMeasurement = await get('/aquariums/${aquarium.id}/measurements/${measurementType.code}/last').catchError((e) {
+  Future<MeasurementModel?> getLastMeasurement(
+      AquariumModel aquarium, MeasurementTypeModel measurementType) async {
+    var rawMeasurement = await get(
+            '/aquariums/${aquarium.id}/measurements/${measurementType.code}/last')
+        .catchError((e) {
       log("Error getting last measurement : $e");
       return null;
     });
 
-    return (rawMeasurement != null) ? MeasurementModel.fromJson(rawMeasurement) : null;
+    return (rawMeasurement != null)
+        ? MeasurementModel.fromJson(rawMeasurement)
+        : null;
   }
 
   Future<Uint8List?> getImage(AquariumModel aquarium) async {
@@ -99,7 +123,9 @@ class AquariumsService extends Service {
       return null;
     });
 
-    Uint8List? image = (rawImage?["data"] != null) ? Uint8List.fromList(List<int>.from(rawImage["data"])) : null;
+    Uint8List? image = (rawImage?["data"] != null)
+        ? Uint8List.fromList(List<int>.from(rawImage["data"]))
+        : null;
 
     return image;
   }

@@ -17,7 +17,8 @@
         "--dart-define",
         "DEBUG=true",
         "--dart-define",
-        "API_BASE_URL=http://localhost:3000/"
+        "API_BASE_URL=http://localhost:3000/",
+        "--web-browser-flag=--disable-web-security"
       ]
     },
     {

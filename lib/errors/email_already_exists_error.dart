@@ -1,3 +1,0 @@
-class EmailAlreadyExistsError extends Error {
-
-}

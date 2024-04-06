@@ -1,4 +1,4 @@
-package fr.dynivers.aquatracking
+package fr.aquatracking.app
 
 import io.flutter.embedding.android.FlutterActivity
 

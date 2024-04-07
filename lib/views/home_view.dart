@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:aquatracking/models/user/user_model.dart';
+import 'package:aquatracking/repository/biotope/aquarium_repository.dart';
 import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/views/auth/login_view.dart';
@@ -14,6 +17,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   UserModel? user;
   UserRepository userRepository = UserRepository();
+  AquariumRepository aquariumRepository = AquariumRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,10 @@ class _HomeViewState extends State<HomeView> {
       userRepository.getMe().then((value) {
         user = value;
         setState(() {});
+      });
+
+      aquariumRepository.getAquariums().then((value) {
+        print(value);
       });
     }
 

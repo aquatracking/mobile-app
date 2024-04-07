@@ -7,7 +7,6 @@ import 'package:aquatracking/views/auth/login_view.dart';
 import 'package:aquatracking/widgets/ui/inputs/password_input_widget.dart';
 import 'package:aquatracking/widgets/ui/inputs/text_input_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterView extends StatefulWidget {

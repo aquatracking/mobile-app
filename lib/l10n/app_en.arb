@@ -26,5 +26,14 @@
   "noAccount": "Don't have an account?",
   "haveAccount": "Already have an account?",
   "createAccount": "Create an account",
-  "wellcomeUser": "Account created successfully, wellcome {userName}!"
+  "wellcomeUser": "Account created successfully, wellcome {userName}!",
+  "verifyEmail": "Please verify your email address",
+  "verifyEmailSent": "A verification email has been. Please check your inbox and copy the verification code here.",
+  "resendEmail": "Resend code",
+  "verifyCode": "Verify my email",
+  "errorEmailVerificationCodeNotValid": "The code you entered is not valid",
+  "errorEmailAlreadyVerified": "Your email address has already been verified",
+  "errorEmailVerificationCodeExpired": "The code you entered has expired. A new code has been sent",
+  "errorEmailVerificationCodeNotExists": "No verification code found for this email address, A new code has been sent",
+  "emailVerified": "Your email address has been verified successfully"
 }

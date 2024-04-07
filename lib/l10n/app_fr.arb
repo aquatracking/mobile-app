@@ -26,5 +26,14 @@
   "noAccount": "Pas encore de compte ?",
   "haveAccount": "Déjà un compte ?",
   "createAccount": "Créer un compte",
-  "wellcomeUser": "Compte créé avec succès, bienvenue {userName}!"
+  "wellcomeUser": "Compte créé avec succès, bienvenue {userName}!",
+  "verifyEmail": "Veuillez vérifier votre email",
+  "verifyEmailSent": "Un email de vérification a été envoyé. Veuillez vérifier votre boîte de réception et copier le code de vérification ci-dessous.",
+  "resendEmail": "Renvoyer le code",
+  "verifyCode": "Vérifier mon email",
+  "errorEmailVerificationCodeNotValid": "Le code saisi n'est pas valide",
+  "errorEmailAlreadyVerified": "Votre email a déjà été vérifié",
+  "errorEmailVerificationCodeExpired": "Le code saisi a expiré, un nouveau code a été envoyé",
+  "errorEmailVerificationCodeNotExists": "Aucun code de vérification n'existe pour cet email, un nouveau code a été envoyé",
+  "emailVerified": "Votre email a été vérifié avec succès"
 }

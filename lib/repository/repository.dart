@@ -1,6 +1,7 @@
 import 'package:aquatracking/errors/api_error.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/views/auth/login_view.dart';
+import 'package:aquatracking/views/auth/validate_email_view.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -63,6 +64,8 @@ abstract class Repository {
         onError: (error, handler) async {
           if (error is ApiError && error.code == "NOT_LOGGED") {
             NavigationService().replaceScreen(const LoginView());
+          } else if (error is ApiError && error.code == "EMAIL_NOT_VALIDATED") {
+            NavigationService().replaceScreen(const ValidateEmailView());
           } else {
             handler.next(error);
           }

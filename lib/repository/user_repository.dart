@@ -8,4 +8,17 @@ class UserRepository extends Repository {
 
     return UserModel.fromJson(response.data);
   }
+
+  Future<void> sendVerificationEmail() async {
+    await Repository.dio.post('/users/me/verify-email/send-code');
+  }
+
+  Future<void> verifyEmail(String code) async {
+    await Repository.dio.post(
+      '/users/me/verify-email/verify-code',
+      data: {
+        'code': code,
+      },
+    );
+  }
 }

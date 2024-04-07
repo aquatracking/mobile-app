@@ -1,3 +1,4 @@
+import 'package:aquatracking/models/user/user_create_model.dart';
 import 'package:aquatracking/models/user/user_login_model.dart';
 import 'package:aquatracking/models/user/user_model.dart';
 import 'package:aquatracking/repository/repository.dart';
@@ -8,6 +9,15 @@ class AuthRepository extends Repository {
     Response<dynamic> response = await Repository.dio.post(
       '/auth/login',
       data: userLoginModel.toJson(),
+    );
+
+    return UserModel.fromJson(response.data);
+  }
+
+  Future<UserModel> register(UserCreateModel userCreateModel) async {
+    Response<dynamic> response = await Repository.dio.post(
+      '/auth/register',
+      data: userCreateModel.toJson(),
     );
 
     return UserModel.fromJson(response.data);

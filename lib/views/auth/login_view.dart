@@ -97,17 +97,11 @@ class _LoginViewState extends State<LoginView> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
 
-                        authRepository.login(userLoginModel).then((user) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                AppLocalizations.of(context)!
-                                    .wellcomeUser(user.username),
-                              ),
-                            ),
-                          );
-                          NavigationService().replaceScreen(const HomeView());
-                        }).catchError(
+                        authRepository.login(userLoginModel).then(
+                          (user) {
+                            NavigationService().replaceScreen(const HomeView());
+                          },
+                        ).catchError(
                           (error) {
                             if (error is ApiError &&
                                 (error.code == "USER_NOT_FOUND" ||

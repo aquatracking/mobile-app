@@ -3,6 +3,7 @@ import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/views/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       home: const HomeView(),
       navigatorKey: NavigationService().navigationKey,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

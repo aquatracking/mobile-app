@@ -8,6 +8,7 @@ import 'package:aquatracking/views/home_view.dart';
 import 'package:aquatracking/widgets/ui/inputs/password_input_widget.dart';
 import 'package:aquatracking/widgets/ui/inputs/text_input_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -42,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   const Spacer(),
                   Text(
-                    "Connexion",
+                    AppLocalizations.of(context)!.login,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
@@ -50,21 +51,22 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSpacing.large,
                   ),
                   TextInputWidget(
-                    label: "Email",
+                    label: AppLocalizations.of(context)!.labelEmail,
                     prefixIcon: Icons.email,
                     keyboardType: TextInputType.emailAddress,
                     autofillHints: const [AutofillHints.email],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre email';
+                        return AppLocalizations.of(context)!.errorEnterEmail;
                       }
                       final emailRegex =
                           RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$');
                       if (!emailRegex.hasMatch(value)) {
-                        return 'Veuillez entrer un email valide';
+                        return AppLocalizations.of(context)!.errorInvalidEmail;
                       }
                       if (loginError?.code == "USER_NOT_FOUND") {
-                        return 'Aucun utilisateur trouvé avec cet email';
+                        return AppLocalizations.of(context)!
+                            .errorNoUserWithEmail;
                       }
                       return null;
                     },
@@ -74,13 +76,13 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSpacing.medium,
                   ),
                   PasswordInputWidget(
-                    label: "Mot de passe",
+                    label: AppLocalizations.of(context)!.labelPassword,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre mot de passe';
+                        return AppLocalizations.of(context)!.errorEnterPassword;
                       }
                       if (loginError?.code == "WRONG_PASSWORD") {
-                        return 'Mot de passe incorrect';
+                        return AppLocalizations.of(context)!.errorWrongPassword;
                       }
                       return null;
                     },
@@ -90,7 +92,7 @@ class _LoginViewState extends State<LoginView> {
                     height: AppSpacing.large,
                   ),
                   FilledButton(
-                    child: const Text("Se connecter"),
+                    child: Text(AppLocalizations.of(context)!.signIn),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
@@ -98,7 +100,10 @@ class _LoginViewState extends State<LoginView> {
                         authRepository.login(userLoginModel).then((user) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Bienvenue! ${user.username}'),
+                              content: Text(
+                                AppLocalizations.of(context)!
+                                    .wellcomeUser(user.username),
+                              ),
                             ),
                           );
                           NavigationService().replaceScreen(const HomeView());
@@ -112,8 +117,9 @@ class _LoginViewState extends State<LoginView> {
                               loginError = null;
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Une erreur s'est produite"),
+                                SnackBar(
+                                  content: Text(AppLocalizations.of(context)!
+                                      .errorUnknown),
                                 ),
                               );
                             }
@@ -126,15 +132,16 @@ class _LoginViewState extends State<LoginView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Pas encore de compte ?",
+                      Text(
+                        AppLocalizations.of(context)!.noAccount,
                       ),
                       TextButton(
                         onPressed: () {
                           NavigationService()
                               .replaceScreen(const RegisterView());
                         },
-                        child: const Text("Inscrivez-vous"),
+                        child:
+                            Text(AppLocalizations.of(context)!.createAccount),
                       ),
                     ],
                   ),

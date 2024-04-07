@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "login": "Login",
+  "signIn": "Sign In",
+  "register": "Register",
+  "signUp": "Sign Up",
+  "logout": "Logout",
+  "labelEmail": "Email",
+  "labelPassword": "Password",
+  "errorEnterEmail": "Please enter your email address",
+  "errorEnterPassword": "Please enter your password",
+  "errorInvalidEmail": "Please enter a valid email address",
+  "errorNoUserWithEmail": "No user found with that email address",
+  "errorWrongPassword": "Wrong password",
+  "errorUnknown": "An unknown error occurred",
+  "noAccount": "Don't have an account?",
+  "haveAccount": "Already have an account?",
+  "createAccount": "Create an account",
+  "wellcomeUser": "Wellcome, {userName}!"
+}

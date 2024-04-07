@@ -1,0 +1,20 @@
+{
+  "@@locale": "fr",
+  "login": "Connexion",
+  "signIn": "Se connecter",
+  "register": "Inscription",
+  "signUp": "S'inscrire",
+  "logout": "Déconnexion",
+  "labelEmail": "Email",
+  "labelPassword": "Mot de passe",
+  "errorEnterEmail": "Veuillez entrer votre email",
+  "errorEnterPassword": "Veuillez entrer votre mot de passe",
+  "errorInvalidEmail": "Veuillez entrer un email valide",
+  "errorNoUserWithEmail": "Aucun utilisateur avec cet email",
+  "errorWrongPassword": "Mot de passe incorrect",
+  "errorUnknown": "Une erreur inconnue s'est produite",
+  "noAccount": "Pas encore de compte ?",
+  "haveAccount": "Déjà un compte ?",
+  "createAccount": "Créer un compte",
+  "wellcomeUser": "Bienvenue, {userName}!"
+}

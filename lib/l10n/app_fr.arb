@@ -35,5 +35,8 @@
   "errorEmailAlreadyVerified": "Votre email a déjà été vérifié",
   "errorEmailVerificationCodeExpired": "Le code saisi a expiré, un nouveau code a été envoyé",
   "errorEmailVerificationCodeNotExists": "Aucun code de vérification n'existe pour cet email, un nouveau code a été envoyé",
-  "emailVerified": "Votre email a été vérifié avec succès"
+  "emailVerified": "Votre email a été vérifié avec succès",
+  "errorWrongOTP": "Code de vérification incorrect",
+  "verifyOTP": "Authentification à deux facteurs",
+  "verifyOTPDescription": "Veuillez saisir le code de vérification présent sur votre application d'authentification"
 }

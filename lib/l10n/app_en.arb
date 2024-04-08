@@ -35,5 +35,8 @@
   "errorEmailAlreadyVerified": "Your email address has already been verified",
   "errorEmailVerificationCodeExpired": "The code you entered has expired. A new code has been sent",
   "errorEmailVerificationCodeNotExists": "No verification code found for this email address, A new code has been sent",
-  "emailVerified": "Your email address has been verified successfully"
+  "emailVerified": "Your email address has been verified successfully",
+  "errorWrongOTP": "Wrong verification code",
+  "verifyOTP": "2FA Verification",
+  "verifyOTPDescription": "Please enter the verification code from your authenticator app"
 }

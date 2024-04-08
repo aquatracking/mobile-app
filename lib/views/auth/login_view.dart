@@ -3,6 +3,7 @@ import 'package:aquatracking/models/user/user_login_model.dart';
 import 'package:aquatracking/repository/auth_repository.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
+import 'package:aquatracking/views/auth/login_otp_view.dart';
 import 'package:aquatracking/views/auth/register_view.dart';
 import 'package:aquatracking/views/home_view.dart';
 import 'package:aquatracking/widgets/ui/inputs/password_input_widget.dart';
@@ -109,11 +110,17 @@ class _LoginViewState extends State<LoginView> {
                               loginError = error;
                               _formKey.currentState!.validate();
                               loginError = null;
+                            } else if (error is ApiError &&
+                                error.code == "OTP_REQUIRED") {
+                              NavigationService().replaceScreen(
+                                LoginOtpView(userLoginModel: userLoginModel),
+                              );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(AppLocalizations.of(context)!
-                                      .errorUnknown),
+                                  content: Text(
+                                    AppLocalizations.of(context)!.errorUnknown,
+                                  ),
                                 ),
                               );
                             }

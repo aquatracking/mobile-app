@@ -38,5 +38,11 @@
   "emailVerified": "Votre email a été vérifié avec succès",
   "errorWrongOTP": "Code de vérification incorrect",
   "verifyOTP": "Authentification à deux facteurs",
-  "verifyOTPDescription": "Veuillez saisir le code de vérification présent sur votre application d'authentification"
+  "verifyOTPDescription": "Veuillez saisir le code de vérification présent sur votre application d'authentification",
+  "navigationHomeLabel": "Accueil",
+  "navigationSettingsLabel": "Paramètres",
+  "errorFailedToFetchAquariums": "Impossible de récupérer les aquariums",
+  "saltwater": "Eau de mer",
+  "freshwater": "Eau douce",
+  "aquariums": "Aquariums"
 }

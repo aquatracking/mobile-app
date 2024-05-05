@@ -4,7 +4,7 @@ import 'package:aquatracking/errors/api_error.dart';
 import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
-import 'package:aquatracking/views/home_view.dart';
+import 'package:aquatracking/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,7 +39,7 @@ class _ValidateEmailViewState extends State<ValidateEmailView> {
               ),
             ),
           );
-          NavigationService().replaceScreen(const HomeView());
+          NavigationService().replaceScreen(const MainView());
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -59,7 +59,7 @@ class _ValidateEmailViewState extends State<ValidateEmailView> {
             content: Text(AppLocalizations.of(context)!.emailVerified),
           ),
         );
-        NavigationService().replaceScreen(const HomeView());
+        NavigationService().replaceScreen(const MainView());
       },
     ).catchError(
       (error) {
@@ -89,7 +89,7 @@ class _ValidateEmailViewState extends State<ValidateEmailView> {
                   ),
                 ),
               );
-              NavigationService().replaceScreen(const HomeView());
+              NavigationService().replaceScreen(const MainView());
               break;
           }
         }

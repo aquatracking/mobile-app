@@ -7,7 +7,7 @@ import 'package:aquatracking/repository/auth_repository.dart';
 import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
-import 'package:aquatracking/views/home_view.dart';
+import 'package:aquatracking/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,7 +37,7 @@ class _LoginOtpViewState extends State<LoginOtpView> {
   void login(BuildContext context) {
     authRepository.login(widget.userLoginWithOtpModel).then(
       (value) {
-        NavigationService().replaceScreen(const HomeView());
+        NavigationService().replaceScreen(const MainView());
       },
     ).catchError(
       (error) {

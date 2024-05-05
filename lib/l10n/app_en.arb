@@ -38,5 +38,11 @@
   "emailVerified": "Your email address has been verified successfully",
   "errorWrongOTP": "Wrong verification code",
   "verifyOTP": "2FA Verification",
-  "verifyOTPDescription": "Please enter the verification code from your authenticator app"
+  "verifyOTPDescription": "Please enter the verification code from your authenticator app",
+  "navigationHomeLabel": "Home",
+  "navigationSettingsLabel": "Settings",
+  "errorFailedToFetchAquariums": "Failed to fetch aquariums",
+  "saltwater": "Salt water",
+  "freshwater": "Fresh water",
+  "aquariums": "Aquariums"
 }

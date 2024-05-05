@@ -5,7 +5,7 @@ import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/views/auth/login_otp_view.dart';
 import 'package:aquatracking/views/auth/register_view.dart';
-import 'package:aquatracking/views/home_view.dart';
+import 'package:aquatracking/views/main_view.dart';
 import 'package:aquatracking/widgets/ui/inputs/password_input_widget.dart';
 import 'package:aquatracking/widgets/ui/inputs/text_input_widget.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
 
                         authRepository.login(userLoginModel).then(
                           (user) {
-                            NavigationService().replaceScreen(const HomeView());
+                            NavigationService().replaceScreen(const MainView());
                           },
                         ).catchError(
                           (error) {

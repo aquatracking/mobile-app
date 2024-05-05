@@ -4,5 +4,8 @@
   "sonarlint.connectedMode.project": {
     "connectionId": "aquatracking",
     "projectKey": "aquatracking_mobile-app"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

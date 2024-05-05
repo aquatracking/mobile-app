@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'aquarium_model.dart';
+part of 'terrarium_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AquariumModel _$AquariumModelFromJson(Map<String, dynamic> json) =>
-    AquariumModel(
+TerrariumModel _$TerrariumModelFromJson(Map<String, dynamic> json) =>
+    TerrariumModel(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
@@ -15,10 +15,10 @@ AquariumModel _$AquariumModelFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String?,
       archiveDate: json['archiveDate'] as String?,
       volume: (json['volume'] as num?)?.toInt(),
-      salt: json['salt'] as bool?,
+      wet: json['wet'] as bool?,
     );
 
-Map<String, dynamic> _$AquariumModelToJson(AquariumModel instance) =>
+Map<String, dynamic> _$TerrariumModelToJson(TerrariumModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -27,5 +27,5 @@ Map<String, dynamic> _$AquariumModelToJson(AquariumModel instance) =>
       'imageUrl': instance.imageUrl,
       'archiveDate': instance.archiveDate,
       'volume': instance.volume,
-      'salt': instance.salt,
+      'wet': instance.wet,
     };

@@ -46,10 +46,16 @@
   "freshwater": "Eau douce",
   "aquariums": "Aquariums",
   "helloUser": "Bonjour {userName}",
-  "wellcomeToAquarium": "Bienvenue sur Aquarium",
+  "wellcomeToAquarium": "Bienvenue sur Aquatracking",
   "errorConnection": "Erreur de connexion",
   "errorConnectionDescription": "Impossible de se connecter au serveur.",
   "retry": "Réessayer",
   "connectingToServer": "Connexion au serveur...",
-  "ok": "Ok"
+  "ok": "Ok",
+  "errorFailedToFetchTerrariums": "Impossible de récupérer les terrariums",
+  "terrariums": "Terrariums",
+  "wetTerrarium": "Tropical",
+  "dryTerrarium": "Aride",
+  "noAquariumsFound": "Aucun aquarium trouvé",
+  "noTerrariumsFound": "Aucun terrarium trouvé"
 }

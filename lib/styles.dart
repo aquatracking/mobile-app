@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color colorSeed = Colors.cyan;
+  static const Color colorSeed = Colors.lime;
 }
 
 class AppSpacing {

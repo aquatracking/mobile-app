@@ -23,7 +23,7 @@ class AquariumsBloc extends Bloc<AquariumsEvent, AquariumsState> {
     try {
       emit(state.copyWith(status: () => AquariumsStatus.loading));
 
-      final aquariums = await _aquariumRepository.getAquariums();
+      final aquariums = await _aquariumRepository.getList();
 
       emit(
         state.copyWith(

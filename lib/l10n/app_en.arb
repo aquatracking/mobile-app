@@ -46,10 +46,16 @@
   "freshwater": "Fresh water",
   "aquariums": "Aquariums",
   "helloUser": "Hello {userName}",
-  "wellcomeToAquarium": "Wellcome to Aquarium",
+  "wellcomeToAquarium": "Wellcome to Aquatracking",
   "errorConnection": "Connection error",
   "errorConnectionDescription": "Impossible to connect to the server",
   "retry": "Retry",
   "connectingToServer": "Connecting to server ...",
-  "ok": "Ok"
+  "ok": "Ok",
+  "errorFailedToFetchTerrariums": "Failed to fetch terrariums",
+  "terrariums": "Terrariums",
+  "wetTerrarium": "Wet",
+  "dryTerrarium": "Dry",
+  "noAquariumsFound": "No aquariums found",
+  "noTerrariumsFound": "No terrariums found"
 }

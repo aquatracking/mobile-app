@@ -2,12 +2,12 @@ import 'package:aquatracking/models/biotope/biotope_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'aquarium_model.g.dart';
+part 'terrarium_model.g.dart';
 
 @immutable
 @JsonSerializable()
-class AquariumModel extends BiotopeModel {
-  const AquariumModel({
+class TerrariumModel extends BiotopeModel {
+  const TerrariumModel({
     required super.id,
     required super.name,
     required super.description,
@@ -15,19 +15,19 @@ class AquariumModel extends BiotopeModel {
     super.imageUrl,
     super.archiveDate,
     super.volume,
-    this.salt,
+    this.wet,
   });
 
-  final bool? salt;
+  final bool? wet;
 
   @override
   List<Object?> get props => [
         super.props,
-        salt,
+        wet,
       ];
 
   @override
-  AquariumModel copyWith({
+  TerrariumModel copyWith({
     String? id,
     String? name,
     String? description,
@@ -35,9 +35,9 @@ class AquariumModel extends BiotopeModel {
     String? imageUrl,
     String? archiveDate,
     int? volume,
-    bool? salt,
+    bool? wet,
   }) {
-    return AquariumModel(
+    return TerrariumModel(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
@@ -45,13 +45,13 @@ class AquariumModel extends BiotopeModel {
       imageUrl: imageUrl ?? this.imageUrl,
       archiveDate: archiveDate ?? this.archiveDate,
       volume: volume ?? this.volume,
-      salt: salt ?? this.salt,
+      wet: wet ?? this.wet,
     );
   }
 
-  static AquariumModel fromJson(Map<String, dynamic> json) =>
-      _$AquariumModelFromJson(json);
+  static TerrariumModel fromJson(Map<String, dynamic> json) =>
+      _$TerrariumModelFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$AquariumModelToJson(this);
+  Map<String, dynamic> toJson() => _$TerrariumModelToJson(this);
 }

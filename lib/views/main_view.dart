@@ -42,41 +42,45 @@ class _MainView extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) {
       if (constraints.maxWidth > AppBreakpoints.compact) {
         return Scaffold(
-          body: Row(
-            children: [
-              NavigationRail(
-                selectedIndex: selectedView.index,
-                groupAlignment: -1,
-                onDestinationSelected: (index) {
-                  context.read<MainViewCubit>().setViewByIndex(index);
-                },
-                labelType: NavigationRailLabelType.all,
-                destinations: <NavigationRailDestination>[
-                  for (final destination in destinations)
-                    NavigationRailDestination(
-                      icon: Icon(destination['icon'] as IconData),
-                      label: Text(
-                        (destination['label']! as Function(
-                            BuildContext))(context),
+          body: SafeArea(
+            child: Row(
+              children: [
+                NavigationRail(
+                  selectedIndex: selectedView.index,
+                  groupAlignment: -1,
+                  onDestinationSelected: (index) {
+                    context.read<MainViewCubit>().setViewByIndex(index);
+                  },
+                  labelType: NavigationRailLabelType.all,
+                  destinations: <NavigationRailDestination>[
+                    for (final destination in destinations)
+                      NavigationRailDestination(
+                        icon: Icon(destination['icon'] as IconData),
+                        label: Text(
+                          (destination['label']! as Function(
+                              BuildContext))(context),
+                        ),
                       ),
-                    ),
-                ],
-              ),
-              const VerticalDivider(thickness: 1, width: 1),
-              Expanded(
-                child: IndexedStack(
-                  index: selectedView.index,
-                  children: const [HomeView(), SettingsView()],
+                  ],
                 ),
-              ),
-            ],
+                const VerticalDivider(thickness: 1, width: 1),
+                Expanded(
+                  child: IndexedStack(
+                    index: selectedView.index,
+                    children: const [HomeView(), SettingsView()],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       } else {
         return Scaffold(
-          body: IndexedStack(
-            index: selectedView.index,
-            children: const [HomeView(), SettingsView()],
+          body: SafeArea(
+            child: IndexedStack(
+              index: selectedView.index,
+              children: const [HomeView(), SettingsView()],
+            ),
           ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: selectedView.index,

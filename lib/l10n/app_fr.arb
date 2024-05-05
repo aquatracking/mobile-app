@@ -44,5 +44,12 @@
   "errorFailedToFetchAquariums": "Impossible de récupérer les aquariums",
   "saltwater": "Eau de mer",
   "freshwater": "Eau douce",
-  "aquariums": "Aquariums"
+  "aquariums": "Aquariums",
+  "helloUser": "Bonjour {userName}",
+  "wellcomeToAquarium": "Bienvenue sur Aquarium",
+  "errorConnection": "Erreur de connexion",
+  "errorConnectionDescription": "Impossible de se connecter au serveur.",
+  "retry": "Réessayer",
+  "connectingToServer": "Connexion au serveur...",
+  "ok": "Ok"
 }

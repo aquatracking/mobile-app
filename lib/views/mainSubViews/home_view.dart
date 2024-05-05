@@ -1,5 +1,6 @@
 import 'package:aquatracking/bloc/aquariums/bloc/aquariums_bloc.dart';
 import 'package:aquatracking/repository/biotope/aquarium_repository.dart';
+import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/aquarium_card.dart';
 import 'package:flutter/material.dart';
@@ -37,15 +38,16 @@ class _HomeView extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               const SizedBox(height: AppSpacing.medium),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Bonjour",
+                    AppLocalizations.of(context)!
+                        .helloUser(UserRepository.currentUser?.username ?? ""),
                     style: AppText.titleLarge,
                   ),
                   Text(
-                    "Bienvenue sur AquaTracking",
+                    AppLocalizations.of(context)!.wellcomeToAquarium,
                     style: AppText.subTitleMedium,
                   ),
                 ],

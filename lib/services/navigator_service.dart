@@ -43,4 +43,17 @@ class NavigationService {
   /// I find this very useful
   void popToFirst() =>
       navigationKey.currentState?.popUntil((route) => route.isFirst);
+
+  // Show a dialog
+  void sendPopup(AlertDialog dialog) {
+    if (navigationKey.currentContext != null) {
+      showDialog(
+        barrierDismissible: false,
+        context: navigationKey.currentContext!,
+        builder: (BuildContext context) {
+          return dialog;
+        },
+      );
+    }
+  }
 }

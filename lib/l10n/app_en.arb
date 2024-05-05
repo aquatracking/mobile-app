@@ -44,5 +44,12 @@
   "errorFailedToFetchAquariums": "Failed to fetch aquariums",
   "saltwater": "Salt water",
   "freshwater": "Fresh water",
-  "aquariums": "Aquariums"
+  "aquariums": "Aquariums",
+  "helloUser": "Hello {userName}",
+  "wellcomeToAquarium": "Wellcome to Aquarium",
+  "errorConnection": "Connection error",
+  "errorConnectionDescription": "Impossible to connect to the server",
+  "retry": "Retry",
+  "connectingToServer": "Connecting to server ...",
+  "ok": "Ok"
 }

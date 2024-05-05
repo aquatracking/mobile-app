@@ -1,7 +1,7 @@
 import 'package:aquatracking/repository/repository.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
-import 'package:aquatracking/views/main_view.dart';
+import 'package:aquatracking/views/connecting_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: const MainView(),
+      home: const ConnectingView(),
       navigatorKey: NavigationService().navigationKey,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

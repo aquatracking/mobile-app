@@ -1,6 +1,7 @@
 import 'package:aquatracking/errors/api_error.dart';
 import 'package:aquatracking/models/user/user_login_model.dart';
 import 'package:aquatracking/repository/auth_repository.dart';
+import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/services/navigator_service.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/views/auth/login_otp_view.dart';
@@ -23,6 +24,12 @@ class _LoginViewState extends State<LoginView> {
   final userLoginModel = UserLoginModel();
   final authRepository = AuthRepository();
   ApiError? loginError;
+
+  @override
+  void setState(VoidCallback fn) {
+    UserRepository.currentUser = null;
+    super.setState(fn);
+  }
 
   @override
   Widget build(BuildContext context) {

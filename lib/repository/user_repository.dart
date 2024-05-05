@@ -3,6 +3,8 @@ import 'package:aquatracking/repository/repository.dart';
 import 'package:dio/dio.dart';
 
 class UserRepository extends Repository {
+  static UserModel? currentUser;
+
   Future<UserModel> getMe() async {
     Response<dynamic> response = await Repository.dio.get('/users/me');
 

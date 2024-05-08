@@ -7,6 +7,10 @@ part 'terrariums_event.dart';
 part 'terrariums_state.dart';
 
 class TerrariumsBloc extends Bloc<TerrariumsEvent, TerrariumsState> {
+  static TerrariumsBloc instance = TerrariumsBloc(
+    terrariumRepository: TerrariumRepository(),
+  );
+
   TerrariumsBloc({
     required TerrariumRepository terrariumRepository,
   })  : _terrariumRepository = terrariumRepository,

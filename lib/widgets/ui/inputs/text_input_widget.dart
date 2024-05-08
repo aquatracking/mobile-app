@@ -7,6 +7,7 @@ class TextInputWidget extends StatelessWidget {
   final String? initialValue;
   final IconData? icon;
   final IconData? prefixIcon;
+  final bool requiredIndicator;
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
@@ -22,6 +23,7 @@ class TextInputWidget extends StatelessWidget {
     this.initialValue,
     this.icon,
     this.prefixIcon,
+    this.requiredIndicator = false,
     this.minLines,
     this.maxLines,
     this.maxLength,
@@ -42,6 +44,7 @@ class TextInputWidget extends StatelessWidget {
       maxLength: maxLength,
       icon: icon,
       prefixIcon: prefixIcon,
+      requiredIndicator: requiredIndicator,
       defaultValue: initialValue,
       autofillHints: autofillHints,
       validator: validator,

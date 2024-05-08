@@ -1,4 +1,5 @@
 import 'package:aquatracking/cubit/mainView/main_view_cubit.dart';
+import 'package:aquatracking/dialogs/new_biotope_type_choice_dialog.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/views/mainSubViews/home_view.dart';
 import 'package:aquatracking/views/mainSubViews/settings_view.dart';
@@ -52,6 +53,13 @@ class _MainView extends StatelessWidget {
                     context.read<MainViewCubit>().setViewByIndex(index);
                   },
                   labelType: NavigationRailLabelType.all,
+                  leading: FloatingActionButton(
+                    elevation: 0,
+                    onPressed: () {
+                      createNewBiotope(context);
+                    },
+                    child: const Icon(Icons.add_rounded),
+                  ),
                   destinations: <NavigationRailDestination>[
                     for (final destination in destinations)
                       NavigationRailDestination(
@@ -82,6 +90,12 @@ class _MainView extends StatelessWidget {
               children: const [HomeView(), SettingsView()],
             ),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              createNewBiotope(context);
+            },
+            child: const Icon(Icons.add_rounded),
+          ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: selectedView.index,
             onDestinationSelected: (index) {
@@ -100,4 +114,11 @@ class _MainView extends StatelessWidget {
       }
     });
   }
+}
+
+createNewBiotope(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => const NewBiotopeTypeChoiceDialog(),
+  );
 }

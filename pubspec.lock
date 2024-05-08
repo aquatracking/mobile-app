@@ -201,6 +201,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
+  date_time_picker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: f9802b8
+      resolved-ref: f9802b80478b7c41e75aded7eb74569e255491c1
+      url: "https://github.com/koai-dev/date_time_picker"
+    source: git
+    version: "2.1.0"
   dio:
     dependency: "direct main"
     description:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Base input used across the app with specialized implementation for each input type
 class InputWidget extends StatelessWidget {
@@ -8,6 +9,7 @@ class InputWidget extends StatelessWidget {
   final IconData? icon;
   final IconData? prefixIcon;
   final bool obscureText;
+  final bool requiredIndicator;
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
@@ -25,6 +27,7 @@ class InputWidget extends StatelessWidget {
     this.defaultValue,
     this.icon,
     this.prefixIcon,
+    this.requiredIndicator = false,
     this.obscureText = false,
     this.onChanged,
     this.minLines,
@@ -50,7 +53,8 @@ class InputWidget extends StatelessWidget {
       maxLines: maxLines ?? 1,
       maxLength: maxLength,
       decoration: InputDecoration(
-        labelText: label,
+        labelText:
+            "$label${requiredIndicator ? " (${AppLocalizations.of(context)!.required})" : ''}",
         icon: (icon != null) ? Icon(icon) : null,
         prefixIcon: (prefixIcon != null) ? Icon(prefixIcon) : null,
         border: const OutlineInputBorder(),

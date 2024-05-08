@@ -2,8 +2,6 @@ import 'package:aquatracking/bloc/aquariums/bloc/aquariums_bloc.dart';
 import 'package:aquatracking/bloc/terrariums/bloc/terrariums_bloc.dart';
 import 'package:aquatracking/models/aquarium/aquarium_model.dart';
 import 'package:aquatracking/models/terrarium/terrarium_model.dart';
-import 'package:aquatracking/repository/biotope/aquarium_repository.dart';
-import 'package:aquatracking/repository/biotope/terrarium_repository.dart';
 import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/biotope_card.dart';
@@ -20,14 +18,12 @@ class HomeView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AquariumsBloc(
-            aquariumRepository: AquariumRepository(),
-          )..add(const AquariumsSubscribtionRequested()),
+          create: (context) => AquariumsBloc.instance
+            ..add(const AquariumsSubscribtionRequested()),
         ),
         BlocProvider(
-          create: (context) => TerrariumsBloc(
-            terrariumRepository: TerrariumRepository(),
-          )..add(const TerrariumsSubscribtionRequested()),
+          create: (context) => TerrariumsBloc.instance
+            ..add(const TerrariumsSubscribtionRequested()),
         ),
       ],
       child: const _HomeView(),

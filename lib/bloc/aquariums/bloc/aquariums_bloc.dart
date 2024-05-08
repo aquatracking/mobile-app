@@ -7,6 +7,10 @@ part 'aquariums_event.dart';
 part 'aquariums_state.dart';
 
 class AquariumsBloc extends Bloc<AquariumsEvent, AquariumsState> {
+  static AquariumsBloc instance = AquariumsBloc(
+    aquariumRepository: AquariumRepository(),
+  );
+
   AquariumsBloc({
     required AquariumRepository aquariumRepository,
   })  : _aquariumRepository = aquariumRepository,

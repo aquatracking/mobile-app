@@ -22,7 +22,7 @@ class AquariumModel extends BiotopeModel {
 
   @override
   List<Object?> get props => [
-        super.props,
+        ...super.props,
         salt,
       ];
 

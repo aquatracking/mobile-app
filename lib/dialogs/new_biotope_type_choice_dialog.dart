@@ -1,5 +1,7 @@
 import 'package:aquatracking/cubit/biotopeType/cubit/biotope_type_cubit.dart';
 import 'package:aquatracking/dialogs/new_biotope_dialog.dart';
+import 'package:aquatracking/models/aquarium/create_aquarium_model.dart';
+import 'package:aquatracking/models/terrarium/create_terrarium_model.dart';
 import 'package:aquatracking/repository/biotope/aquarium_repository.dart';
 import 'package:aquatracking/repository/biotope/terrarium_repository.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +46,15 @@ class _NewBiotopeTypeChoiceDialog extends StatelessWidget {
               context: context,
               builder: (context) {
                 if (biotopeType == BiotopeType.aquarium) {
-                  return NewBiotopeDialog(repository: AquariumRepository());
+                  return NewBiotopeDialog(
+                    repository: AquariumRepository(),
+                    createBiotope: CreateAquariumModel(),
+                  );
                 } else {
-                  return NewBiotopeDialog(repository: TerrariumRepository());
+                  return NewBiotopeDialog(
+                    repository: TerrariumRepository(),
+                    createBiotope: CreateTerrariumModel(),
+                  );
                 }
               },
             );

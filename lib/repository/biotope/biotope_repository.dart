@@ -3,7 +3,8 @@ import 'package:aquatracking/models/biotope/create_biotope_model.dart';
 import 'package:aquatracking/repository/repository.dart';
 import 'package:dio/dio.dart';
 
-abstract class BiotopeRepository<T extends BiotopeModel> extends Repository {
+abstract class BiotopeRepository<T extends BiotopeModel,
+    CreateT extends CreateBiotopeModel> extends Repository {
   BiotopeRepository({
     required this.biotopeType,
     required this.fromJson,

@@ -1,0 +1,45 @@
+name: "Deploy DEV environment"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: DEV
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-web:
+    name: "Build and push Docker image"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+      - name: "Install flutter"
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: "3.19.5"
+          cache: true
+      - name: "Install dependencies"
+        run: flutter pub get
+      - name: "Build App"
+        run: flutter build web --release --no-tree-shake-icons
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}:dev

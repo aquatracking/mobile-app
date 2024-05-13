@@ -49,6 +49,7 @@ dependencies:
     git:
       url: https://github.com/koai-dev/date_time_picker
       ref: f9802b8
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:

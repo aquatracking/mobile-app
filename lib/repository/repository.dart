@@ -28,7 +28,10 @@ abstract class Repository {
       );
     }
 
-    String apiBaseUrlEnv = const String.fromEnvironment('API_BASE_URL');
+    String apiBaseUrlEnv = const String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: '/api/',
+    );
 
     dio.options = BaseOptions(
       baseUrl: (apiBaseUrlEnv.isNotEmpty)

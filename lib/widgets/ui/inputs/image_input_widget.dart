@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/image_placeholder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image/image.dart' as img;
@@ -27,7 +26,7 @@ class ImageInputWidget extends FormField<Uint8List> {
                             ? Image.memory(
                                 state.value!,
                                 fit: BoxFit.cover,
-                                width: double.infinity,
+                                width: 1000,
                               )
                             : const ImagePlaceholder(),
                         Material(
@@ -83,13 +82,16 @@ class ImageInputTypeDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.takePhoto),
-            leading: const Icon(Icons.camera_alt_rounded),
-            onTap: () {
-              Navigator.of(context).pop();
-              pickImageFrom(ImageSource.camera);
-            },
+          Visibility(
+            visible: !kIsWeb,
+            child: ListTile(
+              title: Text(AppLocalizations.of(context)!.takePhoto),
+              leading: const Icon(Icons.camera_alt_rounded),
+              onTap: () {
+                Navigator.of(context).pop();
+                pickImageFrom(ImageSource.camera);
+              },
+            ),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.chooseFromGallery),
@@ -116,6 +118,7 @@ class ImageInputTypeDialog extends StatelessWidget {
   }
 }
 
+// Warning: This function is very very slow on web (also on mobile but not as much)
 Uint8List compressAndResizeImage(Uint8List bytes) {
   img.Image image = img.decodeImage(bytes)!;
 

@@ -1,7 +1,7 @@
 import 'package:aquatracking/bloc/aquariums/bloc/aquariums_bloc.dart';
 import 'package:aquatracking/bloc/terrariums/bloc/terrariums_bloc.dart';
-import 'package:aquatracking/models/aquarium/aquarium_model.dart';
-import 'package:aquatracking/models/terrarium/terrarium_model.dart';
+import 'package:aquatracking/repository/biotope/aquarium_repository.dart';
+import 'package:aquatracking/repository/biotope/terrarium_repository.dart';
 import 'package:aquatracking/repository/user_repository.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/biotope_card.dart';
@@ -176,7 +176,8 @@ class _AquariumsGridView extends StatelessWidget {
                   maxItemsPerRow: 20,
                   children: [
                     for (final aquarium in state.aquariums)
-                      BiotopeCard<AquariumModel>(
+                      BiotopeCard(
+                        biotopeRepository: AquariumRepository(),
                         biotope: aquarium,
                         onTap: (context) {},
                       ),
@@ -230,7 +231,8 @@ class _TerrariumsGridView extends StatelessWidget {
                   maxItemsPerRow: 20,
                   children: [
                     for (final terrarium in state.terrariums)
-                      BiotopeCard<TerrariumModel>(
+                      BiotopeCard(
+                        biotopeRepository: TerrariumRepository(),
                         biotope: terrarium,
                         onTap: (context) {},
                       ),

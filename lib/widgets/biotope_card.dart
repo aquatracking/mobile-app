@@ -1,16 +1,25 @@
 import 'package:aquatracking/models/aquarium/aquarium_model.dart';
 import 'package:aquatracking/models/biotope/biotope_model.dart';
+import 'package:aquatracking/models/biotope/create_biotope_model.dart';
 import 'package:aquatracking/models/terrarium/terrarium_model.dart';
+import 'package:aquatracking/repository/biotope/biotope_repository.dart';
 import 'package:aquatracking/styles.dart';
-import 'package:aquatracking/widgets/image_placeholder.dart';
+import 'package:aquatracking/widgets/biotope_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class BiotopeCard<T extends BiotopeModel> extends StatelessWidget {
+class BiotopeCard<T extends BiotopeModel, TCreate extends CreateBiotopeModel>
+    extends StatelessWidget {
+  final BiotopeRepository<T, TCreate> biotopeRepository;
   final T biotope;
   final void Function(BuildContext context) onTap;
 
-  const BiotopeCard({super.key, required this.biotope, required this.onTap});
+  const BiotopeCard({
+    super.key,
+    required this.biotopeRepository,
+    required this.biotope,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +59,12 @@ class BiotopeCard<T extends BiotopeModel> extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: const AspectRatio(
+                child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: ImagePlaceholder(),
+                  child: BiotopeImage(
+                    biotopeRepository: biotopeRepository,
+                    biotope: biotope,
+                  ),
                 ),
               ),
               Padding(

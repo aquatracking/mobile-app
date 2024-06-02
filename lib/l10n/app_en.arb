@@ -75,5 +75,11 @@
   "errorPleaseEnterStartedDate": "Please enter a started date",
   "volume": "Volume",
   "errorPleaseEnterVolume": "Please enter a volume",
-  "errorPleaseEnterNumber": "Please enter a number"
+  "errorPleaseEnterNumber": "Please enter a number",
+  "editImage": "Edit image",
+  "addImage": "Add image",
+  "takePhoto": "Take photo",
+  "chooseFromGallery": "Choose from gallery",
+  "deleteImage": "Delete image",
+  "errorImageTooLarge": "Image is too large"
 }

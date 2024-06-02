@@ -75,5 +75,11 @@
   "errorPleaseEnterStartedDate": "Veuillez entrer une date de début",
   "volume": "Volume",
   "errorPleaseEnterVolume": "Veuillez entrer un volume",
-  "errorPleaseEnterNumber": "Veuillez entrer un nombre"
+  "errorPleaseEnterNumber": "Veuillez entrer un nombre",
+  "editImage": "Modifier l'image",
+  "addImage": "Ajouter une image",
+  "takePhoto": "Prendre une photo",
+  "chooseFromGallery": "Choisir depuis la galerie",
+  "deleteImage": "Supprimer l'image",
+  "errorImageTooLarge": "L'image est trop grande"
 }

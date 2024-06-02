@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:aquatracking/models/biotope/biotope_model.dart';
 import 'package:aquatracking/models/biotope/create_biotope_model.dart';
 import 'package:aquatracking/repository/repository.dart';
@@ -30,5 +32,18 @@ abstract class BiotopeRepository<T extends BiotopeModel,
     );
 
     return this.fromJson(response.data);
+  }
+
+  Future<Uint8List?> getImage(BiotopeModel biotope) async {
+    Response response = await Repository.dio.get(
+      "/$biotopeType/${biotope.id}/image",
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    if (response.data == null || response.data.isEmpty) {
+      return null;
+    }
+
+    return response.data;
   }
 }

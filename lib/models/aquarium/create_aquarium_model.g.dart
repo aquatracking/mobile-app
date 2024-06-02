@@ -8,12 +8,13 @@ part of 'create_aquarium_model.dart';
 
 CreateAquariumModel _$CreateAquariumModelFromJson(Map<String, dynamic> json) =>
     CreateAquariumModel(
-      name: json['name'] as String,
-      description: json['description'] as String,
+      name: json['name'] as String? ?? "",
+      description: json['description'] as String? ?? "",
       startedDate: json['startedDate'] == null
           ? null
           : DateTime.parse(json['startedDate'] as String),
       volume: (json['volume'] as num?)?.toDouble(),
+      image: const Uint8ListConverter().fromJson(json['image'] as List<int>?),
       salt: json['salt'] as bool? ?? false,
     );
 
@@ -24,5 +25,6 @@ Map<String, dynamic> _$CreateAquariumModelToJson(
       'description': instance.description,
       'startedDate': instance.startedDate?.toIso8601String(),
       'volume': instance.volume,
+      'image': const Uint8ListConverter().toJson(instance.image),
       'salt': instance.salt,
     };

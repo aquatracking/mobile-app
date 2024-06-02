@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:aquatracking/models/biotope/create_biotope_model.dart';
+import 'package:aquatracking/unit8list_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'create_terrarium_model.g.dart';
@@ -13,6 +16,7 @@ class CreateTerrariumModel extends CreateBiotopeModel {
     super.description = "",
     super.startedDate,
     super.volume,
+    super.image,
     this.wet = false,
   });
 
@@ -28,6 +32,7 @@ class CreateTerrariumModel extends CreateBiotopeModel {
     String? description,
     DateTime? startedDate,
     double? volume,
+    Uint8List? image,
     bool? wet,
   }) {
     return CreateTerrariumModel(
@@ -35,6 +40,7 @@ class CreateTerrariumModel extends CreateBiotopeModel {
       description: description ?? this.description,
       startedDate: startedDate ?? this.startedDate,
       volume: volume ?? this.volume,
+      image: image ?? this.image,
       wet: wet ?? this.wet,
     );
   }

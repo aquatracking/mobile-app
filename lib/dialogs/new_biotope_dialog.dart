@@ -9,6 +9,7 @@ import 'package:aquatracking/models/terrarium/terrarium_model.dart';
 import 'package:aquatracking/repository/biotope/biotope_repository.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/ui/inputs/date_input_widget.dart';
+import 'package:aquatracking/widgets/ui/inputs/image_input_widget.dart';
 import 'package:aquatracking/widgets/ui/inputs/segmented_button_widget.dart';
 import 'package:aquatracking/widgets/ui/inputs/text_input_widget.dart';
 import 'package:flutter/material.dart';
@@ -128,10 +129,12 @@ class NewBiotopeDialog<T extends BiotopeModel,
                 ),
               ],
             ),
-            body: _Form(
-              formKey: _formKey,
-              repository: repository,
-              createBiotope: createBiotope,
+            body: SingleChildScrollView(
+              child: _Form(
+                formKey: _formKey,
+                repository: repository,
+                createBiotope: createBiotope,
+              ),
             ),
           ),
         );
@@ -160,6 +163,21 @@ class _Form<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
         padding: const EdgeInsets.all(AppSpacing.large),
         child: Column(
           children: [
+            ImageInputWidget(
+              onSaved: (value) {
+                createBiotope.image = value;
+              },
+              validator: (value) {
+                if (value != null && value.length > 1000000) {
+                  return AppLocalizations.of(context)!.errorImageTooLarge;
+                }
+                return null;
+              },
+              initialValue: null,
+            ),
+            const SizedBox(
+              height: AppSpacing.medium,
+            ),
             TextInputWidget(
               label: AppLocalizations.of(context)!.name,
               prefixIcon: Icons.label_rounded,

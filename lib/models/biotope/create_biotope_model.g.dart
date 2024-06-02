@@ -14,6 +14,7 @@ CreateBiotopeModel _$CreateBiotopeModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['startedDate'] as String),
       volume: (json['volume'] as num?)?.toDouble(),
+      image: const Uint8ListConverter().fromJson(json['image'] as List<int>?),
     );
 
 Map<String, dynamic> _$CreateBiotopeModelToJson(CreateBiotopeModel instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$CreateBiotopeModelToJson(CreateBiotopeModel instance) =>
       'description': instance.description,
       'startedDate': instance.startedDate?.toIso8601String(),
       'volume': instance.volume,
+      'image': const Uint8ListConverter().toJson(instance.image),
     };

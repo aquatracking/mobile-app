@@ -81,5 +81,9 @@
   "takePhoto": "Take photo",
   "chooseFromGallery": "Choose from gallery",
   "deleteImage": "Delete image",
-  "errorImageTooLarge": "Image is too large"
+  "errorImageTooLarge": "Image is too large",
+  "informations": "Informations",
+  "analyses": "Analyses",
+  "waterType": "Water type",
+  "environment": "Environment"
 }

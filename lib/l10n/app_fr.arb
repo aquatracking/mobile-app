@@ -81,5 +81,9 @@
   "takePhoto": "Prendre une photo",
   "chooseFromGallery": "Choisir depuis la galerie",
   "deleteImage": "Supprimer l'image",
-  "errorImageTooLarge": "L'image est trop grande"
+  "errorImageTooLarge": "L'image est trop grande",
+  "informations": "Informations",
+  "analyses": "Analyses",
+  "waterType": "Type d'eau",
+  "environment": "Environnement"
 }

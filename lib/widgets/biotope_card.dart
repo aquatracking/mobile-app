@@ -1,3 +1,4 @@
+import 'package:aquatracking/dialogs/biotope_dialog.dart';
 import 'package:aquatracking/models/aquarium/aquarium_model.dart';
 import 'package:aquatracking/models/biotope/biotope_model.dart';
 import 'package:aquatracking/models/biotope/create_biotope_model.dart';
@@ -43,6 +44,11 @@ class BiotopeCard<T extends BiotopeModel, TCreate extends CreateBiotopeModel>
       }
     }
 
+    final biotopeImage = BiotopeImage(
+      biotopeRepository: biotopeRepository,
+      biotope: biotope,
+    );
+
     return Card(
       margin: EdgeInsets.zero,
       child: InkWell(
@@ -50,7 +56,14 @@ class BiotopeCard<T extends BiotopeModel, TCreate extends CreateBiotopeModel>
           borderRadius: BorderRadius.circular(12),
         ),
         onTap: () {
-          onTap(context);
+          showDialog(
+            context: context,
+            builder: (context) => BiotopeDialog(
+              repository: biotopeRepository,
+              biotope: biotope,
+              biotopeImage: biotopeImage,
+            ),
+          );
         },
         child: SizedBox(
           width: double.infinity,
@@ -61,10 +74,7 @@ class BiotopeCard<T extends BiotopeModel, TCreate extends CreateBiotopeModel>
                 borderRadius: BorderRadius.circular(12),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: BiotopeImage(
-                    biotopeRepository: biotopeRepository,
-                    biotope: biotope,
-                  ),
+                  child: biotopeImage,
                 ),
               ),
               Padding(

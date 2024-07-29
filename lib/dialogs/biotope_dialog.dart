@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 class BiotopeDialog<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
     extends StatelessWidget {
@@ -190,6 +191,16 @@ class _InformationTab extends StatelessWidget {
                         icon: Icons.wb_cloudy_rounded,
                       )
                     : const SizedBox(),
+                _MetricTile(
+                  metric: AppLocalizations.of(context)!.startedDate,
+                  value: DateFormat(
+                    AppLocalizations.of(context)!.dateFormat,
+                    AppLocalizations.of(context)!.localeName,
+                  ).format(
+                    DateTime.parse(biotope.startedDate),
+                  ),
+                  icon: Icons.calendar_today_rounded,
+                )
               ],
             ),
           ],

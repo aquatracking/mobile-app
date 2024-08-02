@@ -5,9 +5,7 @@ import 'package:aquatracking/models/terrarium/terrarium_model.dart';
 import 'package:aquatracking/repository/biotope/biotope_repository.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/biotope_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
@@ -33,101 +31,135 @@ class BiotopeDialog<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
       icon = Icons.grass_rounded;
     }
 
-    return Dialog.fullscreen(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: Container(
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_rounded),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth > AppBreakpoints.medium) {
+        return Dialog(
+          clipBehavior: Clip.antiAlias,
+          child: SizedBox(
+            width: 600,
+            child: _DialogContent(
+              biotopeImage: biotopeImage,
+              icon: icon,
+              biotope: biotope,
             ),
-            actions: [],
           ),
-          body: Column(
-            children: [
-              Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: this.biotopeImage,
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Theme.of(context)
-                                .colorScheme
-                                .surface
-                                .withOpacity(0.6),
-                            Theme.of(context)
-                                .colorScheme
-                                .surface
-                                .withOpacity(0.0),
-                          ],
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            icon,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          const SizedBox(width: AppSpacing.small),
-                          Text(
-                            biotope.name,
-                            style: AppText.titleMedium,
-                          ),
+        );
+      } else {
+        return Dialog.fullscreen(
+          child: _DialogContent(
+              biotopeImage: biotopeImage, icon: icon, biotope: biotope),
+        );
+      }
+    });
+  }
+}
+
+class _DialogContent<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
+    extends StatelessWidget {
+  const _DialogContent({
+    required this.biotopeImage,
+    required this.icon,
+    required this.biotope,
+  });
+
+  final BiotopeImage biotopeImage;
+  final IconData icon;
+  final T biotope;
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_rounded),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ),
+        body: Column(
+          children: [
+            Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: this.biotopeImage,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(0.6),
+                          Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(0.0),
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-              TabBar(
-                tabs: [
-                  Tab(
-                    icon: Icon(
-                      Icons.info_rounded,
-                      semanticLabel: AppLocalizations.of(context)!.informations,
+                    child: Row(
+                      children: [
+                        Icon(
+                          icon,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        const SizedBox(width: AppSpacing.small),
+                        Text(
+                          biotope.name,
+                          style: AppText.titleMedium,
+                        ),
+                      ],
                     ),
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.science_rounded,
-                      semanticLabel: AppLocalizations.of(context)!.analyses,
-                    ),
+                ),
+              ],
+            ),
+            TabBar(
+              tabs: [
+                Tab(
+                  icon: Icon(
+                    Icons.info_rounded,
+                    semanticLabel: AppLocalizations.of(context)!.informations,
                   ),
-                ],
-              ),
-              Expanded(
-                  child: TabBarView(
-                children: [
-                  _InformationTab(biotope: biotope),
-                  Container(),
-                ],
-              )),
-            ],
-          ),
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.science_rounded,
+                    semanticLabel: AppLocalizations.of(context)!.analyses,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+                child: TabBarView(
+              children: [
+                _InformationTab(biotope: biotope),
+                Container(),
+              ],
+            )),
+          ],
         ),
       ),
     );

@@ -85,5 +85,11 @@
   "informations": "Informations",
   "analyses": "Analyses",
   "waterType": "Type d'eau",
-  "environment": "Environnement"
+  "environment": "Environnement",
+  "noData": "Aucune donnée",
+  "dayAgo": "{nb, plural, =0{Maintenant} =1{il y a 1 jour} other{il y a {nb} jours}}",
+  "hourAgo": "{nb, plural, =0{Maintenant} =1{il y a 1 heure} other{il y a {nb} heures}}",
+  "minuteAgo": "{nb, plural, =0{Maintenant} =1{il y a 1 minute} other{il y a {nb} minutes}}",
+  "secondAgo": "{nb, plural, =0{Maintenant} =1{il y a 1 seconde} other{il y a {nb} secondes}}",
+  "justNow": "À l'instant"
 }

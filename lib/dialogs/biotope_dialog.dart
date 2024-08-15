@@ -1,3 +1,4 @@
+import 'package:aquatracking/bloc/measurementSubscription/bloc/measurement_subscription_bloc.dart';
 import 'package:aquatracking/models/aquarium/aquarium_model.dart';
 import 'package:aquatracking/models/biotope/biotope_model.dart';
 import 'package:aquatracking/models/biotope/create_biotope_model.dart';
@@ -5,7 +6,9 @@ import 'package:aquatracking/models/terrarium/terrarium_model.dart';
 import 'package:aquatracking/repository/biotope/biotope_repository.dart';
 import 'package:aquatracking/styles.dart';
 import 'package:aquatracking/widgets/biotope_image.dart';
+import 'package:aquatracking/widgets/measurement_subscription_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
@@ -40,6 +43,7 @@ class BiotopeDialog<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
             child: _DialogContent(
               biotopeImage: biotopeImage,
               icon: icon,
+              repository: repository,
               biotope: biotope,
             ),
           ),
@@ -47,7 +51,10 @@ class BiotopeDialog<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
       } else {
         return Dialog.fullscreen(
           child: _DialogContent(
-              biotopeImage: biotopeImage, icon: icon, biotope: biotope),
+              biotopeImage: biotopeImage,
+              icon: icon,
+              repository: repository,
+              biotope: biotope),
         );
       }
     });
@@ -59,11 +66,13 @@ class _DialogContent<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
   const _DialogContent({
     required this.biotopeImage,
     required this.icon,
+    required this.repository,
     required this.biotope,
   });
 
   final BiotopeImage biotopeImage;
   final IconData icon;
+  final BiotopeRepository<T, CreateT> repository;
   final T biotope;
 
   @override
@@ -156,7 +165,7 @@ class _DialogContent<T extends BiotopeModel, CreateT extends CreateBiotopeModel>
                 child: TabBarView(
               children: [
                 _InformationTab(biotope: biotope),
-                Container(),
+                _MeasurementTab(repository: repository, biotope: biotope),
               ],
             )),
           ],
@@ -310,6 +319,59 @@ class _MetricTile extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _MeasurementTab<T extends BiotopeModel,
+    CreateT extends CreateBiotopeModel> extends StatelessWidget {
+  const _MeasurementTab({required this.repository, required this.biotope});
+
+  final BiotopeRepository<T, CreateT> repository;
+  final T biotope;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => MeasurementSubscriptionsBloc(
+        biotopeRepository: repository,
+        biotope: biotope,
+      )..add(
+          const MeasurementSubscriptionsSubscribtionRequested(),
+        ),
+      child: BlocBuilder<MeasurementSubscriptionsBloc,
+          MeasurementSubscriptionsState>(
+        builder: (context, state) {
+          if (state.status == MeasurementSubscriptionsStatus.initial ||
+              state.status == MeasurementSubscriptionsStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.status == MeasurementSubscriptionsStatus.success) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.small,
+                  vertical: AppSpacing.medium,
+                ),
+                child: Wrap(
+                  runSpacing: AppSpacing.small,
+                  children: state.measurementSubscriptions
+                      .map((measurementSubscription) =>
+                          MeasurementSubscriptionTile(
+                            measurementSubscription: measurementSubscription,
+                          ))
+                      .toList(),
+                ),
+              ),
+            );
+          } else {
+            return const Center(
+              child: Text("Error"),
+            );
+          }
+        },
       ),
     );
   }

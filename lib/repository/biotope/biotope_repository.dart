@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:aquatracking/models/biotope/biotope_model.dart';
 import 'package:aquatracking/models/biotope/create_biotope_model.dart';
+import 'package:aquatracking/models/measurementSubscription/measurement_subscription_model.dart';
 import 'package:aquatracking/repository/repository.dart';
 import 'package:dio/dio.dart';
 
@@ -45,5 +46,19 @@ abstract class BiotopeRepository<T extends BiotopeModel,
     }
 
     return response.data;
+  }
+
+  Future<List<MeasurementSubscriptionModel>> getMeasurementSubscriptions(
+      BiotopeModel biotope) async {
+    Response<dynamic> response = await Repository.dio.get(
+      "/$biotopeType/${biotope.id}/measurements/subscriptions/",
+    );
+
+    List<MeasurementSubscriptionModel> measurementSubscriptions = response.data
+        .map<MeasurementSubscriptionModel>(
+            (data) => MeasurementSubscriptionModel.fromJson(data))
+        .toList();
+
+    return measurementSubscriptions;
   }
 }
